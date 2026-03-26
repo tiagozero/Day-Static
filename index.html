@@ -315,11 +315,62 @@ h1 em{color:var(--accent);font-style:normal}
 .btn-rollctl.no-roll{border-color:#c9a84c;color:#c9a84c}
 .btn-del{background:transparent;border:none;color:var(--border);font-size:1rem;cursor:pointer;padding:2px 4px;transition:color .12s}
 .btn-del:hover{color:var(--accent)}
+/* Drag handle */
+.drag-handle{display:flex;align-items:center;justify-content:center;width:16px;flex-shrink:0;cursor:grab;color:var(--border);font-size:.75rem;opacity:.5;transition:opacity .12s;user-select:none;position:relative;z-index:1}
+.drag-handle:hover{opacity:1;color:var(--muted)}
+.drag-handle:active{cursor:grabbing}
+.titem.dragging{opacity:.35;border-style:dashed}
+.titem.drag-over-top{border-top:2.5px solid var(--accent)!important}
+.titem.drag-over-bottom{border-bottom:2.5px solid var(--accent)!important}
+.sitem.dragging{opacity:.35}
+.sitem.drag-over-top{border-top:2px solid var(--accent)!important}
+.sitem.drag-over-bottom{border-bottom:2px solid var(--accent)!important}
+/* Nested task inside subtask area */
+.sub-task-item{border:1.5px solid var(--border);border-radius:4px;background:var(--card);overflow:hidden;position:relative}
+.sub-task-item.p-high{border-left:3px solid var(--p-high)}
+.sub-task-item.p-med{border-left:3px solid var(--p-med)}
+.sub-task-item.p-low{border-left:3px solid var(--p-low)}
+.sub-task-row{display:flex;align-items:center;gap:6px;padding:5px 8px;position:relative;z-index:1}
+.sub-task-prog-bar{position:absolute;top:0;left:0;bottom:0;background:var(--green);opacity:.15;transition:width .35s ease;pointer-events:none}
+.sub-task-cb{width:13px;height:13px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.sub-task-txt{flex:1;font-size:.82rem;border:none;background:transparent;font-family:inherit;color:var(--ink);outline:none;min-width:0}
+.sub-task-txt.done{text-decoration:line-through;color:var(--muted)}
+.sub-task-del{background:transparent;border:none;color:var(--border);font-size:.88rem;cursor:pointer;padding:0 2px;transition:color .12s}
+.sub-task-del:hover{color:var(--accent)}
+.sub-task-drag{display:flex;align-items:center;cursor:grab;color:var(--border);font-size:.7rem;opacity:.5;user-select:none;position:relative;z-index:1}
+.sub-task-drag:hover{opacity:1}
+.sadd-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sadd-divider{width:1px;height:14px;background:var(--border);flex-shrink:0;margin:0 2px}
+/* Subtask expand toggle */
+.sitem{display:flex;flex-direction:column;gap:0}
+.sitem-row{display:flex;align-items:center;gap:7px;padding:4px 7px;position:relative;z-index:1}
+.btn-sexpand{background:transparent;border:none;font-size:.62rem;cursor:pointer;color:var(--muted);padding:0 2px;line-height:1;transition:color .12s;flex-shrink:0}
+.btn-sexpand:hover{color:var(--accent)}
+/* Inner tasks inside a subtask */
+.sub-inner-box{border-top:1px dashed var(--border);background:var(--bg);padding:5px 7px 6px 20px;display:flex;flex-direction:column;gap:4px}
+.sub-inner-item{display:flex;align-items:center;gap:6px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);position:relative;overflow:hidden}
+.sub-inner-item > *{position:relative;z-index:1}
+.sub-inner-prog{position:absolute;top:0;left:0;bottom:0;background:var(--green);opacity:.13;pointer-events:none;transition:width .3s}
+.sub-inner-cb{width:12px;height:12px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.sub-inner-txt{flex:1;font-size:.78rem;border:none;background:transparent;font-family:inherit;color:var(--ink);outline:none;min-width:0}
+.sub-inner-txt.done{text-decoration:line-through;color:var(--muted)}
+.sub-inner-del{background:transparent;border:none;color:var(--border);font-size:.8rem;cursor:pointer;padding:0 1px;transition:color .12s}
+.sub-inner-del:hover{color:var(--accent)}
+.sub-inner-drag{cursor:grab;color:var(--border);font-size:.65rem;opacity:.5;user-select:none;flex-shrink:0}
+.sub-inner-drag:hover{opacity:1}
+.sub-inner-item.dragging{opacity:.35}
+.sub-inner-item.drag-over-top{border-top:2px solid var(--accent)!important}
+.sub-inner-item.drag-over-bottom{border-bottom:2px solid var(--accent)!important}
+.sub-inner-add{display:flex;gap:4px;margin-top:2px}
+.sub-inner-inp{flex:1;padding:4px 7px;border:1px solid var(--border);border-radius:4px;background:var(--card);font-family:inherit;font-size:.78rem;color:var(--ink);outline:none;transition:border-color .12s}
+.sub-inner-inp:focus{border-color:var(--accent)}
+.sub-inner-inp::placeholder{color:var(--border)}
+.sub-inner-btn{padding:4px 8px;background:var(--muted);color:#fff;border:none;border-radius:4px;font-family:inherit;font-size:.72rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s}
+.sub-inner-btn:hover{background:var(--accent)}
 
 .sbox{border-top:1.5px dashed var(--border);background:var(--sub);padding:7px 9px 8px 24px}
 .slist{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
-.sitem{display:flex;align-items:center;gap:7px;padding:4px 7px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);position:relative;overflow:hidden}
-.sitem > *:not(.sub-prog-bar){position:relative;z-index:1}
+.sitem{border:1.5px solid var(--border);border-radius:4px;background:var(--card);overflow:hidden;position:relative}
 .scb{width:13px;height:13px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
 .stxt{flex:1;font-size:.8rem;border:none;background:transparent;font-family:inherit;color:var(--ink);outline:none}
 .stxt.done{text-decoration:line-through;color:var(--muted)}
@@ -482,7 +533,7 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
   </div>
 
   <div class="status-bar">
-    <span class="status-txt"><span class="dot"></span><span id="status-txt">Connected to SQLite database</span></span>
+    <span class="status-txt"><span class="dot"></span><span id="status-txt">Ready</span></span>
     <div class="bar-btns">
       <button class="bbtn bbtn-week"  onclick="openWeekModal()">📅 Weekly Review</button>
       <button class="bbtn bbtn-stats" onclick="openStatsModal()">📊 Stats</button>
@@ -735,7 +786,7 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
 </div>
 
 <div class="toast" id="toast"></div>
-<footer>Powered by Flask + SQLite · Data saved permanently on your machine</footer>
+<footer>Data saved locally in your browser</footer>
 
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1258,6 +1309,46 @@ function renderTasks(){
       var li=document.createElement('li');
       var pCls=task.priority?'titem p-'+task.priority:'titem';
       li.className=pCls+(task.rolledFrom?' rolled':'')+(subs.length?' has-subs':'')+(allSubsDone?' checked-all':'');
+      li.draggable=true;
+      li.dataset.ti=ti;
+      // Task drag events
+      li.addEventListener('dragstart',function(e){
+        e.dataTransfer.effectAllowed='move';
+        e.dataTransfer.setData('text/plain','task:'+ti);
+        setTimeout(function(){li.classList.add('dragging')},0);
+      });
+      li.addEventListener('dragend',function(){
+        li.classList.remove('dragging');
+        ul.querySelectorAll('.titem').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+      });
+      li.addEventListener('dragover',function(e){
+        var src=e.dataTransfer.getData('text/plain')||'';
+        if(src&&!src.startsWith('task:')) return;
+        e.preventDefault();
+        ul.querySelectorAll('.titem').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+        var rect=li.getBoundingClientRect();
+        if(e.clientY<rect.top+rect.height/2) li.classList.add('drag-over-top');
+        else li.classList.add('drag-over-bottom');
+      });
+      li.addEventListener('dragleave',function(){li.classList.remove('drag-over-top','drag-over-bottom')});
+      li.addEventListener('drop',function(e){
+        e.preventDefault();
+        var raw=e.dataTransfer.getData('text/plain');
+        if(!raw||!raw.startsWith('task:')) return;
+        var fromIdx=+raw.split(':')[1];
+        var toIdx=+li.dataset.ti;
+        if(fromIdx===toIdx) return;
+        var rect=li.getBoundingClientRect();
+        var after=e.clientY>=rect.top+rect.height/2;
+        var moved=state.days[activeDay].tasks.splice(fromIdx,1)[0];
+        var newTo=state.days[activeDay].tasks.indexOf(tasks[toIdx]);
+        if(newTo===-1) newTo=toIdx>fromIdx?toIdx-1:toIdx;
+        if(after) newTo++;
+        if(newTo<0) newTo=0;
+        state.days[activeDay].tasks.splice(newTo,0,moved);
+        lsSet(pKey('state'),state);
+        renderTasks();
+      });
       var trow=document.createElement('div');trow.className='trow';
       var metaHtml='<div class="task-meta-row">';
       if(task.rolledFrom) metaHtml+='<span class="rolled-tag">↩'+task.rolledFrom+'</span>';
@@ -1267,6 +1358,7 @@ function renderTasks(){
       var progPctHtml=subs.length?'<span class="task-prog-pct">'+subPct+'%</span>':'';
       trow.innerHTML=
         '<div class="task-prog-bar" style="width:'+barPct+'%"></div>'+
+        '<span class="drag-handle" title="Drag to reorder">⠿</span>'+
         '<input type="checkbox" class="tcb"'+(task.checked?' checked':'')+'>'+
         '<input type="text" class="ttxt'+(task.checked?' done':'')+'" value="'+esc(task.text)+'">'+
         metaHtml+
@@ -1276,6 +1368,9 @@ function renderTasks(){
           '<button class="btn-rollctl'+(task.noRoll?' no-roll':'')+'" title="'+(task.noRoll?'Will NOT roll over':'Will roll over')+'">'+(task.noRoll?'🚫↩':'↩')+'</button>'+
           '<button class="btn-del">✕</button>'+
         '</div>';
+      // Prevent drag from firing on interactive children
+      trow.querySelector('.tcb').addEventListener('mousedown',function(e){e.stopPropagation()});
+      trow.querySelector('.ttxt').addEventListener('mousedown',function(e){e.stopPropagation()});
       trow.querySelector('.tcb').onchange=function(){toggleTask(ti)};
       trow.querySelector('.ttxt').onblur=function(e){editTask(ti,e.target.value)};
       trow.querySelector('.btn-sub').onclick=function(){toggleSubOpen(ti)};
@@ -1284,22 +1379,225 @@ function renderTasks(){
       li.appendChild(trow);
       if(task.open){
         var sbox=document.createElement('div');sbox.className='sbox';
-        var sh='<ul class="slist">';
-        if(!subs.length) sh+='<li style="font-size:.75rem;color:var(--border);font-style:italic;padding:2px 0">No subtasks yet.</li>';
-        for(var si=0;si<subs.length;si++){
-          sh+='<li class="sitem'+(subs[si].checked?' sub-done':'')+'" data-si="'+si+'">'+
-            '<div class="sub-prog-bar" style="width:'+(subs[si].checked?100:0)+'%"></div>'+
-            '<input type="checkbox" class="scb"'+(subs[si].checked?' checked':'')+'>'+
-            '<input type="text" class="stxt'+(subs[si].checked?' done':'')+'" value="'+esc(subs[si].text)+'">'+
-            '<button class="sdel">✕</button></li>';
+        // Build subtask list
+        var slist=document.createElement('ul');slist.className='slist';
+        if(!subs.length){
+          var empty=document.createElement('li');
+          empty.style.cssText='font-size:.75rem;color:var(--border);font-style:italic;padding:2px 0';
+          empty.textContent='No subtasks yet.';
+          slist.appendChild(empty);
         }
-        sh+='</ul><div class="sadd"><input class="sadd-inp" id="sinp-'+ti+'" placeholder="Add subtask…"><button class="sadd-btn">+ Add</button></div>';
-        sbox.innerHTML=sh;
-        sbox.querySelectorAll('.scb').forEach(function(cb){var si=+cb.closest('.sitem').dataset.si;cb.onchange=function(){toggleSub(ti,si)}});
-        sbox.querySelectorAll('.stxt').forEach(function(inp){var si=+inp.closest('.sitem').dataset.si;inp.onblur=function(e){editSub(ti,si,e.target.value)}});
-        sbox.querySelectorAll('.sdel').forEach(function(btn){var si=+btn.closest('.sitem').dataset.si;btn.onclick=function(){delSub(ti,si)}});
-        sbox.querySelector('.sadd-btn').onclick=function(){addSub(ti)};
-        sbox.querySelector('.sadd-inp').onkeydown=function(e){if(e.key==='Enter')addSub(ti)};
+        for(var si=0;si<subs.length;si++){
+          (function(si){
+            var sub=subs[si];
+            var sli=document.createElement('li');
+            sli.className='sitem'+(sub.checked?' sub-done':'');
+            sli.dataset.si=si;
+            sli.draggable=true;
+            if(!sub.tasks) sub.tasks=[];
+            // Build the main subtask row
+            var srow=document.createElement('div');srow.className='sitem-row';
+            srow.innerHTML=
+              '<div class="sub-prog-bar" style="width:'+(sub.checked?100:0)+'%;position:absolute;top:0;left:0;bottom:0;"></div>'+
+              '<span class="drag-handle" style="position:relative;z-index:1" title="Drag">⠿</span>'+
+              '<input type="checkbox" class="scb" style="position:relative;z-index:1"'+(sub.checked?' checked':'')+'>'+
+              '<input type="text" class="stxt'+(sub.checked?' done':'')+'" style="position:relative;z-index:1" value="'+esc(sub.text)+'">'+
+              '<button class="btn-sexpand" title="Tasks inside this subtask" style="position:relative;z-index:1">'+(sub.open?'▲':'▼')+'</button>'+
+              '<button class="sdel" style="position:relative;z-index:1">✕</button>';
+            srow.querySelector('.scb').onchange=function(){toggleSub(ti,si)};
+            srow.querySelector('.stxt').onblur=function(e){editSub(ti,si,e.target.value)};
+            srow.querySelector('.btn-sexpand').onclick=function(){toggleSubExpand(ti,si)};
+            srow.querySelector('.sdel').onclick=function(){delSub(ti,si)};
+            sli.appendChild(srow);
+            // Inner tasks (when expanded)
+            if(sub.open){
+              var innerBox=document.createElement('div');innerBox.className='sub-inner-box';
+              var innerList=document.createElement('div');innerList.style.cssText='display:flex;flex-direction:column;gap:3px;';
+              if(!sub.tasks.length){
+                var ep=document.createElement('div');ep.style.cssText='font-size:.72rem;color:var(--border);font-style:italic;padding:1px 0';ep.textContent='No tasks yet.';
+                innerList.appendChild(ep);
+              }
+              for(var ni=0;ni<sub.tasks.length;ni++){
+                (function(ni){
+                  var nt=sub.tasks[ni];
+                  var ntEl=document.createElement('div');
+                  ntEl.className='sub-inner-item';
+                  ntEl.draggable=true;
+                  ntEl.dataset.ni=ni;
+                  ntEl.innerHTML=
+                    '<div class="sub-inner-prog" style="width:'+(nt.checked?100:0)+'%"></div>'+
+                    '<span class="sub-inner-drag">⠿</span>'+
+                    '<input type="checkbox" class="sub-inner-cb"'+(nt.checked?' checked':'')+'>'+
+                    '<input type="text" class="sub-inner-txt'+(nt.checked?' done':'')+'" value="'+esc(nt.text)+'">'+
+                    '<button class="sub-inner-del">✕</button>';
+                  ntEl.querySelector('.sub-inner-cb').onchange=function(){toggleInnerTask(ti,si,ni)};
+                  ntEl.querySelector('.sub-inner-txt').onblur=function(e){editInnerTask(ti,si,ni,e.target.value)};
+                  ntEl.querySelector('.sub-inner-del').onclick=function(){delInnerTask(ti,si,ni)};
+                  ntEl.addEventListener('dragstart',function(e){
+                    e.stopPropagation();
+                    e.dataTransfer.effectAllowed='move';
+                    e.dataTransfer.setData('text/plain','inner:'+ti+':'+si+':'+ni);
+                    setTimeout(function(){ntEl.classList.add('dragging')},0);
+                  });
+                  ntEl.addEventListener('dragend',function(){
+                    ntEl.classList.remove('dragging');
+                    innerList.querySelectorAll('.sub-inner-item').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+                  });
+                  ntEl.addEventListener('dragover',function(e){
+                    var src=e.dataTransfer.getData('text/plain')||'';
+                    if(!src.startsWith('inner:'+ti+':'+si+':')) return;
+                    e.preventDefault();e.stopPropagation();
+                    innerList.querySelectorAll('.sub-inner-item').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+                    var rect=ntEl.getBoundingClientRect();
+                    if(e.clientY<rect.top+rect.height/2) ntEl.classList.add('drag-over-top');
+                    else ntEl.classList.add('drag-over-bottom');
+                  });
+                  ntEl.addEventListener('dragleave',function(){ntEl.classList.remove('drag-over-top','drag-over-bottom')});
+                  ntEl.addEventListener('drop',function(e){
+                    e.preventDefault();e.stopPropagation();
+                    var raw=e.dataTransfer.getData('text/plain');
+                    if(!raw||!raw.startsWith('inner:'+ti+':'+si+':')) return;
+                    var fromNi=+raw.split(':')[3];
+                    var toNi=+ntEl.dataset.ni;
+                    if(fromNi===toNi) return;
+                    var rect=ntEl.getBoundingClientRect();
+                    var after=e.clientY>=rect.top+rect.height/2;
+                    var arr=state.days[activeDay].tasks[ti].subs[si].tasks;
+                    var moved=arr.splice(fromNi,1)[0];
+                    var newTo=toNi>fromNi?toNi-1:toNi;
+                    if(after) newTo++;
+                    if(newTo<0) newTo=0;
+                    arr.splice(newTo,0,moved);
+                    lsSet(pKey('state'),state);renderTasks();
+                  });
+                  innerList.appendChild(ntEl);
+                })(ni);
+              }
+              innerBox.appendChild(innerList);
+              var iaddDiv=document.createElement('div');iaddDiv.className='sub-inner-add';
+              var iinpId='iinp-'+ti+'-'+si;
+              iaddDiv.innerHTML='<input class="sub-inner-inp" id="'+iinpId+'" placeholder="Add task…"><button class="sub-inner-btn">+ Add</button>';
+              iaddDiv.querySelector('.sub-inner-btn').onclick=function(){addInnerTask(ti,si)};
+              iaddDiv.querySelector('#'+iinpId).onkeydown=function(e){if(e.key==='Enter')addInnerTask(ti,si)};
+              innerBox.appendChild(iaddDiv);
+              sli.appendChild(innerBox);
+              setTimeout(function(){var el=document.getElementById(iinpId);if(el)el.focus()},40);
+            }
+            // Subtask drag-and-drop
+            sli.addEventListener('dragstart',function(e){
+              e.stopPropagation();
+              e.dataTransfer.effectAllowed='move';
+              e.dataTransfer.setData('text/plain','sub:'+ti+':'+si);
+              setTimeout(function(){sli.classList.add('dragging')},0);
+            });
+            sli.addEventListener('dragend',function(){
+              sli.classList.remove('dragging');
+              slist.querySelectorAll('.sitem').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+            });
+            sli.addEventListener('dragover',function(e){
+              var src=e.dataTransfer.getData('text/plain')||'';
+              if(src&&!src.startsWith('sub:'+ti+':')) return;
+              e.preventDefault();e.stopPropagation();
+              slist.querySelectorAll('.sitem').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+              var rect=sli.getBoundingClientRect();
+              if(e.clientY<rect.top+rect.height/2) sli.classList.add('drag-over-top');
+              else sli.classList.add('drag-over-bottom');
+            });
+            sli.addEventListener('dragleave',function(){sli.classList.remove('drag-over-top','drag-over-bottom')});
+            sli.addEventListener('drop',function(e){
+              e.preventDefault();e.stopPropagation();
+              var raw=e.dataTransfer.getData('text/plain');
+              if(!raw||!raw.startsWith('sub:'+ti+':')) return;
+              var fromSi=+raw.split(':')[2];
+              var toSi=+sli.dataset.si;
+              if(fromSi===toSi) return;
+              var rect=sli.getBoundingClientRect();
+              var after=e.clientY>=rect.top+rect.height/2;
+              var arr=state.days[activeDay].tasks[ti].subs;
+              var moved=arr.splice(fromSi,1)[0];
+              var newTo=toSi>fromSi?toSi-1:toSi;
+              if(after) newTo++;
+              if(newTo<0) newTo=0;
+              arr.splice(newTo,0,moved);
+              lsSet(pKey('state'),state);
+              renderTasks();
+            });
+            slist.appendChild(sli);
+          })(si);
+        }
+        sbox.appendChild(slist);
+        // Add subtask row
+        var saddDiv=document.createElement('div');saddDiv.className='sadd sadd-row';
+        saddDiv.innerHTML=
+          '<input class="sadd-inp" id="sinp-'+ti+'" placeholder="Add subtask…">'+
+          '<button class="sadd-btn">+ Add</button>';
+        saddDiv.querySelector('.sadd-btn').onclick=function(){addSub(ti)};
+        saddDiv.querySelector('#sinp-'+ti).onkeydown=function(e){if(e.key==='Enter')addSub(ti)};
+        sbox.appendChild(saddDiv);
+        // Nested tasks section (REMOVED)
+        if(false){
+          var ntDiv=document.createElement('div');ntDiv.style.cssText='margin-top:6px;display:flex;flex-direction:column;gap:4px;';
+          var ntLabel=document.createElement('div');ntLabel.style.cssText='font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:3px;';ntLabel.textContent='Nested Tasks';
+          ntDiv.appendChild(ntLabel);
+          for(var ni=0;ni<ntasks.length;ni++){
+            (function(ni){
+              var nt=ntasks[ni];
+              var ntItem=document.createElement('div');
+              ntItem.className='sub-task-item'+(nt.priority?' p-'+nt.priority:'');
+              ntItem.draggable=true;
+              ntItem.dataset.ni=ni;
+              ntItem.innerHTML=
+                '<div class="sub-task-prog-bar" style="width:'+(nt.checked?100:0)+'%"></div>'+
+                '<div class="sub-task-row">'+
+                  '<span class="sub-task-drag drag-handle" title="Drag to reorder">⠿</span>'+
+                  '<input type="checkbox" class="sub-task-cb"'+(nt.checked?' checked':'')+'>'+
+                  '<input type="text" class="sub-task-txt'+(nt.checked?' done':'')+'" value="'+esc(nt.text)+'">'+
+                  '<button class="sub-task-del">✕</button>'+
+                '</div>';
+              ntItem.querySelector('.sub-task-cb').onchange=function(){toggleNestedTask(ti,ni)};
+              ntItem.querySelector('.sub-task-txt').onblur=function(e){editNestedTask(ti,ni,e.target.value)};
+              ntItem.querySelector('.sub-task-del').onclick=function(){delNestedTask(ti,ni)};
+              // Nested task drag
+              ntItem.addEventListener('dragstart',function(e){
+                e.stopPropagation();
+                e.dataTransfer.effectAllowed='move';
+                e.dataTransfer.setData('text/plain','nt:'+ti+':'+ni);
+                setTimeout(function(){ntItem.classList.add('dragging')},0);
+              });
+              ntItem.addEventListener('dragend',function(){ntItem.classList.remove('dragging');});
+              ntItem.addEventListener('dragover',function(e){
+                var src=e.dataTransfer.getData('text/plain')||'';
+                if(src&&!src.startsWith('nt:'+ti+':')) return;
+                e.preventDefault();e.stopPropagation();
+                ntDiv.querySelectorAll('.sub-task-item').forEach(function(el){el.classList.remove('drag-over-top','drag-over-bottom')});
+                var rect=ntItem.getBoundingClientRect();
+                if(e.clientY<rect.top+rect.height/2) ntItem.classList.add('drag-over-top');
+                else ntItem.classList.add('drag-over-bottom');
+              });
+              ntItem.addEventListener('dragleave',function(){ntItem.classList.remove('drag-over-top','drag-over-bottom')});
+              ntItem.addEventListener('drop',function(e){
+                e.preventDefault();e.stopPropagation();
+                var raw=e.dataTransfer.getData('text/plain');
+                if(!raw||!raw.startsWith('nt:'+ti+':')) return;
+                var fromNi=+raw.split(':')[2];
+                var toNi=+ntItem.dataset.ni;
+                if(fromNi===toNi) return;
+                var rect=ntItem.getBoundingClientRect();
+                var after=e.clientY>=rect.top+rect.height/2;
+                var arr=state.days[activeDay].tasks[ti].nestedTasks;
+                var moved=arr.splice(fromNi,1)[0];
+                var newTo=toNi>fromNi?toNi-1:toNi;
+                if(after) newTo++;
+                if(newTo<0) newTo=0;
+                arr.splice(newTo,0,moved);
+                lsSet(pKey('state'),state);
+                renderTasks();
+              });
+              ntDiv.appendChild(ntItem);
+            })(ni);
+          }
+          sbox.appendChild(ntDiv);
+        }
         li.appendChild(sbox);
         setTimeout(function(){var el=document.getElementById('sinp-'+ti);if(el)el.focus()},40);
       }
@@ -1342,6 +1640,33 @@ function addSub(ti){
 function toggleSub(ti,si){var sub=state.days[activeDay].tasks[ti].subs[si];sub.checked=!sub.checked;lsSet(pKey('state'),state);renderTasks()}
 function editSub(ti,si,val){var sub=state.days[activeDay].tasks[ti].subs[si];if(sub.text===val) return;sub.text=val;lsSet(pKey('state'),state)}
 function delSub(ti,si){state.days[activeDay].tasks[ti].subs.splice(si,1);lsSet(pKey('state'),state);renderTasks()}
+// Inner tasks inside a subtask
+function toggleSubExpand(ti,si){
+  var sub=state.days[activeDay].tasks[ti].subs[si];
+  sub.open=!sub.open;lsSet(pKey('state'),state);renderTasks();
+}
+function addInnerTask(ti,si){
+  var iinpId='iinp-'+ti+'-'+si;
+  var inp=document.getElementById(iinpId);if(!inp) return;
+  var txt=inp.value.trim();if(!txt) return;
+  var sub=state.days[activeDay].tasks[ti].subs[si];
+  if(!sub.tasks) sub.tasks=[];
+  sub.tasks.push({id:'it_'+Date.now(),text:txt,checked:false});
+  inp.value='';
+  lsSet(pKey('state'),state);renderTasks();
+}
+function toggleInnerTask(ti,si,ni){
+  var nt=state.days[activeDay].tasks[ti].subs[si].tasks[ni];
+  nt.checked=!nt.checked;lsSet(pKey('state'),state);renderTasks();
+}
+function editInnerTask(ti,si,ni,val){
+  var nt=state.days[activeDay].tasks[ti].subs[si].tasks[ni];
+  if(nt.text===val) return;nt.text=val;lsSet(pKey('state'),state);
+}
+function delInnerTask(ti,si,ni){
+  state.days[activeDay].tasks[ti].subs[si].tasks.splice(ni,1);
+  lsSet(pKey('state'),state);renderTasks();
+}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // TASK TEMPLATES
