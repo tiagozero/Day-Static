@@ -283,12 +283,22 @@ h1 em{color:var(--accent);font-style:normal}
 
 /* Tasks */
 .tlist{list-style:none;display:flex;flex-direction:column;gap:5px}
-.titem{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);overflow:hidden}
+.titem{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);overflow:hidden;position:relative}
 .titem.rolled{border-color:#c9a84c;background:#fdf8ee}
 .titem.p-high{border-left:3px solid var(--p-high)}
 .titem.p-med{border-left:3px solid var(--p-med)}
 .titem.p-low{border-left:3px solid var(--p-low)}
-.trow{display:flex;align-items:center;gap:7px;padding:7px 9px}
+/* Task progress bar */
+.task-prog-bar{position:absolute;top:0;left:0;bottom:0;background:var(--green);opacity:.18;transition:width .4s ease;pointer-events:none;border-radius:0}
+.titem.checked-all .task-prog-bar{opacity:.28;background:var(--green)}
+/* Task progress label inside trow */
+.task-prog-pct{font-size:.58rem;font-weight:700;color:var(--green);opacity:.85;flex-shrink:0;min-width:22px;text-align:right;letter-spacing:.02em}
+.titem:not(.has-subs) .task-prog-pct{display:none}
+/* Subtask progress bar */
+.sitem{position:relative;overflow:hidden}
+.sub-prog-bar{position:absolute;top:0;left:0;bottom:0;background:var(--green);opacity:.13;transition:width .35s ease;pointer-events:none}
+.sitem.sub-done .sub-prog-bar{width:100%!important;opacity:.18}
+.trow{display:flex;align-items:center;gap:7px;padding:7px 9px;position:relative;z-index:1}
 .tcb{width:14px;height:14px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
 .ttxt{flex:1;font-size:.855rem;border:none;background:transparent;font-family:inherit;color:var(--ink);outline:none;min-width:0}
 .ttxt.done{text-decoration:line-through;color:var(--muted)}
@@ -298,17 +308,18 @@ h1 em{color:var(--accent);font-style:normal}
 .prio-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .prio-dot.high{background:var(--p-high)}.prio-dot.med{background:var(--p-med)}.prio-dot.low{background:var(--p-low)}
 .sprog{font-size:.62rem;color:var(--muted);font-style:italic;flex-shrink:0}
-.tact{display:flex;gap:3px;align-items:center;flex-shrink:0}
-.btn-sub{font-size:.6rem;padding:2px 6px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .13s}
+.tact{display:flex;gap:5px;align-items:center;flex-shrink:0}
+.btn-sub{font-size:.72rem;padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .13s}
 .btn-sub:hover{border-color:var(--accent);color:var(--accent)}
-.btn-rollctl{font-size:.58rem;padding:2px 5px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .13s}
+.btn-rollctl{font-size:.7rem;padding:4px 8px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .13s}
 .btn-rollctl.no-roll{border-color:#c9a84c;color:#c9a84c}
-.btn-del{background:transparent;border:none;color:var(--border);font-size:.88rem;cursor:pointer;padding:0 2px;transition:color .12s}
+.btn-del{background:transparent;border:none;color:var(--border);font-size:1rem;cursor:pointer;padding:2px 4px;transition:color .12s}
 .btn-del:hover{color:var(--accent)}
 
 .sbox{border-top:1.5px dashed var(--border);background:var(--sub);padding:7px 9px 8px 24px}
 .slist{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
-.sitem{display:flex;align-items:center;gap:7px;padding:4px 7px;border:1.5px solid var(--border);border-radius:4px;background:var(--card)}
+.sitem{display:flex;align-items:center;gap:7px;padding:4px 7px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);position:relative;overflow:hidden}
+.sitem > *:not(.sub-prog-bar){position:relative;z-index:1}
 .scb{width:13px;height:13px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
 .stxt{flex:1;font-size:.8rem;border:none;background:transparent;font-family:inherit;color:var(--ink);outline:none}
 .stxt.done{text-decoration:line-through;color:var(--muted)}
@@ -1240,20 +1251,26 @@ function renderTasks(){
       var task=tasks[ti];
       var subs=task.subs||[];
       var subDone=subs.filter(function(s){return s.checked}).length;
+      var subPct=subs.length?Math.round((subDone/subs.length)*100):(task.checked?100:0);
+      var barPct=subs.length?subPct:(task.checked?100:0);
+      var allSubsDone=subs.length>0&&subDone===subs.length;
       var sprogHtml=subs.length?'<span class="sprog">('+subDone+'/'+subs.length+')</span>':'';
       var li=document.createElement('li');
       var pCls=task.priority?'titem p-'+task.priority:'titem';
-      li.className=pCls+(task.rolledFrom?' rolled':'');
+      li.className=pCls+(task.rolledFrom?' rolled':'')+(subs.length?' has-subs':'')+(allSubsDone?' checked-all':'');
       var trow=document.createElement('div');trow.className='trow';
       var metaHtml='<div class="task-meta-row">';
       if(task.rolledFrom) metaHtml+='<span class="rolled-tag">↩'+task.rolledFrom+'</span>';
       if(task.time) metaHtml+='<span class="time-tag">⏱ '+esc(task.time)+'</span>';
       if(task.recurInterval) metaHtml+='<span class="recur-tag">🔁 every '+task.recurInterval+'d</span>';
       metaHtml+=sprogHtml+'</div>';
+      var progPctHtml=subs.length?'<span class="task-prog-pct">'+subPct+'%</span>':'';
       trow.innerHTML=
+        '<div class="task-prog-bar" style="width:'+barPct+'%"></div>'+
         '<input type="checkbox" class="tcb"'+(task.checked?' checked':'')+'>'+
         '<input type="text" class="ttxt'+(task.checked?' done':'')+'" value="'+esc(task.text)+'">'+
         metaHtml+
+        progPctHtml+
         '<div class="tact">'+
           '<button class="btn-sub">'+(task.open?'▲':'⊕')+'</button>'+
           '<button class="btn-rollctl'+(task.noRoll?' no-roll':'')+'" title="'+(task.noRoll?'Will NOT roll over':'Will roll over')+'">'+(task.noRoll?'🚫↩':'↩')+'</button>'+
@@ -1270,7 +1287,9 @@ function renderTasks(){
         var sh='<ul class="slist">';
         if(!subs.length) sh+='<li style="font-size:.75rem;color:var(--border);font-style:italic;padding:2px 0">No subtasks yet.</li>';
         for(var si=0;si<subs.length;si++){
-          sh+='<li class="sitem" data-si="'+si+'"><input type="checkbox" class="scb"'+(subs[si].checked?' checked':'')+'>'+
+          sh+='<li class="sitem'+(subs[si].checked?' sub-done':'')+'" data-si="'+si+'">'+
+            '<div class="sub-prog-bar" style="width:'+(subs[si].checked?100:0)+'%"></div>'+
+            '<input type="checkbox" class="scb"'+(subs[si].checked?' checked':'')+'>'+
             '<input type="text" class="stxt'+(subs[si].checked?' done':'')+'" value="'+esc(subs[si].text)+'">'+
             '<button class="sdel">✕</button></li>';
         }
