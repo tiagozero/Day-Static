@@ -231,7 +231,7 @@ h1 em{color:var(--accent);font-style:normal}
 /* ── MODAL BASE ── */
 .overlay{position:fixed;inset:0;background:rgba(15,12,9,.48);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--card);border:1.5px solid var(--border);border-radius:12px;width:100%;max-width:520px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden}
+.modal{background:var(--card);border:1.5px solid var(--border);border-radius:12px;width:100%;max-width:680px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden}
 
 .mhead{display:flex;align-items:center;justify-content:space-between;padding:13px 17px 11px;border-bottom:1.5px solid var(--border);flex-shrink:0;gap:10px}
 .mhead-left{display:flex;flex-direction:column;gap:2px}
@@ -391,11 +391,16 @@ h1 em{color:var(--accent);font-style:normal}
 .tadd-inp::placeholder{color:var(--border)}
 .tadd-btn{padding:8px 13px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);font-family:inherit;font-size:.875rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .13s}
 .tadd-btn:hover{background:var(--accent)}
-.tadd-opts{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.tadd-sel{font-family:inherit;font-size:.75rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;cursor:pointer}
-.tadd-time{width:72px;font-family:inherit;font-size:.75rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none}
+/* Organized options grid */
+.tadd-opts-grid{display:flex;flex-direction:column;gap:0;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.tadd-opts-row{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.tadd-opts-cell{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.tadd-opts-cell:nth-child(even){border-right:none}
+.tadd-opts-tpl-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:7px 10px}
+.tadd-opts-lbl{font-size:.67rem;color:var(--muted);white-space:nowrap;font-weight:600;letter-spacing:.06em;text-transform:uppercase;min-width:fit-content}
+.tadd-sel{font-family:inherit;font-size:.78rem;padding:3px 6px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;cursor:pointer;flex:1;min-width:0}
+.tadd-time{font-family:inherit;font-size:.78rem;padding:3px 6px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;flex:1;min-width:0}
 .tadd-time::placeholder{color:var(--border)}
-.tadd-opts-lbl{font-size:.67rem;color:var(--muted);white-space:nowrap}
 
 /* Task templates */
 .tpl-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
@@ -826,33 +831,46 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
           <input class="tadd-inp" id="tadd-inp" type="text" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()">
           <button class="tadd-btn" onclick="addTask()">+ Add</button>
         </div>
-        <div class="tadd-opts">
-          <span class="tadd-opts-lbl">Priority:</span>
-          <select class="tadd-sel" id="tadd-prio">
-            <option value="">None</option>
-            <option value="high">🔴 High</option>
-            <option value="med">🟡 Medium</option>
-            <option value="low">🟢 Low</option>
-          </select>
-          <input class="tadd-time" id="tadd-time" type="text" placeholder="Time (e.g. 30m)">
-          <span class="tadd-opts-lbl">Depends on:</span>
-          <select class="dep-select" id="tadd-dep">
-            <option value="">None</option>
-          </select>
-          <span class="tadd-opts-lbl">Templates:</span>
-          <div class="tpl-row" id="tpl-chips"></div>
-          <button class="btn-save-tpl" onclick="saveTaskTemplate()">💾 Save set</button>
-        </div>
-        <div class="tadd-recur-row">
-          <span class="recur-lbl">Recurrence:</span>
-          <select class="recur-sel" id="tadd-recur" onchange="updateRecurCustom()">
-            <option value="">None</option>
-            <option value="1">Every day</option>
-            <option value="2">Every 2 days</option>
-            <option value="7">Every week</option>
-            <option value="custom">Custom…</option>
-          </select>
-          <input class="recur-custom-inp" id="tadd-recur-custom" type="number" min="1" max="365" placeholder="days" style="display:none">
+        <div class="tadd-opts-grid">
+          <div class="tadd-opts-row">
+            <div class="tadd-opts-cell">
+              <span class="tadd-opts-lbl">Priority:</span>
+              <select class="tadd-sel" id="tadd-prio">
+                <option value="">None</option>
+                <option value="high">&#128308; High</option>
+                <option value="med">&#128993; Medium</option>
+                <option value="low">&#128994; Low</option>
+              </select>
+            </div>
+            <div class="tadd-opts-cell" style="border-right:none">
+              <span class="tadd-opts-lbl">Time:</span>
+              <input class="tadd-time" id="tadd-time" type="text" placeholder="e.g. 30m">
+            </div>
+          </div>
+          <div class="tadd-opts-row">
+            <div class="tadd-opts-cell" style="border-bottom:none">
+              <span class="tadd-opts-lbl">Depends on:</span>
+              <select class="dep-select" id="tadd-dep">
+                <option value="">None</option>
+              </select>
+            </div>
+            <div class="tadd-opts-cell" style="border-bottom:none;border-right:none">
+              <span class="tadd-opts-lbl">Recurrence:</span>
+              <select class="recur-sel" id="tadd-recur" onchange="updateRecurCustom()">
+                <option value="">None</option>
+                <option value="1">Every day</option>
+                <option value="2">Every 2 days</option>
+                <option value="7">Every week</option>
+                <option value="custom">Custom&#x2026;</option>
+              </select>
+              <input class="recur-custom-inp" id="tadd-recur-custom" type="number" min="1" max="365" placeholder="days" style="display:none">
+            </div>
+          </div>
+          <div class="tadd-opts-tpl-row">
+            <span class="tadd-opts-lbl">Templates:</span>
+            <div class="tpl-row" id="tpl-chips"></div>
+            <button class="btn-save-tpl" onclick="saveTaskTemplate()">&#128190; Save set</button>
+          </div>
         </div>
       </div>
       <!-- Note -->
