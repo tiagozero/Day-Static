@@ -403,11 +403,33 @@ h1 em{color:var(--accent);font-style:normal}
 .tadd-time::placeholder{color:var(--border)}
 
 /* Task templates */
-.tpl-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
+.tpl-row{display:flex;gap:5px;flex-wrap:wrap;flex:1;min-width:0}
 .tpl-chip{font-family:inherit;font-size:.68rem;padding:3px 8px;border:1.5px solid var(--border);border-radius:999px;background:var(--bg);color:var(--muted);cursor:pointer;transition:border-color .12s,color .12s;white-space:nowrap}
 .tpl-chip:hover{border-color:var(--accent);color:var(--accent)}
-.btn-save-tpl{font-family:inherit;font-size:.68rem;padding:3px 9px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.btn-save-tpl{font-family:inherit;font-size:.68rem;padding:3px 9px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
 .btn-save-tpl:hover{border-color:var(--green);color:var(--green)}
+.btn-manage-tpl{font-family:inherit;font-size:.68rem;padding:3px 9px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
+.btn-manage-tpl:hover{border-color:#7c6ef5;color:#7c6ef5}
+
+/* Templates manager modal */
+.tpl-mgr-list{display:flex;flex-direction:column;gap:8px}
+.tpl-mgr-item{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);overflow:hidden}
+.tpl-mgr-head{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--sub);border-bottom:1.5px solid var(--border)}
+.tpl-mgr-name-inp{flex:1;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--ink);border:none;background:transparent;outline:none;min-width:0}
+.tpl-mgr-name-inp:focus{color:var(--accent)}
+.tpl-mgr-count{font-size:.65rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.tpl-mgr-btns{display:flex;gap:5px;flex-shrink:0}
+.tpl-mgr-apply{font-family:inherit;font-size:.68rem;padding:3px 9px;border:1.5px solid var(--green);border-radius:999px;background:transparent;color:var(--green);cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
+.tpl-mgr-apply:hover{background:var(--green);color:#fff}
+.tpl-mgr-del{font-family:inherit;font-size:.68rem;padding:3px 9px;border:1.5px solid #e8c0bb;border-radius:999px;background:transparent;color:#c0392b;cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
+.tpl-mgr-del:hover{background:#fdf0ef}
+.tpl-mgr-tasks{padding:8px 12px;display:flex;flex-direction:column;gap:4px}
+.tpl-mgr-task-item{display:flex;align-items:center;gap:7px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);font-size:.78rem;color:var(--ink)}
+.tpl-mgr-task-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--border)}
+.tpl-mgr-task-dot.high{background:var(--p-high)}.tpl-mgr-task-dot.med{background:var(--p-med)}.tpl-mgr-task-dot.low{background:var(--p-low)}
+.tpl-mgr-task-txt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tpl-mgr-task-time{font-size:.65rem;color:var(--muted);flex-shrink:0}
+.tpl-mgr-empty{text-align:center;padding:20px;color:var(--border);font-size:.82rem;font-style:italic}
 
 .day-note-box{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);padding:9px 11px}
 .note-lbl{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:5px}
@@ -914,6 +936,7 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
             <span class="tadd-opts-lbl">Templates:</span>
             <div class="tpl-row" id="tpl-chips"></div>
             <button class="btn-save-tpl" onclick="saveTaskTemplate()">&#128190; Save set</button>
+            <button class="btn-manage-tpl" onclick="openTplModal()">&#9998; Manage</button>
           </div>
         </div>
       </div>
@@ -1959,23 +1982,33 @@ function delInnerTask(ti,si,ni){
 function renderTplChips(){
   var row=document.getElementById('tpl-chips');if(!row) return;
   row.innerHTML='';
+  if(!taskTemplates.length){
+    var empty=document.createElement('span');
+    empty.style.cssText='font-size:.65rem;color:var(--border);font-style:italic';
+    empty.textContent='No templates saved yet';
+    row.appendChild(empty);
+    return;
+  }
   taskTemplates.forEach(function(tpl){
     var btn=document.createElement('button');btn.className='tpl-chip';
     btn.textContent=tpl.name;
+    btn.title='Apply template · right-click to manage';
     btn.onclick=function(){applyTaskTemplate(tpl)};
-    // long-press / right-click to delete
-    btn.addEventListener('contextmenu',function(e){e.preventDefault();if(confirm('Delete template "'+tpl.name+'"?')){taskTemplates=taskTemplates.filter(function(t){return t.id!==tpl.id});saveTaskTemplates();renderTplChips()}});
+    btn.addEventListener('contextmenu',function(e){e.preventDefault();openTplModal()});
     row.appendChild(btn);
   });
 }
+
 function applyTaskTemplate(tpl){
   if(!activeDay) return;
   tpl.tasks.forEach(function(t){
     var id='tpl_'+Date.now()+'_'+Math.random();
     state.days[activeDay].tasks.push({id:id,text:t.text,checked:false,open:false,subs:[],priority:t.priority||'',time:t.time||''});
   });
-  renderTasks();renderGrid();toast('📋 Template "'+tpl.name+'" applied');
+  lsSet(pKey('state'),state);
+  renderTasks();renderGrid();toast('📋 "'+tpl.name+'" applied ('+tpl.tasks.length+' task'+(tpl.tasks.length!==1?'s':'')+')');
 }
+
 function saveTaskTemplate(){
   if(!activeDay) return;
   var tasks=(state.days[activeDay]&&state.days[activeDay].tasks)||[];
@@ -1983,6 +2016,100 @@ function saveTaskTemplate(){
   var name=prompt('Template name:','My Template');if(!name||!name.trim()) return;
   taskTemplates.push({id:String(Date.now()),name:name.trim(),tasks:tasks.map(function(t){return{text:t.text,priority:t.priority||'',time:t.time||''}})});
   saveTaskTemplates();renderTplChips();toast('💾 Template saved!');
+}
+
+// ── Templates Manager Modal ──
+function openTplModal(){
+  renderTplMgr();
+  document.getElementById('tpl-overlay').classList.add('open');
+}
+function closeTplModal(){
+  document.getElementById('tpl-overlay').classList.remove('open');
+}
+
+function renderTplMgr(){
+  var body=document.getElementById('tpl-mgr-body');body.innerHTML='';
+
+  if(!taskTemplates.length){
+    body.innerHTML='<div class="tpl-mgr-empty">No templates yet.<br>Add tasks to a day, then click <strong>💾 Save set</strong>.</div>';
+    return;
+  }
+
+  var list=document.createElement('div');list.className='tpl-mgr-list';
+
+  taskTemplates.forEach(function(tpl){
+    var item=document.createElement('div');item.className='tpl-mgr-item';
+
+    // Header: editable name + count + action buttons
+    var head=document.createElement('div');head.className='tpl-mgr-head';
+
+    var nameInp=document.createElement('input');
+    nameInp.className='tpl-mgr-name-inp';
+    nameInp.type='text';
+    nameInp.value=tpl.name;
+    nameInp.title='Click to rename';
+    nameInp.onblur=function(){
+      var val=nameInp.value.trim();
+      if(!val){nameInp.value=tpl.name;return}
+      if(val===tpl.name) return;
+      tpl.name=val;
+      saveTaskTemplates();renderTplChips();
+      toast('✏️ Renamed to "'+val+'"');
+    };
+    nameInp.onkeydown=function(e){if(e.key==='Enter')nameInp.blur()};
+
+    var count=document.createElement('span');
+    count.className='tpl-mgr-count';
+    count.textContent=tpl.tasks.length+' task'+(tpl.tasks.length!==1?'s':'');
+
+    var btns=document.createElement('div');btns.className='tpl-mgr-btns';
+
+    var applyBtn=document.createElement('button');
+    applyBtn.className='tpl-mgr-apply';
+    applyBtn.textContent='▶ Apply';
+    applyBtn.title='Apply to today\'s open day';
+    applyBtn.onclick=function(){
+      applyTaskTemplate(tpl);
+      closeTplModal();
+    };
+
+    var delBtn=document.createElement('button');
+    delBtn.className='tpl-mgr-del';
+    delBtn.textContent='✕ Delete';
+    delBtn.onclick=function(){
+      if(!confirm('Delete template "'+tpl.name+'"?')) return;
+      taskTemplates=taskTemplates.filter(function(t){return t.id!==tpl.id});
+      saveTaskTemplates();renderTplChips();renderTplMgr();
+      toast('🗑 Template deleted');
+    };
+
+    btns.appendChild(applyBtn);
+    btns.appendChild(delBtn);
+    head.appendChild(nameInp);
+    head.appendChild(count);
+    head.appendChild(btns);
+    item.appendChild(head);
+
+    // Task list preview
+    var taskList=document.createElement('div');taskList.className='tpl-mgr-tasks';
+    tpl.tasks.forEach(function(t){
+      var row=document.createElement('div');row.className='tpl-mgr-task-item';
+      var dot=document.createElement('span');
+      dot.className='tpl-mgr-task-dot'+(t.priority?' '+t.priority:'');
+      var txt=document.createElement('span');txt.className='tpl-mgr-task-txt';txt.textContent=t.text;
+      row.appendChild(dot);
+      row.appendChild(txt);
+      if(t.time){
+        var time=document.createElement('span');time.className='tpl-mgr-task-time';time.textContent='⏱ '+t.time;
+        row.appendChild(time);
+      }
+      taskList.appendChild(row);
+    });
+    item.appendChild(taskList);
+    list.appendChild(item);
+  });
+
+  body.appendChild(list);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -3152,6 +3279,17 @@ lsSet=function(k,v){
       <button class="big-close" onclick="closeSyncModal()">✕</button>
     </div>
     <div class="big-body" id="sync-body" style="gap:12px"></div>
+  </div>
+</div>
+
+<!-- ══ TEMPLATES MANAGER MODAL ══ -->
+<div class="big-overlay" id="tpl-overlay" onclick="if(event.target===this)closeTplModal()">
+  <div class="big-modal" style="max-width:540px">
+    <div class="big-head">
+      <span class="big-title">📋 Task Templates</span>
+      <button class="big-close" onclick="closeTplModal()">✕</button>
+    </div>
+    <div class="big-body" id="tpl-mgr-body" style="gap:12px"></div>
   </div>
 </div>
 
