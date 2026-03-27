@@ -683,38 +683,6 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--bg);padding:9px 20px;border-radius:999px;font-size:.8rem;font-weight:500;letter-spacing:.04em;opacity:0;transition:all .28s;z-index:999;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
-
-/* ── COLLAPSIBLE MODAL SECTIONS ── */
-.modal-section-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:7px 11px;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:0;transition:background .13s}
-.modal-section-hd:hover{background:var(--border)}
-.modal-section-hd .msh-title{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.modal-section-hd .msh-arrow{font-size:.7rem;color:var(--muted);transition:transform .2s}
-.modal-section-hd.collapsed .msh-arrow{transform:rotate(-90deg)}
-.modal-section-body{display:flex;flex-direction:column;gap:6px;transition:all .2s}
-.modal-section-body.hidden{display:none}
-
-/* ── TASK TIMER ── */
-.timer-tag{font-size:.6rem;background:var(--sub);color:var(--accent);padding:1px 5px;border-radius:3px;white-space:nowrap;border:1px solid var(--accent);opacity:.85;font-variant-numeric:tabular-nums}
-.timer-tag.running{background:var(--accent);color:#fff;opacity:1;animation:timer-pulse 2s infinite}
-@keyframes timer-pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.btn-timer{font-size:.62rem;padding:2px 7px;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;transition:border-color .13s,color .13s,background .13s;flex-shrink:0;line-height:1.4}
-.btn-timer:hover{background:var(--accent);color:#fff}
-.btn-timer.running{background:var(--accent);color:#fff}
-.btn-timer.running:hover{background:transparent;color:var(--accent)}
-/* Timer log panel */
-.timer-log-panel{border-top:1px dashed var(--border);background:var(--sub);padding:6px 10px 8px}
-.timer-log-title{font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
-.timer-log-clear{font-family:inherit;font-size:.58rem;padding:1px 6px;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--muted);cursor:pointer;transition:color .12s,border-color .12s}
-.timer-log-clear:hover{color:var(--accent);border-color:var(--accent)}
-.timer-session-list{display:flex;flex-direction:column;gap:3px}
-.timer-session-item{display:flex;align-items:center;gap:7px;font-size:.68rem;color:var(--muted);padding:2px 0;border-bottom:1px dashed var(--border)}
-.timer-session-item:last-child{border-bottom:none}
-.timer-session-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
-.timer-session-dot.active{background:var(--green);animation:blink 1.5s infinite}
-.timer-session-time{flex:1}
-.timer-session-dur{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-.timer-total-row{display:flex;justify-content:flex-end;font-size:.65rem;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px solid var(--border)}
-.timer-total-val{font-weight:700;color:var(--accent);margin-left:4px}
 </style>
 </head>
 <body>
@@ -851,22 +819,10 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
       </div>
       <!-- Events for this day -->
       <div id="modal-events-area"></div>
-      <!-- Challenger blocks (collapsible) -->
-      <div id="modal-ch-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-ch-hd" onclick="toggleModalSection('ch')">
-          <span class="msh-title">⚡ Challengers</span>
-          <span class="msh-arrow">▾</span>
-        </div>
-        <div class="modal-section-body" id="modal-ch-area"></div>
-      </div>
-      <!-- Habits (collapsible) -->
-      <div id="modal-habits-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-habits-hd" onclick="toggleModalSection('habits')">
-          <span class="msh-title">✅ Daily Habits</span>
-          <span class="msh-arrow">▾</span>
-        </div>
-        <div class="modal-section-body" id="modal-habits-area"></div>
-      </div>
+      <!-- Challenger blocks -->
+      <div id="modal-ch-area"></div>
+      <!-- Habits -->
+      <div id="modal-habits-area"></div>
       <!-- Tasks -->
       <ul class="tlist" id="tlist"></ul>
       <!-- Task add -->
@@ -1434,8 +1390,6 @@ function openModal(day){
   document.getElementById('overlay').classList.add('open');
   setTimeout(function(){document.getElementById('tadd-inp').focus()},200);
   renderDepSelect();
-  // Resume tick if any running timers exist
-  if(_anyRunning()) _startTimerTick();
 }
 
 // ── Day Rating ──
@@ -1456,11 +1410,6 @@ function setDayRating(day,v){
 // ── Challenger blocks in modal ──
 function renderModalChallengers(day){
   var area=document.getElementById('modal-ch-area');area.innerHTML='';
-  var wrapper=document.getElementById('modal-ch-wrapper');
-  var filtered=challengers.filter(function(ch){return day>=ch.startDay&&day<ch.startDay+ch.days});
-  if(wrapper) wrapper.style.display=filtered.length?'flex':'none';
-  if(wrapper) wrapper.style.flexDirection='column';
-  if(wrapper) wrapper.style.gap='6px';
   challengers.filter(function(ch){return day>=ch.startDay&&day<ch.startDay+ch.days}).forEach(function(ch){
     if(!ch.steps) ch.steps=[];
     var prog=ch.dayProgress||{};
@@ -1528,9 +1477,7 @@ function renderModalChallengers(day){
 // ── Habits in modal ──
 function renderModalHabits(day){
   var area=document.getElementById('modal-habits-area');area.innerHTML='';
-  var wrapper=document.getElementById('modal-habits-wrapper');
-  if(!habits.length){if(wrapper)wrapper.style.display='none';return}
-  if(wrapper){wrapper.style.display='flex';wrapper.style.flexDirection='column';wrapper.style.gap='0'}
+  if(!habits.length) return;
   if(!state.days[day].habitChecks) state.days[day].habitChecks={};
   var block=document.createElement('div');block.className='modal-habits-block';
   var listHtml='<div class="modal-habits-head">Daily Habits</div><div class="modal-habits-list">';
@@ -1651,17 +1598,7 @@ function renderTasks(){
       trow.querySelector('.btn-sub').onclick=function(){toggleSubOpen(ti)};
       trow.querySelector('.btn-rollctl').onclick=function(){toggleRollCtl(ti)};
       trow.querySelector('.btn-del').onclick=function(){delTask(ti)};
-
-      // ── Timer: inject tag into meta row + button into tact ──
-      var _tf=buildTimerFragment(task,ti);
-      if(_tf.tag) trow.querySelector('.task-meta-row').appendChild(_tf.tag);
-      trow.querySelector('.tact').insertBefore(_tf.btn,trow.querySelector('.btn-sub'));
-
       li.appendChild(trow);
-
-      // Timer session log panel (below trow, above subtasks)
-      var _tlp=buildTimerLogPanel(task,ti);
-      if(_tlp) li.appendChild(_tlp);
       if(task.open){
         var sbox=document.createElement('div');sbox.className='sbox';
         // Build subtask list
@@ -2923,188 +2860,6 @@ renderTasks=function(){
   });
   renderDepSelect();
 };
-
-// ══════════════════════════════════════════════════════════════════════════════
-// COLLAPSIBLE MODAL SECTIONS (Habits & Challengers)
-// ══════════════════════════════════════════════════════════════════════════════
-var _modalSectionState={ch:true,habits:true}; // true = expanded
-
-function toggleModalSection(key){
-  _modalSectionState[key]=!_modalSectionState[key];
-  var body=document.getElementById('modal-'+key+'-area');
-  var hd=document.getElementById('modal-'+key+'-hd');
-  if(!body||!hd) return;
-  var expanded=_modalSectionState[key];
-  body.classList.toggle('hidden',!expanded);
-  hd.classList.toggle('collapsed',!expanded);
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// TIME LOG SYSTEM (Idea 3) — multi-session per-task timer
-// ══════════════════════════════════════════════════════════════════════════════
-
-// Global ticker — one interval drives all running timers
-var _timerTick=null;
-
-function _startTimerTick(){
-  if(_timerTick) return;
-  _timerTick=setInterval(function(){
-    // Update all visible timer tags + buttons
-    var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
-    tasks.forEach(function(task,ti){
-      if(!_taskIsRunning(task)) return;
-      var tag=document.getElementById('timer-tag-'+ti);
-      var btn=document.getElementById('btn-timer-'+ti);
-      var total=_taskTotalMs(task);
-      if(tag) tag.textContent='⏱ '+_fmtMs(total);
-      if(btn) btn.textContent='⏹ '+_fmtMs(total);
-    });
-  },1000);
-}
-
-function _stopTimerTick(){
-  // Only stop if no tasks are currently running
-  if(_timerTick&&!_anyRunning()){
-    clearInterval(_timerTick);_timerTick=null;
-  }
-}
-
-function _anyRunning(){
-  if(!activeDay||!state.days[activeDay]) return false;
-  return (state.days[activeDay].tasks||[]).some(_taskIsRunning);
-}
-
-function _taskIsRunning(task){
-  if(!task.sessions||!task.sessions.length) return false;
-  var last=task.sessions[task.sessions.length-1];
-  return last&&last.end===null;
-}
-
-function _taskTotalMs(task){
-  if(!task.sessions) return 0;
-  var now=Date.now();
-  return task.sessions.reduce(function(acc,s){
-    var end=s.end===null?now:s.end;
-    return acc+(end-s.start);
-  },0);
-}
-
-function _fmtMs(ms){
-  var s=Math.floor(ms/1000);
-  var h=Math.floor(s/3600);
-  var m=Math.floor((s%3600)/60);
-  var sec=s%60;
-  if(h>0) return h+'h '+String(m).padStart(2,'0')+'m';
-  if(m>0) return m+'m '+String(sec).padStart(2,'0')+'s';
-  return String(sec).padStart(2,'0')+'s';
-}
-
-function _fmtTs(ts){
-  var d=new Date(ts);
-  return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
-}
-
-function toggleTaskTimer(ti){
-  if(!activeDay) return;
-  var task=state.days[activeDay].tasks[ti];
-  if(!task) return;
-  if(!task.sessions) task.sessions=[];
-
-  if(_taskIsRunning(task)){
-    // Stop: close the last open session
-    var last=task.sessions[task.sessions.length-1];
-    last.end=Date.now();
-    toast('⏹ Timer stopped — '+_fmtMs(last.end-last.start)+' logged');
-  } else {
-    // Start: open a new session
-    task.sessions.push({start:Date.now(),end:null});
-    toast('▶ Timer started');
-    _startTimerTick();
-  }
-
-  lsSet(pKey('state'),state);
-  renderTasks();
-}
-
-function clearTaskSessions(ti){
-  if(!activeDay) return;
-  var task=state.days[activeDay].tasks[ti];
-  if(!task) return;
-  if(!confirm('Clear all timer sessions for this task?')) return;
-  task.sessions=[];
-  lsSet(pKey('state'),state);
-  renderTasks();
-  _stopTimerTick();
-}
-
-// Build the timer UI fragment inserted into each task row
-function buildTimerFragment(task,ti){
-  if(!task.sessions) task.sessions=[];
-  var running=_taskIsRunning(task);
-  var totalMs=_taskTotalMs(task);
-  var hasSessions=task.sessions.length>0;
-
-  // Timer button
-  var btn=document.createElement('button');
-  btn.className='btn-timer'+(running?' running':'');
-  btn.id='btn-timer-'+ti;
-  btn.title=running?'Stop timer':'Start timer';
-  btn.textContent=running?('⏹ '+_fmtMs(totalMs)):(hasSessions?('▶ '+_fmtMs(totalMs)):'▶');
-  btn.addEventListener('mousedown',function(e){e.stopPropagation()});
-  btn.onclick=function(e){e.stopPropagation();toggleTaskTimer(ti)};
-
-  // Timer tag (shows total in meta row when not running)
-  var tag=null;
-  if(hasSessions&&!running){
-    tag=document.createElement('span');
-    tag.className='timer-tag';
-    tag.id='timer-tag-'+ti;
-    tag.textContent='⏱ '+_fmtMs(totalMs);
-  } else if(running){
-    tag=document.createElement('span');
-    tag.className='timer-tag running';
-    tag.id='timer-tag-'+ti;
-    tag.textContent='⏱ '+_fmtMs(totalMs);
-  }
-
-  return {btn:btn,tag:tag};
-}
-
-// Build the expandable session log panel (appended after trow inside titem)
-function buildTimerLogPanel(task,ti){
-  if(!task.sessions||!task.sessions.length) return null;
-  var panel=document.createElement('div');
-  panel.className='timer-log-panel';
-
-  var totalMs=_taskTotalMs(task);
-  var titleRow=document.createElement('div');titleRow.className='timer-log-title';
-  titleRow.innerHTML='<span>Sessions</span>';
-  var clearBtn=document.createElement('button');
-  clearBtn.className='timer-log-clear';clearBtn.textContent='✕ Clear';
-  clearBtn.addEventListener('mousedown',function(e){e.stopPropagation()});
-  clearBtn.onclick=function(e){e.stopPropagation();clearTaskSessions(ti)};
-  titleRow.appendChild(clearBtn);
-  panel.appendChild(titleRow);
-
-  var list=document.createElement('div');list.className='timer-session-list';
-  task.sessions.forEach(function(s,idx){
-    var isActive=s.end===null;
-    var dur=isActive?(Date.now()-s.start):(s.end-s.start);
-    var item=document.createElement('div');item.className='timer-session-item';
-    item.innerHTML=
-      '<span class="timer-session-dot'+(isActive?' active':'')+'"></span>'+
-      '<span class="timer-session-time">'+_fmtTs(s.start)+(isActive?' → now':(' → '+_fmtTs(s.end)))+'</span>'+
-      '<span class="timer-session-dur">'+_fmtMs(dur)+'</span>';
-    list.appendChild(item);
-  });
-  panel.appendChild(list);
-
-  var totalRow=document.createElement('div');totalRow.className='timer-total-row';
-  totalRow.innerHTML='Total: <span class="timer-total-val">'+_fmtMs(totalMs)+'</span>';
-  panel.appendChild(totalRow);
-
-  return panel;
-}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // PATCH lsSet TO TRIGGER BADGE CHECK + AUTO-SYNC
