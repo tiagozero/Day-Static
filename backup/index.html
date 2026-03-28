@@ -645,7 +645,7 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .pomo-sessions{font-size:.65rem;opacity:.45;text-align:center;margin-top:10px}
 /* ── BADGES ── */
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.badge-card{border:1.5px solid var(--border);border-radius:var(--r);padding:12px 8px;text-align:center;background:var(--bg);transition:border-color .2s,background .2s}
+.badge-card{border:1.5px solid var(--border);border-radius:var(--r);padding:12px 8px;text-align:center;background:var(--bg);transition:border-color .2s,background .2s;position:relative}
 .badge-card.earned{border-color:#d4a017;background:#fffbee}
 html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .badge-icon{font-size:2rem;margin-bottom:5px;filter:grayscale(1);opacity:.28;transition:all .3s;display:block}
@@ -654,6 +654,11 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .badge-desc{font-size:.6rem;color:var(--border)}
 .badge-card.earned .badge-name{color:#9a7800}
 .badge-card.earned .badge-desc{color:var(--muted)}
+.badge-count{display:inline-block;margin-top:5px;font-size:.62rem;font-weight:700;background:#d4a017;color:#fff;padding:1px 7px;border-radius:999px;letter-spacing:.03em}
+.badge-count.multi{background:var(--accent)}
+.badge-reset-row{display:flex;justify-content:flex-end;padding:2px 0 6px}
+.btn-reset-badges{font-family:inherit;font-size:.72rem;padding:5px 12px;border:1.5px solid #e8c0bb;border-radius:999px;background:transparent;color:#c0392b;cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.btn-reset-badges:hover{background:#fdf0ef}
 .badge-new-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#d4a017;color:#fff;padding:10px 24px;border-radius:999px;font-size:.88rem;font-weight:700;z-index:9999;transition:transform .45s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 20px rgba(0,0,0,.25);pointer-events:none}
 .badge-new-toast.show{transform:translateX(-50%) translateY(0)}
 /* ── WEEKLY PLANNER ── */
@@ -737,6 +742,22 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
 .timer-session-dur{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .timer-total-row{display:flex;justify-content:flex-end;font-size:.65rem;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px solid var(--border)}
 .timer-total-val{font-weight:700;color:var(--accent);margin-left:4px}
+
+/* ── CHALLENGER TIMER ── */
+.ch-timer-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 11px;border-top:1px dashed var(--border);background:var(--bg)}
+.ch-timer-lbl{font-size:.67rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.ch-timer-right{display:flex;align-items:center;gap:6px}
+.ch-timer-tag{font-size:.65rem;background:var(--sub);color:var(--accent);padding:2px 7px;border-radius:3px;border:1px solid var(--accent);font-variant-numeric:tabular-nums;opacity:.9}
+.ch-timer-tag.running{background:var(--accent);color:#fff;animation:timer-pulse 2s infinite}
+.btn-ch-timer{font-family:inherit;font-size:.62rem;padding:2px 8px;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;transition:border-color .13s,color .13s,background .13s;line-height:1.5}
+.btn-ch-timer:hover{background:var(--accent);color:#fff}
+.btn-ch-timer.running{background:var(--accent);color:#fff}
+.btn-ch-timer.running:hover{background:transparent;color:var(--accent)}
+/* Challenger session log */
+.ch-timer-log{border-top:1px dashed var(--border);background:var(--sub);padding:5px 11px 7px}
+.ch-timer-log-title{font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.ch-timer-log-clear{font-family:inherit;font-size:.58rem;padding:1px 6px;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--muted);cursor:pointer;transition:color .12s,border-color .12s}
+.ch-timer-log-clear:hover{color:var(--accent);border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -1457,7 +1478,7 @@ function openModal(day){
   document.getElementById('overlay').classList.add('open');
   setTimeout(function(){document.getElementById('tadd-inp').focus()},200);
   renderDepSelect();
-  // Resume tick if any running timers exist
+  // Resume tick if any running timers exist (tasks or challengers)
   if(_anyRunning()) _startTimerTick();
 }
 
@@ -1545,6 +1566,11 @@ function renderModalChallengers(day){
     });
 
     area.appendChild(block);
+
+    // Append timer row + session log to challenger block
+    var _ctb=buildChallengerTimerBlock(ch);
+    block.appendChild(_ctb.timerRow);
+    if(_ctb.logPanel) block.appendChild(_ctb.logPanel);
   });
 }
 
@@ -2125,7 +2151,7 @@ function renderStats(){
   var totalDone=0,totalTasks=0,completedTasks=0,ratingSum=0,ratedDays=0,maxStreak=0,curStreak=0;
   var weekCompletion=new Array(7).fill(0),weekCount=new Array(7).fill(0);
   var ratingDist=new Array(5).fill(0);
-  var taskTimeTotal=0;
+  var totalTrackedMs=0; // from timer sessions (tasks + challengers)
 
   if(state.startDate){
     var start=new Date(state.startDate+'T00:00:00');
@@ -2140,22 +2166,39 @@ function renderStats(){
         if(dd.tasks){
           dd.tasks.forEach(function(t){
             totalTasks++;if(t.checked)completedTasks++;
-            if(t.time){var m=parseInt(t.time);if(!isNaN(m))taskTimeTotal+=m}
+            // Sum timer sessions
+            totalTrackedMs+=_taskTotalMs(t);
           });
         }
       } else { curStreak=0; weekCount[dow]++; }
     }
   }
 
+  // Sum challenger timer sessions
+  challengers.forEach(function(ch){
+    totalTrackedMs+=_taskTotalMs(ch);
+  });
+
   var chTotalDone=0;
   challengers.forEach(function(ch){var p=ch.dayProgress||{};chTotalDone+=Object.values(p).reduce(function(a,b){return a+(+b)},0)});
+
+  // Format total tracked time
+  function fmtMsLong(ms){
+    if(!ms) return '—';
+    var s=Math.floor(ms/1000);
+    var h=Math.floor(s/3600);
+    var m=Math.floor((s%3600)/60);
+    if(h>0) return h+'h '+m+'m';
+    if(m>0) return m+'m';
+    return s+'s';
+  }
 
   // stat cards
   var grid=document.createElement('div');grid.className='stat-grid';
   var cards=[
     {v:totalDone,l:'Days Complete'},{v:calcStreak(),l:'Current Streak'},{v:maxStreak,l:'Best Streak'},
     {v:totalTasks,l:'Total Tasks'},{v:completedTasks,l:'Tasks Done'},{v:ratedDays?Math.round((ratingSum/ratedDays)*10)/10:'—',l:'Avg Rating'},
-    {v:chTotalDone,l:'Challenger Units'},{v:taskTimeTotal?taskTimeTotal+'m':'—',l:'Task Time Logged'},{v:Math.round((totalDone/state.duration)*100)+'%',l:'Completion Rate'}
+    {v:chTotalDone,l:'Challenger Units'},{v:fmtMsLong(totalTrackedMs),l:'Total Time Tracked'},{v:Math.round((totalDone/state.duration)*100)+'%',l:'Completion Rate'}
   ];
   cards.forEach(function(c){
     var card=document.createElement('div');card.className='stat-card';
@@ -2679,21 +2722,20 @@ function addTask(){
 // BADGES
 // ══════════════════════════════════════════════════════════════════════════════
 var BADGE_DEFS=[
-  {id:'streak3',  icon:'🔥', name:'On Fire',       desc:'3-day streak',           check:function(s,st){return calcStreak()>=3}},
-  {id:'streak7',  icon:'⚡', name:'Week Warrior',   desc:'7-day streak',           check:function(s,st){return calcStreak()>=7}},
-  {id:'streak14', icon:'💎', name:'Two Weeks',      desc:'14-day streak',          check:function(s,st){return calcStreak()>=14}},
-  {id:'streak30', icon:'🏆', name:'Monthly Master', desc:'30-day streak',          check:function(s,st){return calcStreak()>=30}},
-  {id:'streak60', icon:'👑', name:'Iron Will',      desc:'60-day streak',          check:function(s,st){return calcStreak()>=60}},
-  {id:'tasks10',  icon:'✅', name:'Getting Started',desc:'10 tasks completed',     check:function(s,st){return st.totalTasks>=10}},
-  {id:'tasks50',  icon:'🎯', name:'Half Century',   desc:'50 tasks completed',     check:function(s,st){return st.totalTasks>=50}},
-  {id:'tasks100', icon:'💯', name:'Centurion',      desc:'100 tasks completed',    check:function(s,st){return st.totalTasks>=100}},
-  {id:'tasks250', icon:'🚀', name:'Powerhouse',     desc:'250 tasks completed',    check:function(s,st){return st.totalTasks>=250}},
-  {id:'days7',    icon:'📅', name:'First Week',     desc:'7 days completed',       check:function(s,st){return st.doneDays>=7}},
-  {id:'days30',   icon:'🌙', name:'Month Done',     desc:'30 days completed',      check:function(s,st){return st.doneDays>=30}},
-  {id:'days100',  icon:'🏅', name:'Centurion Days', desc:'100 days completed',     check:function(s,st){return st.doneDays>=100}},
-  {id:'perfect3', icon:'⭐', name:'Perfectionist',  desc:'3 perfect days in a row',check:function(s,st){return st.perfectStreak>=3}},
-  {id:'pomo1',    icon:'🍅', name:'First Pomo',     desc:'Completed a Pomodoro',   check:function(s,st){return lsGet('pomo_count',0)>=1}},
-  {id:'pomo10',   icon:'🔴', name:'Pomo Pro',       desc:'10 Pomodoros completed', check:function(s,st){return lsGet('pomo_count',0)>=10}},
+  {id:'streak3',  icon:'🔥', name:'On Fire',        desc:'3-day streak',           check:function(s,st){return calcStreak()>=3}},
+  {id:'streak7',  icon:'⚡', name:'Week Warrior',    desc:'7-day streak',           check:function(s,st){return calcStreak()>=7}},
+  {id:'streak14', icon:'💎', name:'Two Weeks',       desc:'14-day streak',          check:function(s,st){return calcStreak()>=14}},
+  {id:'streak30', icon:'🏆', name:'Monthly Master',  desc:'30-day streak',          check:function(s,st){return calcStreak()>=30}},
+  {id:'streak60', icon:'👑', name:'Iron Will',       desc:'60-day streak',          check:function(s,st){return calcStreak()>=60}},
+  {id:'days100',  icon:'🏅', name:'Centurion Days',  desc:'100 days completed',     check:function(s,st){return st.doneDays>=100}},
+  {id:'days365',  icon:'🌟', name:'Year of Growth',  desc:'365 days completed',     check:function(s,st){return st.doneDays>=365}},
+  {id:'tasks10',  icon:'✅', name:'Getting Started', desc:'10 tasks completed',     check:function(s,st){return st.totalTasks>=10}},
+  {id:'tasks50',  icon:'🎯', name:'Half Century',    desc:'50 tasks completed',     check:function(s,st){return st.totalTasks>=50}},
+  {id:'tasks100', icon:'💯', name:'Centurion',       desc:'100 tasks completed',    check:function(s,st){return st.totalTasks>=100}},
+  {id:'tasks250', icon:'🚀', name:'Powerhouse',      desc:'250 tasks completed',    check:function(s,st){return st.totalTasks>=250}},
+  
+  
+  
 ];
 
 function getBadgeStats(){
@@ -2716,23 +2758,62 @@ function getBadgeStats(){
   return{totalTasks:totalTasks,doneDays:doneDays,perfectStreak:perfectStreak};
 }
 
-function getEarnedBadges(){return lsGet('badges_'+activeProfileId,[])}
-function saveEarnedBadges(arr){lsSet('badges_'+activeProfileId,arr)}
+// Badge storage: { id: count } — count = how many times earned
+function getEarnedBadges(){
+  var raw=lsGet('badges2_'+activeProfileId,null);
+  if(raw&&typeof raw==='object'&&!Array.isArray(raw)) return raw;
+  // Migrate old array format
+  var old=lsGet('badges_'+activeProfileId,[]);
+  var migrated={};
+  if(Array.isArray(old)) old.forEach(function(id){migrated[id]=1});
+  return migrated;
+}
+function saveEarnedBadges(obj){lsSet('badges2_'+activeProfileId,obj)}
 
+// Streak badges are re-earnable each time you hit the threshold after losing it.
+// We track a "last streak snapshot" to detect new qualifications.
 function checkAndAwardBadges(){
   var earned=getEarnedBadges();
   var stats=getBadgeStats();
+  var curStreak=calcStreak();
   var newOnes=[];
+
   BADGE_DEFS.forEach(function(b){
-    if(!earned.includes(b.id)&&b.check(earned,stats)){
-      earned.push(b.id);newOnes.push(b);
+    var qualifies=b.check(earned,stats);
+    var isStreakBadge=b.id.indexOf('streak')===0;
+
+    if(!earned[b.id]){
+      // First time earning
+      if(qualifies){
+        earned[b.id]=1;
+        newOnes.push(b);
+      }
+    } else if(isStreakBadge){
+      // Streak badges can be re-earned. We track the highest streak at which
+      // we last awarded to detect when a fresh qualification occurs.
+      var streakThreshold=parseInt(b.id.replace('streak',''));
+      var lastAwardedAt=earned['_streak_peak_'+b.id]||0;
+      // If current streak crosses the threshold from below (lastAwardedAt was below threshold)
+      if(curStreak>=streakThreshold && lastAwardedAt<streakThreshold){
+        earned[b.id]=(earned[b.id]||0)+1;
+        earned['_streak_peak_'+b.id]=curStreak;
+        if(earned[b.id]>1) newOnes.push(b);
+      } else if(curStreak>=streakThreshold){
+        earned['_streak_peak_'+b.id]=Math.max(earned['_streak_peak_'+b.id]||0,curStreak);
+      } else {
+        // Streak dropped below threshold — reset peak so next time counts
+        earned['_streak_peak_'+b.id]=0;
+      }
     }
   });
+
   if(newOnes.length){
     saveEarnedBadges(earned);
     newOnes.forEach(function(b,i){
       setTimeout(function(){showBadgeToast(b)},i*2200);
     });
+  } else if(Object.keys(earned).some(function(k){return k.indexOf('_streak_peak_')===0})){
+    saveEarnedBadges(earned);
   }
 }
 
@@ -2745,20 +2826,48 @@ function showBadgeToast(b){
   _badgeToastT=setTimeout(function(){el.classList.remove('show')},2800);
 }
 
+function resetBadges(){
+  if(!confirm('Reset all badges for this profile? This cannot be undone.')) return;
+  saveEarnedBadges({});
+  openBadgesModal();
+  toast('↺ Badges reset');
+}
+
 function openBadgesModal(){
   var earned=getEarnedBadges();
-  var stats=getBadgeStats();
+  var earnedCount=Object.keys(earned).length;
   var body=document.getElementById('badges-body');body.innerHTML='';
-  var summary=document.createElement('div');
-  summary.style.cssText='font-size:.82rem;color:var(--muted);padding:4px 0 8px';
-  summary.textContent=earned.length+' / '+BADGE_DEFS.length+' badges earned';
-  body.appendChild(summary);
+
+  // Header row: summary + reset button
+  var topRow=document.createElement('div');topRow.className='badge-reset-row';
+  topRow.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:0 0 4px';
+  var summary=document.createElement('span');
+  summary.style.cssText='font-size:.82rem;color:var(--muted)';
+  summary.textContent=earnedCount+' / '+BADGE_DEFS.length+' badges earned';
+  var resetBtn=document.createElement('button');
+  resetBtn.className='btn-reset-badges';
+  resetBtn.textContent='↺ Reset badges';
+  resetBtn.onclick=resetBadges;
+  topRow.appendChild(summary);
+  topRow.appendChild(resetBtn);
+  body.appendChild(topRow);
+
   var grid=document.createElement('div');grid.className='badges-grid';
   BADGE_DEFS.forEach(function(b){
-    var isEarned=earned.includes(b.id);
+    var count=earned[b.id]||0;
+    var isEarned=count>0;
     var card=document.createElement('div');
     card.className='badge-card'+(isEarned?' earned':'');
-    card.innerHTML='<span class="badge-icon">'+b.icon+'</span><div class="badge-name">'+b.name+'</div><div class="badge-desc">'+b.desc+'</div>';
+    var countHtml='';
+    if(isEarned){
+      var cls=count>1?'badge-count multi':'badge-count';
+      countHtml='<span class="'+cls+'">'+(count>1?'×'+count:'✓')+'</span>';
+    }
+    card.innerHTML=
+      '<span class="badge-icon">'+b.icon+'</span>'+
+      '<div class="badge-name">'+b.name+'</div>'+
+      '<div class="badge-desc">'+b.desc+'</div>'+
+      countHtml;
     grid.appendChild(card);
   });
   body.appendChild(grid);
@@ -3076,7 +3185,7 @@ var _timerTick=null;
 function _startTimerTick(){
   if(_timerTick) return;
   _timerTick=setInterval(function(){
-    // Update all visible timer tags + buttons
+    // Update task timers
     var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
     tasks.forEach(function(task,ti){
       if(!_taskIsRunning(task)) return;
@@ -3086,19 +3195,30 @@ function _startTimerTick(){
       if(tag) tag.textContent='⏱ '+_fmtMs(total);
       if(btn) btn.textContent='⏹ '+_fmtMs(total);
     });
+    // Update challenger timers
+    challengers.forEach(function(ch){
+      if(!_taskIsRunning(ch)) return;
+      var tag=document.getElementById('ch-timer-tag-'+ch.id);
+      var btn=document.getElementById('btn-ch-timer-'+ch.id);
+      var total=_taskTotalMs(ch);
+      if(tag) tag.textContent='⏱ '+_fmtMs(total);
+      if(btn) btn.textContent='⏹ '+_fmtMs(total);
+    });
   },1000);
 }
 
 function _stopTimerTick(){
-  // Only stop if no tasks are currently running
   if(_timerTick&&!_anyRunning()){
     clearInterval(_timerTick);_timerTick=null;
   }
 }
 
 function _anyRunning(){
-  if(!activeDay||!state.days[activeDay]) return false;
-  return (state.days[activeDay].tasks||[]).some(_taskIsRunning);
+  var taskRunning=(activeDay&&state.days[activeDay])
+    ?(state.days[activeDay].tasks||[]).some(_taskIsRunning)
+    :false;
+  var chRunning=challengers.some(_taskIsRunning);
+  return taskRunning||chRunning;
 }
 
 function _taskIsRunning(task){
@@ -3231,6 +3351,107 @@ function buildTimerLogPanel(task,ti){
   panel.appendChild(totalRow);
 
   return panel;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHALLENGER TIMER
+// ══════════════════════════════════════════════════════════════════════════════
+function toggleChallengerTimer(chId){
+  var ch=challengers.find(function(c){return c.id===chId});
+  if(!ch) return;
+  if(!ch.sessions) ch.sessions=[];
+
+  if(_taskIsRunning(ch)){
+    var last=ch.sessions[ch.sessions.length-1];
+    last.end=Date.now();
+    toast('⏹ Challenger timer stopped — '+_fmtMs(last.end-last.start)+' logged');
+  } else {
+    ch.sessions.push({start:Date.now(),end:null});
+    toast('▶ Challenger timer started');
+    _startTimerTick();
+  }
+
+  saveChallengers();
+  if(activeDay) renderModalChallengers(activeDay);
+  renderChallengers();
+}
+
+function clearChallengerSessions(chId){
+  var ch=challengers.find(function(c){return c.id===chId});
+  if(!ch) return;
+  if(!confirm('Clear all timer sessions for this challenger?')) return;
+  ch.sessions=[];
+  saveChallengers();
+  if(activeDay) renderModalChallengers(activeDay);
+  renderChallengers();
+  _stopTimerTick();
+}
+
+function buildChallengerTimerBlock(ch){
+  if(!ch.sessions) ch.sessions=[];
+  var running=_taskIsRunning(ch);
+  var totalMs=_taskTotalMs(ch);
+  var hasSessions=ch.sessions.length>0;
+
+  // Timer row (always shown)
+  var timerRow=document.createElement('div');
+  timerRow.className='ch-timer-row';
+
+  var lbl=document.createElement('span');lbl.className='ch-timer-lbl';lbl.textContent='Timer';
+
+  var right=document.createElement('div');right.className='ch-timer-right';
+
+  if(hasSessions){
+    var tag=document.createElement('span');
+    tag.className='ch-timer-tag'+(running?' running':'');
+    tag.id='ch-timer-tag-'+ch.id;
+    tag.textContent='⏱ '+_fmtMs(totalMs);
+    right.appendChild(tag);
+  }
+
+  var btn=document.createElement('button');
+  btn.className='btn-ch-timer'+(running?' running':'');
+  btn.id='btn-ch-timer-'+ch.id;
+  btn.textContent=running?('⏹ '+_fmtMs(totalMs)):'▶ Start';
+  btn.onclick=function(e){e.stopPropagation();toggleChallengerTimer(ch.id)};
+  right.appendChild(btn);
+
+  timerRow.appendChild(lbl);
+  timerRow.appendChild(right);
+
+  // Session log (shown only if there are sessions)
+  var logPanel=null;
+  if(hasSessions){
+    logPanel=document.createElement('div');
+    logPanel.className='ch-timer-log';
+
+    var logTitle=document.createElement('div');logTitle.className='ch-timer-log-title';
+    var logLbl=document.createElement('span');logLbl.textContent='Sessions';
+    var clearBtn=document.createElement('button');
+    clearBtn.className='ch-timer-log-clear';clearBtn.textContent='✕ Clear';
+    clearBtn.onclick=function(e){e.stopPropagation();clearChallengerSessions(ch.id)};
+    logTitle.appendChild(logLbl);logTitle.appendChild(clearBtn);
+    logPanel.appendChild(logTitle);
+
+    var sessionList=document.createElement('div');sessionList.className='timer-session-list';
+    ch.sessions.forEach(function(s){
+      var isActive=s.end===null;
+      var dur=isActive?(Date.now()-s.start):(s.end-s.start);
+      var item=document.createElement('div');item.className='timer-session-item';
+      item.innerHTML=
+        '<span class="timer-session-dot'+(isActive?' active':'')+'"></span>'+
+        '<span class="timer-session-time">'+_fmtTs(s.start)+(isActive?' → now':(' → '+_fmtTs(s.end)))+'</span>'+
+        '<span class="timer-session-dur">'+_fmtMs(dur)+'</span>';
+      sessionList.appendChild(item);
+    });
+    logPanel.appendChild(sessionList);
+
+    var totalRow=document.createElement('div');totalRow.className='timer-total-row';
+    totalRow.innerHTML='Total: <span class="timer-total-val">'+_fmtMs(totalMs)+'</span>';
+    logPanel.appendChild(totalRow);
+  }
+
+  return {timerRow:timerRow,logPanel:logPanel};
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

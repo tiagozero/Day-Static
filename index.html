@@ -99,8 +99,6 @@ h1 em{color:var(--accent);font-style:normal}
 .grid{display:grid;gap:4px}
 .cell{aspect-ratio:1;border:1.5px solid var(--border);border-radius:var(--r);background:var(--card);display:flex;flex-direction:column;align-items:flex-start;padding:4px 5px;cursor:pointer;transition:border-color .13s,color .13s,background .13s;position:relative;overflow:hidden;user-select:none}
 .cell:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.1);z-index:2}
-.cell.done{background:var(--green-soft);border-color:var(--green)}
-.cell.done .num{color:var(--green)}
 .cell.today{border-color:var(--accent)!important;border-width:2px;box-shadow:0 0 0 2px rgba(181,69,27,.15)}
 .cell.today .num{color:var(--accent);font-weight:700}
 .cell.locked{opacity:.38;cursor:default;pointer-events:none}
@@ -108,9 +106,64 @@ h1 em{color:var(--accent);font-style:normal}
 .cell.done.has-t::after{background:var(--green)}
 .cell.has-ch::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.5}
 .cell.done.has-ch::before{background:var(--green);opacity:.7}
-/* rating tint */
-.cell.r1{background:#fdf0ef}.cell.r2{background:#fef6ec}.cell.r3{background:var(--card)}.cell.r4{background:#edf5f1}.cell.r5{background:var(--green-soft)}
-.cell.done.r1,.cell.done.r2,.cell.done.r3,.cell.done.r4,.cell.done.r5{background:var(--green-soft)}
+/* rating colors — IMDB-style scale (red→amber→yellow→lime→green) */
+.cell.r1{background:#fde8e8;border-color:#d9534f}
+.cell.r1 .num{color:#c0392b}
+.cell.r2{background:#fef0e0;border-color:#e08030}
+.cell.r2 .num{color:#c06010}
+.cell.r3{background:#fefbe0;border-color:#d4b800}
+.cell.r3 .num{color:#9a8700}
+.cell.r4{background:#eaf5e0;border-color:#7ab648}
+.cell.r4 .num{color:#4a8a20}
+.cell.r5{background:#d8f0e0;border-color:#27ae60}
+.cell.r5 .num{color:#1a7a42}
+/* done with no rating — green */
+.cell.done{background:var(--green-soft);border-color:var(--green)}
+.cell.done .num{color:var(--green)}
+/* done + rating: rating color wins; use a green checkmark tint via border only */
+.cell.done.r1{background:#fde8e8;border-color:#d9534f}
+.cell.done.r2{background:#fef0e0;border-color:#e08030}
+.cell.done.r3{background:#fefbe0;border-color:#d4b800}
+.cell.done.r4{background:#eaf5e0;border-color:#7ab648}
+.cell.done.r5{background:#d8f0e0;border-color:#27ae60}
+/* dark mode rating overrides */
+html.dark .cell.r1{background:#3a1a1a;border-color:#c0392b}
+html.dark .cell.r1 .num{color:#e06060}
+html.dark .cell.r2{background:#3a2510;border-color:#c06010}
+html.dark .cell.r2 .num{color:#e09040}
+html.dark .cell.r3{background:#2e2e10;border-color:#9a8700}
+html.dark .cell.r3 .num{color:#d4b800}
+html.dark .cell.r4{background:#142814;border-color:#4a8a20}
+html.dark .cell.r4 .num{color:#7ab648}
+html.dark .cell.r5{background:#0e2d1e;border-color:#27ae60}
+html.dark .cell.r5 .num{color:#3aaa72}
+/* dark done+rating */
+html.dark .cell.done.r1{background:#3a1a1a;border-color:#c0392b}
+html.dark .cell.done.r2{background:#3a2510;border-color:#c06010}
+html.dark .cell.done.r3{background:#2e2e10;border-color:#9a8700}
+html.dark .cell.done.r4{background:#142814;border-color:#4a8a20}
+html.dark .cell.done.r5{background:#0e2d1e;border-color:#27ae60}
+
+/* ── TASK EDIT PANEL ── */
+.task-edit-panel{background:var(--sub);border-top:1px dashed var(--border);padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.task-edit-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--bg)}
+.task-edit-cell{display:flex;align-items:center;gap:6px;padding:6px 9px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.task-edit-cell:nth-child(even){border-right:none}
+.task-edit-cell:nth-last-child(-n+2){border-bottom:none}
+.task-edit-cell-full{grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:6px 9px;border-bottom:none}
+.task-edit-lbl{font-size:.63rem;color:var(--muted);white-space:nowrap;font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+.task-edit-inp{font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;flex:1;min-width:0;transition:border-color .12s}
+.task-edit-inp:focus{border-color:var(--accent)}
+.task-edit-sel{font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;cursor:pointer;flex:1;min-width:0}
+.task-edit-sel:focus{border-color:var(--accent)}
+.task-edit-save{font-family:inherit;font-size:.72rem;padding:4px 12px;border:1.5px solid var(--green);border-radius:999px;background:transparent;color:var(--green);cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
+.task-edit-save:hover{background:var(--green);color:#fff}
+.task-edit-cancel{font-family:inherit;font-size:.72rem;padding:4px 10px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.task-edit-cancel:hover{border-color:var(--accent);color:var(--accent)}
+.task-edit-actions{display:flex;gap:6px;justify-content:flex-end}
+.btn-edit-task{font-size:.66rem;padding:3px 8px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:border-color .13s,color .13s,background .13s;flex-shrink:0}
+.btn-edit-task:hover{border-color:#7c6ef5;color:#7c6ef5}
+.btn-edit-task.active{border-color:#7c6ef5;color:#7c6ef5;background:rgba(124,110,245,.08)}
 .num{font-size:clamp(.52rem,1.2vw,.7rem);font-weight:500;color:var(--muted);line-height:1}
 .chk{font-size:clamp(.6rem,1.5vw,.85rem);margin-top:2px}
 .cell-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(.5rem,1.1vw,.68rem);font-weight:700;color:var(--muted);opacity:.55;pointer-events:none;letter-spacing:-.01em}
@@ -1383,7 +1436,8 @@ function renderGrid(){
     var cellEv=evDays[i];
     var r=day.rating||0;
     var cls='cell';
-    if(day.done) cls+=' done'; else if(r>0) cls+=' r'+r;
+    if(day.done) cls+=' done';
+    if(r>0) cls+=' r'+r;
     if(hasTasks||hasNote) cls+=' has-t';
     if(isToday) cls+=' today';
     if(isFuture) cls+=' locked';
@@ -1608,8 +1662,8 @@ function syncDoneBtn(){
 }
 function toggleDone(){
   var nv=!state.days[activeDay].done;state.days[activeDay].done=nv;syncDoneBtn();
-  lsSet(pKey('state'),state)
-    .then(function(){setStatus('✅ Saved at '+new Date().toLocaleTimeString())});
+  lsSet(pKey('state'),state);
+  setStatus('✅ Saved at '+new Date().toLocaleTimeString());
   renderGrid();renderProgress();
 }
 
@@ -1689,6 +1743,7 @@ function renderTasks(){
         progPctHtml+
         '<div class="tact">'+
           '<button class="btn-sub">'+(task.open?'▲':'⊕')+'</button>'+
+          '<button class="btn-edit-task" title="Edit task options">✎</button>'+
           '<button class="btn-rollctl'+(task.noRoll?' no-roll':'')+'" title="'+(task.noRoll?'Will NOT roll over':'Will roll over')+'">'+(task.noRoll?'🚫↩':'↩')+'</button>'+
           '<button class="btn-del">✕</button>'+
         '</div>';
@@ -1700,6 +1755,21 @@ function renderTasks(){
       trow.querySelector('.btn-sub').onclick=function(){toggleSubOpen(ti)};
       trow.querySelector('.btn-rollctl').onclick=function(){toggleRollCtl(ti)};
       trow.querySelector('.btn-del').onclick=function(){delTask(ti)};
+      // Edit button — toggles inline edit panel
+      trow.querySelector('.btn-edit-task').onclick=function(e){
+        e.stopPropagation();
+        var existing=li.querySelector('.task-edit-panel');
+        if(existing){existing.remove();trow.querySelector('.btn-edit-task').classList.remove('active');return;}
+        trow.querySelector('.btn-edit-task').classList.add('active');
+        var panel=buildTaskEditPanel(task,ti,function(){
+          li.querySelector('.task-edit-panel')&&li.querySelector('.task-edit-panel').remove();
+          trow.querySelector('.btn-edit-task').classList.remove('active');
+        });
+        // Insert after trow, before timer log panel or subtasks
+        var insertBefore=li.querySelector('.timer-log-panel')||li.querySelector('.sbox')||null;
+        li.insertBefore(panel,insertBefore);
+        panel.querySelector('.task-edit-inp-time').focus();
+      };
 
       // ── Timer: inject tag into meta row + button into tact ──
       var _tf=buildTimerFragment(task,ti);
@@ -1958,6 +2028,95 @@ function addTask(){
   renderTasks();renderGrid();setStatus('✅ Saved at '+new Date().toLocaleTimeString());
   if(interval) applyRecurringTask(txt,prio,time,interval);
 }
+function buildTaskEditPanel(task,ti,onClose){
+  var panel=document.createElement('div');
+  panel.className='task-edit-panel';
+
+  // Row 1: Time + Priority
+  var row1=document.createElement('div');row1.className='task-edit-row';
+
+  var cellTime=document.createElement('div');cellTime.className='task-edit-cell';
+  var lblTime=document.createElement('span');lblTime.className='task-edit-lbl';lblTime.textContent='Time';
+  var inpTime=document.createElement('input');
+  inpTime.className='task-edit-inp task-edit-inp-time';
+  inpTime.type='text';inpTime.placeholder='e.g. 30m';
+  inpTime.value=task.time||'';
+  cellTime.appendChild(lblTime);cellTime.appendChild(inpTime);
+
+  var cellPrio=document.createElement('div');cellPrio.className='task-edit-cell';
+  var lblPrio=document.createElement('span');lblPrio.className='task-edit-lbl';lblPrio.textContent='Priority';
+  var selPrio=document.createElement('select');selPrio.className='task-edit-sel';
+  [['','None'],['high','🔴 High'],['med','🟡 Medium'],['low','🟢 Low']].forEach(function(opt){
+    var o=document.createElement('option');o.value=opt[0];o.textContent=opt[1];
+    if(task.priority===opt[0]) o.selected=true;
+    selPrio.appendChild(o);
+  });
+  cellPrio.appendChild(lblPrio);cellPrio.appendChild(selPrio);
+
+  row1.appendChild(cellTime);row1.appendChild(cellPrio);
+
+  // Row 2: Recurrence
+  var row2=document.createElement('div');row2.className='task-edit-row';
+  var cellRecur=document.createElement('div');
+  cellRecur.className='task-edit-cell task-edit-cell-full';
+  cellRecur.style.gridColumn='1/-1';
+  var lblRecur=document.createElement('span');lblRecur.className='task-edit-lbl';lblRecur.textContent='Recurrence';
+  var selRecur=document.createElement('select');selRecur.className='task-edit-sel';
+  var recurOpts=[['','None'],['1','Every day'],['2','Every 2 days'],['7','Every week'],['custom','Custom…']];
+  var curRecur=task.recurInterval?String(task.recurInterval):'';
+  var isCustom=curRecur&&curRecur!=='1'&&curRecur!=='2'&&curRecur!=='7';
+  recurOpts.forEach(function(opt){
+    var o=document.createElement('option');o.value=opt[0];o.textContent=opt[1];
+    if(isCustom&&opt[0]==='custom') o.selected=true;
+    else if(!isCustom&&curRecur===opt[0]) o.selected=true;
+    selRecur.appendChild(o);
+  });
+  var inpCustom=document.createElement('input');
+  inpCustom.className='task-edit-inp';inpCustom.type='number';
+  inpCustom.min='1';inpCustom.max='365';inpCustom.placeholder='days';
+  inpCustom.style.display=isCustom?'':'none';
+  if(isCustom) inpCustom.value=curRecur;
+  selRecur.onchange=function(){inpCustom.style.display=selRecur.value==='custom'?'':'none'};
+  cellRecur.appendChild(lblRecur);
+  cellRecur.appendChild(selRecur);
+  cellRecur.appendChild(inpCustom);
+  row2.appendChild(cellRecur);
+
+  // Actions
+  var actions=document.createElement('div');actions.className='task-edit-actions';
+  var cancelBtn=document.createElement('button');cancelBtn.className='task-edit-cancel';cancelBtn.textContent='Cancel';
+  cancelBtn.onclick=function(e){e.stopPropagation();onClose()};
+  var saveBtn=document.createElement('button');saveBtn.className='task-edit-save';saveBtn.textContent='✓ Save';
+  saveBtn.onclick=function(e){
+    e.stopPropagation();
+    var t=state.days[activeDay].tasks[ti];if(!t) return;
+    // Save priority
+    var newPrio=selPrio.value;
+    t.priority=newPrio;
+    // Save time
+    t.time=inpTime.value.trim();
+    // Save recurrence
+    var newRecurVal=selRecur.value;
+    if(newRecurVal===''){
+      t.recurInterval=0;
+    } else if(newRecurVal==='custom'){
+      var cv=parseInt(inpCustom.value)||0;
+      t.recurInterval=cv>0?cv:0;
+    } else {
+      t.recurInterval=parseInt(newRecurVal)||0;
+    }
+    lsSet(pKey('state'),state);
+    renderTasks();
+    toast('✓ Task updated');
+  };
+  actions.appendChild(cancelBtn);actions.appendChild(saveBtn);
+
+  panel.appendChild(row1);
+  panel.appendChild(row2);
+  panel.appendChild(actions);
+  return panel;
+}
+
 function toggleTask(ti){var task=state.days[activeDay].tasks[ti];task.checked=!task.checked;lsSet(pKey('state'),state);renderTasks();checkAndAwardBadges();}
 function editTask(ti,val){var task=state.days[activeDay].tasks[ti];if(task.text===val) return;task.text=val;lsSet(pKey('state'),state)}
 function delTask(ti){state.days[activeDay].tasks.splice(ti,1);lsSet(pKey('state'),state);renderTasks();renderGrid()}
