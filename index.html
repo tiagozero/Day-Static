@@ -295,7 +295,7 @@ html.dark .cell.done.r5{background:#0e2d1e;border-color:#27ae60}
 .m-done.on{background:var(--green);color:#fff}
 .m-close{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:border-color .13s,color .13s,background .13s}
 .m-close:hover{border-color:var(--accent);color:var(--accent)}
-.mbody{padding:12px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.mbody{padding:10px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px}
 
 /* Day Rating */
 .rating-row{display:flex;align-items:center;gap:8px}
@@ -444,6 +444,10 @@ html.dark .cell.done.r5{background:#0e2d1e;border-color:#27ae60}
 .tadd-inp::placeholder{color:var(--border)}
 .tadd-btn{padding:8px 13px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);font-family:inherit;font-size:.875rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .13s}
 .tadd-btn:hover{background:var(--accent)}
+.tadd-opts-toggle{padding:8px 10px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r);color:var(--muted);cursor:pointer;font-size:.9rem;transition:border-color .13s,color .13s;flex-shrink:0}
+.tadd-opts-toggle:hover,.tadd-opts-toggle.active{border-color:var(--accent);color:var(--accent)}
+.show-tasks-btn{width:100%;font-family:inherit;font-size:.75rem;font-weight:500;padding:6px 12px;border:1.5px dashed var(--border);border-radius:var(--r);background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;letter-spacing:.03em}
+.show-tasks-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--sub)}
 /* Organized options grid */
 .tadd-opts-grid{display:flex;flex-direction:column;gap:0;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden}
 .tadd-opts-row{display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -484,7 +488,7 @@ html.dark .cell.done.r5{background:#0e2d1e;border-color:#27ae60}
 .tpl-mgr-task-time{font-size:.65rem;color:var(--muted);flex-shrink:0}
 .tpl-mgr-empty{text-align:center;padding:20px;color:var(--border);font-size:.82rem;font-style:italic}
 
-.day-note-box{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);padding:9px 11px}
+.day-note-box{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);padding:9px 11px;margin-top:6px}
 .note-lbl{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:5px}
 .note-ta{width:100%;border:none;background:transparent;font-family:inherit;font-size:.85rem;color:var(--ink);outline:none;resize:none;min-height:36px}
 .note-ta::placeholder{color:var(--border)}
@@ -805,8 +809,8 @@ html.dark .modal-tbs-task-item.selected{background:rgba(77,142,240,.12)}
 .modal-tbs-mode-btn:hover{border-color:var(--accent);color:var(--accent)}
 .modal-tbs-mode-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .modal-tbs-mode-desc{font-size:.68rem;color:var(--muted);font-style:italic;line-height:1.45;padding:3px 0 6px}
-/* weight input inside task rows */
-.modal-tbs-weight-inp{width:50px;font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;text-align:center;transition:border-color .12s;flex-shrink:0}
+/* priority input inside task rows (1 = highest priority) */
+.modal-tbs-weight-inp{width:46px;font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;text-align:center;transition:border-color .12s;flex-shrink:0}
 .modal-tbs-weight-inp:focus{border-color:var(--accent)}
 /* split preview */
 .modal-tbs-preview{display:flex;flex-direction:column;gap:3px;background:var(--sub);border:1px dashed var(--border);border-radius:var(--r);padding:7px 10px}
@@ -918,7 +922,7 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
 
 /* ── COLLAPSIBLE MODAL SECTIONS ── */
-.modal-section-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:7px 11px;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:0;transition:background .13s}
+.modal-section-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:6px 10px;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:0;transition:background .13s}
 .modal-section-hd:hover{background:var(--border)}
 .modal-section-hd .msh-title{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .modal-section-hd .msh-arrow{font-size:.7rem;color:var(--muted);transition:transform .2s}
@@ -1124,15 +1128,19 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
         </div>
         <div class="modal-section-body hidden" id="modal-tbs-area"></div>
       </div>
-      <!-- Tasks -->
-      <ul class="tlist" id="tlist"></ul>
-      <!-- Task add -->
-      <div class="tadd-area">
-        <div class="tadd">
-          <input class="tadd-inp" id="tadd-inp" type="text" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()">
-          <button class="tadd-btn" onclick="addTask()">+ Add</button>
-        </div>
-        <div class="tadd-opts-grid">
+      <!-- Tasks (hidden when TBS is active) -->
+      <div id="modal-tasks-section">
+        <button class="show-tasks-btn" id="show-tasks-btn" onclick="toggleTasksUnderTBS()" style="display:none">▼ Show tasks</button>
+        <div id="modal-tasks-body">
+          <ul class="tlist" id="tlist"></ul>
+          <!-- Task add -->
+          <div class="tadd-area">
+            <div class="tadd">
+              <input class="tadd-inp" id="tadd-inp" type="text" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()">
+              <button class="tadd-btn" onclick="addTask()">+ Add</button>
+              <button class="tadd-opts-toggle" id="tadd-opts-toggle" onclick="toggleTaskOpts()" title="More options">⚙</button>
+            </div>
+            <div class="tadd-opts-grid" id="tadd-opts-grid" style="display:none">
           <div class="tadd-opts-row">
             <div class="tadd-opts-cell">
               <span class="tadd-opts-lbl">Priority:</span>
@@ -1174,7 +1182,8 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
             <button class="btn-manage-tpl" onclick="openTplModal()">&#9998; Manage</button>
           </div>
         </div>
-      </div>
+      </div><!-- /modal-tasks-body -->
+      </div><!-- /modal-tasks-section -->
       <!-- Note -->
       <div class="day-note-box">
         <div class="note-lbl">Note</div>
@@ -1669,8 +1678,10 @@ function addHabit(){
 // DAY MODAL
 // ══════════════════════════════════════════════════════════════════════════════
 function openModal(day){
-  // Reset inline TBS state only if switching to a different day
-  if(activeDay!==day){
+  // Reset inline TBS state only if switching to a genuinely different day
+  // (activeDay===null after closeModal, but TBS may still be running — preserve it)
+  var tbsActive=_modalTbs.open||_modalTbs.running||_modalTbs.finished;
+  if(activeDay!==day && !(activeDay===null && tbsActive)){
     _modalTbsStop();
     _modalTbs.open=false;
     _modalTbs.selectedTaskIds={};
@@ -1679,6 +1690,11 @@ function openModal(day){
     var tbsArea=document.getElementById('modal-tbs-area');
     if(tbsHd){tbsHd.classList.add('collapsed');}
     if(tbsArea){tbsArea.classList.add('hidden');tbsArea.innerHTML='';}
+    // Reset tasks visibility
+    var tasksBody=document.getElementById('modal-tasks-body');
+    var showBtn=document.getElementById('show-tasks-btn');
+    if(tasksBody){tasksBody.style.display='';delete tasksBody.dataset.manualOpen;}
+    if(showBtn){showBtn.style.display='none';showBtn.textContent='▼ Show tasks';}
   }
   activeDay=day;
   if(!state.days[day]) state.days[day]={done:false,tasks:[],note:''};
@@ -1713,6 +1729,7 @@ function openModal(day){
     _modalTbs.open=true;
     renderModalTBS();
   }
+  _syncTasksVisibility();
   // Resume tick if any running timers exist (tasks or challengers)
   if(_anyRunning()) _startTimerTick();
 }
@@ -1835,7 +1852,41 @@ function renderModalHabits(day){
   area.appendChild(block);
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');renderGrid();renderProgress();activeDay=null}
+function closeModal(){document.getElementById('overlay').classList.remove('open');renderGrid();renderProgress();if(!(_modalTbs.open||_modalTbs.running||_modalTbs.finished))activeDay=null;}
+function toggleTaskOpts(){var g=document.getElementById('tadd-opts-grid');var btn=document.getElementById('tadd-opts-toggle');if(!g||!btn)return;var open=g.style.display!=='none';g.style.display=open?'none':'';btn.classList.toggle('active',!open);}
+
+function _syncTasksVisibility(){
+  var tbsOn=_modalTbs.open;
+  var showBtn=document.getElementById('show-tasks-btn');
+  var tasksBody=document.getElementById('modal-tasks-body');
+  if(!showBtn||!tasksBody) return;
+  if(tbsOn){
+    // Hide tasks body, show the reveal button
+    showBtn.style.display='block';
+    // Only hide if user hasn't manually revealed them
+    if(!tasksBody.dataset.manualOpen) tasksBody.style.display='none';
+  } else {
+    showBtn.style.display='none';
+    tasksBody.style.display='';
+    delete tasksBody.dataset.manualOpen;
+  }
+}
+
+function toggleTasksUnderTBS(){
+  var tasksBody=document.getElementById('modal-tasks-body');
+  var showBtn=document.getElementById('show-tasks-btn');
+  if(!tasksBody||!showBtn) return;
+  var hidden=tasksBody.style.display==='none';
+  if(hidden){
+    tasksBody.style.display='';
+    tasksBody.dataset.manualOpen='1';
+    showBtn.textContent='▲ Hide tasks';
+  } else {
+    tasksBody.style.display='none';
+    delete tasksBody.dataset.manualOpen;
+    showBtn.textContent='▼ Show tasks';
+  }
+}
 function bgClick(e){if(e.target===document.getElementById('overlay'))closeModal()}
 function syncDoneBtn(){
   var on=!!(state.days[activeDay]&&state.days[activeDay].done);
@@ -4791,6 +4842,7 @@ function toggleModalTBS(){
   body.classList.toggle('hidden',!_modalTbs.open);
   hd.classList.toggle('collapsed',!_modalTbs.open);
   if(_modalTbs.open) renderModalTBS();
+  _syncTasksVisibility();
 }
 
 function renderModalTBS(){
@@ -4811,8 +4863,8 @@ function renderModalTBSSetup(){
 
   var modeWLabel=document.createElement('button');
   modeWLabel.className='modal-tbs-mode-btn'+(_modalTbs.mode==='weighted'?' active':'');
-  modeWLabel.innerHTML='⚖️ Total time + weights';
-  modeWLabel.title='Set a total session time and distribute it across tasks by relative weight';
+  modeWLabel.innerHTML='🎯 Total time + priority';
+  modeWLabel.title='Set a total session time and distribute it by priority order (1 = most time)';
   modeWLabel.onclick=function(){_modalTbs.mode='weighted';renderModalTBSSetup();};
 
   var modePLabel=document.createElement('button');
@@ -4827,7 +4879,7 @@ function renderModalTBSSetup(){
   // ── Mode description ──
   var modeDesc=document.createElement('div');modeDesc.className='modal-tbs-mode-desc';
   modeDesc.textContent=_modalTbs.mode==='weighted'
-    ? 'Set a total session time. Each task gets a slice proportional to its weight (default 1 = equal split). Tasks with a time tag auto-fill their weight.'
+    ? 'Set a total session time. Assign a priority to each task (1 = highest priority, gets the most time; 2 = second, and so on). Equal priorities split their share evenly.'
     : 'Set the exact duration for each task. Tasks with a time tag are pre-filled. The session total is the sum of all task times.';
   wrap.appendChild(modeDesc);
 
@@ -4859,12 +4911,11 @@ function renderModalTBSSetup(){
       if(_modalTbs.mode==='weighted'){
         var wInp=document.createElement('input');
         wInp.type='number';wInp.className='modal-tbs-weight-inp';
-        wInp.min='1';wInp.step='1';wInp.title='Weight — whole number (higher = more time)';
-        wInp.placeholder='wt';
-        // Pre-fill: if task has a time tag use minutes as weight, else saved weight, else 1
-        var autoW=Math.round(_mtbsParseTime(task.time)/60)||null;
+        wInp.min='1';wInp.step='1';wInp.title='Priority (1 = highest priority, gets most time)';
+        wInp.placeholder='P#';
+        // Pre-fill: saved priority, else 1
         var savedW=selData?selData.weight:null;
-        wInp.value=savedW!==null?savedW:(autoW||1);
+        wInp.value=savedW!==null?savedW:1;
         if(!sel) wInp.style.opacity='.35';
         wInp.addEventListener('mousedown',function(e){e.stopPropagation();});
         wInp.addEventListener('click',function(e){e.stopPropagation();});
@@ -4872,7 +4923,7 @@ function renderModalTBSSetup(){
           if(_modalTbs.selectedTaskIds[task.id]) _modalTbs.selectedTaskIds[task.id].weight=Math.max(1,parseInt(wInp.value)||1);
         };
         item.appendChild(wInp);
-        var wLbl=document.createElement('span');wLbl.className='modal-tbs-task-time';wLbl.textContent='wt';
+        var wLbl=document.createElement('span');wLbl.className='modal-tbs-task-time';wLbl.textContent='P#';
         item.appendChild(wLbl);
       } else {
         // Per-task: show minutes input
@@ -4900,8 +4951,7 @@ function renderModalTBSSetup(){
             delete _modalTbs.selectedTaskIds[task.id];
           } else {
             if(_modalTbs.mode==='weighted'){
-              var autoW2=Math.round(_mtbsParseTime(task.time)/60)||1;
-              _modalTbs.selectedTaskIds[task.id]={weight:autoW2,taskIdx:ti};
+              _modalTbs.selectedTaskIds[task.id]={weight:1,taskIdx:ti};
             } else {
               var autoM2=Math.round(_mtbsParseTime(task.time)/60)||15;
               _modalTbs.selectedTaskIds[task.id]={mins:autoM2,taskIdx:ti};
@@ -4934,18 +4984,21 @@ function renderModalTBSSetup(){
     durRow.appendChild(durLbl);durRow.appendChild(durInp);durRow.appendChild(durUnit);
     wrap.appendChild(durRow);
 
-    // Preview split
+    // Preview split — priority-based allocation
     if(selCount){
       var tasks2=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
       var selEntries=tasks2.filter(function(t){return !!_modalTbs.selectedTaskIds[t.id]});
-      var totalW=selEntries.reduce(function(a,t){return a+(parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},0)||1;
+      var maxPrio=selEntries.reduce(function(a,t){return Math.max(a,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},1);
+      // weight = maxPrio + 1 - priority  →  priority 1 gets maxPrio (highest), last priority gets 1 (lowest)
+      var totalW=selEntries.reduce(function(a,t){var p=parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1;return a+(maxPrio+1-p)},0)||1;
       var totalMins=_modalTbs.savedTotalMins;
       var preview=document.createElement('div');preview.className='modal-tbs-preview';
       selEntries.forEach(function(t){
-        var w=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+        var p=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+        var w=maxPrio+1-p;
         var m=Math.round((w/totalW)*totalMins);
         var row=document.createElement('div');row.className='modal-tbs-preview-row';
-        row.innerHTML='<span class="modal-tbs-preview-name">'+esc(t.text)+'</span><span class="modal-tbs-preview-time">'+m+'m</span>';
+        row.innerHTML='<span class="modal-tbs-preview-name">P'+p+' · '+esc(t.text)+'</span><span class="modal-tbs-preview-time">'+m+'m</span>';
         preview.appendChild(row);
       });
       wrap.appendChild(preview);
@@ -4990,9 +5043,11 @@ function startModalTBS(){
   if(_modalTbs.mode==='weighted'){
     var mins=_modalTbs.savedTotalMins||60;
     var secsTotal=mins*60;
-    var totalW=selected.reduce(function(a,t){return a+(_modalTbs.selectedTaskIds[t.id].weight||1)},0)||1;
+    var maxPrio=selected.reduce(function(a,t){return Math.max(a,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},1);
+    var totalW=selected.reduce(function(a,t){var p=parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1;return a+(maxPrio+1-p)},0)||1;
     _modalTbs.topics=selected.map(function(t){
-      var w=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+      var p=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+      var w=maxPrio+1-p;
       return {name:t.text,taskId:t.id,secs:Math.round((w/totalW)*secsTotal),done:false};
     });
     _modalTbs.totalSecs=secsTotal;
