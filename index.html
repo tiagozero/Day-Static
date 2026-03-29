@@ -758,6 +758,62 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .tbs-ctrl.danger:hover{background:#fdf0ef}
 .tbs-done-banner{text-align:center;padding:14px;font-size:.95rem;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:var(--r);border:1.5px solid var(--green)}
 
+/* ── INLINE TBS (inside day modal) ── */
+.modal-tbs-wrap{display:flex;flex-direction:column;gap:10px;padding:10px 0}
+.modal-tbs-task-picker{display:flex;flex-direction:column;gap:6px}
+.modal-tbs-picker-lbl{font-size:.67rem;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.modal-tbs-task-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto}
+.modal-tbs-task-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);cursor:pointer;transition:border-color .12s,background .12s;user-select:none}
+.modal-tbs-task-item:hover{border-color:var(--accent)}
+.modal-tbs-task-item.selected{border-color:var(--accent);background:#fef3ed}
+html.dark .modal-tbs-task-item.selected{background:rgba(77,142,240,.12)}
+.modal-tbs-task-cb{width:13px;height:13px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.modal-tbs-task-txt{flex:1;font-size:.8rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal-tbs-task-time{font-size:.65rem;color:var(--muted);flex-shrink:0;background:var(--sub);padding:1px 5px;border-radius:3px}
+.modal-tbs-dur-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.modal-tbs-start-btn{font-family:inherit;font-size:.82rem;font-weight:600;padding:8px 12px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);cursor:pointer;transition:background .13s;flex:1}
+.modal-tbs-start-btn:hover{background:var(--accent)}
+.modal-tbs-start-btn:disabled{opacity:.35;cursor:default}
+.modal-tbs-running{display:flex;flex-direction:column;gap:8px}
+.modal-tbs-pb-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+.modal-tbs-pb-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .5s linear}
+.modal-tbs-big{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;text-align:center;letter-spacing:.02em;line-height:1}
+.modal-tbs-cur-lbl{font-size:.65rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.1em}
+.modal-tbs-cur-name{font-size:.9rem;font-weight:600;text-align:center;color:var(--accent)}
+.modal-tbs-block-list{display:flex;flex-direction:column;gap:4px}
+.modal-tbs-block-item{display:flex;align-items:center;gap:7px;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--r);font-size:.78rem;transition:border-color .2s,background .2s}
+.modal-tbs-block-item.active{border-color:var(--accent);background:var(--sub)}
+.modal-tbs-block-item.done{opacity:.4}
+.modal-tbs-block-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0}
+.modal-tbs-block-item.active .modal-tbs-block-dot{background:var(--accent);animation:blink 1.2s infinite}
+.modal-tbs-block-item.done .modal-tbs-block-dot{background:var(--green)}
+.modal-tbs-block-name{flex:1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal-tbs-block-dur{font-size:.7rem;color:var(--muted)}
+.modal-tbs-block-cd{font-size:.72rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.modal-tbs-ctrl-row{display:flex;gap:6px;flex-wrap:wrap}
+.modal-tbs-ctrl{font-family:inherit;font-size:.76rem;padding:5px 12px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--ink);cursor:pointer;transition:border-color .13s,color .13s,background .13s;flex:1;text-align:center}
+.modal-tbs-ctrl:hover{border-color:var(--accent);color:var(--accent)}
+.modal-tbs-ctrl.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modal-tbs-ctrl.primary:hover{background:var(--accent);border-color:var(--accent)}
+.modal-tbs-ctrl.danger{color:#c0392b;border-color:#e8c0bb}
+.modal-tbs-ctrl.danger:hover{background:#fdf0ef}
+.modal-tbs-done-banner{text-align:center;padding:10px;font-size:.85rem;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:var(--r);border:1.5px solid var(--green)}
+
+/* mode toggle */
+.modal-tbs-mode-row{display:flex;gap:5px;margin-bottom:2px}
+.modal-tbs-mode-btn{flex:1;font-family:inherit;font-size:.72rem;font-weight:600;padding:5px 8px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;white-space:nowrap}
+.modal-tbs-mode-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-tbs-mode-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modal-tbs-mode-desc{font-size:.68rem;color:var(--muted);font-style:italic;line-height:1.45;padding:3px 0 6px}
+/* weight input inside task rows */
+.modal-tbs-weight-inp{width:50px;font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;text-align:center;transition:border-color .12s;flex-shrink:0}
+.modal-tbs-weight-inp:focus{border-color:var(--accent)}
+/* split preview */
+.modal-tbs-preview{display:flex;flex-direction:column;gap:3px;background:var(--sub);border:1px dashed var(--border);border-radius:var(--r);padding:7px 10px}
+.modal-tbs-preview-row{display:flex;align-items:center;justify-content:space-between;font-size:.72rem}
+.modal-tbs-preview-name{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;margin-right:8px}
+.modal-tbs-preview-time{font-weight:700;color:var(--accent);flex-shrink:0}
+
 /* ── POMO MODE TABS ── */
 .pomo-mode-tabs{display:flex;gap:4px;margin-bottom:10px}
 .pomo-mode-tab{flex:1;font-family:inherit;font-size:.65rem;font-weight:600;padding:4px 6px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;white-space:nowrap;letter-spacing:.03em}
@@ -961,7 +1017,6 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
     <span class="status-txt"><span class="dot"></span><span id="status-txt">Ready</span></span>
     <div class="bar-btns">
       <button class="bbtn bbtn-planner" onclick="openPlannerModal()">🗓 Weekly Planner</button>
-      <button class="bbtn" style="color:var(--muted);border-color:var(--border)" onmouseover="this.style.borderColor='#e06060';this.style.color='#e06060'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="openTBS()">⏱ Time Planner</button>
       <button class="bbtn bbtn-badges"  onclick="openBadgesModal()">🏅 Badges</button>
       <button class="bbtn bbtn-sync"    onclick="openSyncModal()">🗂 Folder Sync</button>
       <button class="bbtn bbtn-week"    onclick="openWeekModal()">📅 Review</button>
@@ -1045,21 +1100,29 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
       </div>
       <!-- Events for this day -->
       <div id="modal-events-area"></div>
-      <!-- Challenger blocks (collapsible) -->
-      <div id="modal-ch-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-ch-hd" onclick="toggleModalSection('ch')">
-          <span class="msh-title">⚡ Challengers</span>
-          <span class="msh-arrow">▾</span>
-        </div>
-        <div class="modal-section-body" id="modal-ch-area"></div>
-      </div>
-      <!-- Habits (collapsible) -->
+      <!-- Habits (collapsible) — now first -->
       <div id="modal-habits-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-habits-hd" onclick="toggleModalSection('habits')">
+        <div class="modal-section-hd collapsed" id="modal-habits-hd" onclick="toggleModalSection('habits')">
           <span class="msh-title">✅ Daily Habits</span>
           <span class="msh-arrow">▾</span>
         </div>
-        <div class="modal-section-body" id="modal-habits-area"></div>
+        <div class="modal-section-body hidden" id="modal-habits-area"></div>
+      </div>
+      <!-- Challenger blocks (collapsible) — now second -->
+      <div id="modal-ch-wrapper" style="display:none">
+        <div class="modal-section-hd collapsed" id="modal-ch-hd" onclick="toggleModalSection('ch')">
+          <span class="msh-title">⚡ Challengers</span>
+          <span class="msh-arrow">▾</span>
+        </div>
+        <div class="modal-section-body hidden" id="modal-ch-area"></div>
+      </div>
+      <!-- Inline Time Block Splitter (collapsible) -->
+      <div id="modal-tbs-wrapper">
+        <div class="modal-section-hd collapsed" id="modal-tbs-hd" onclick="toggleModalTBS()">
+          <span class="msh-title">⏱ Time Block Splitter</span>
+          <span class="msh-arrow">▾</span>
+        </div>
+        <div class="modal-section-body hidden" id="modal-tbs-area"></div>
       </div>
       <!-- Tasks -->
       <ul class="tlist" id="tlist"></ul>
@@ -1606,6 +1669,17 @@ function addHabit(){
 // DAY MODAL
 // ══════════════════════════════════════════════════════════════════════════════
 function openModal(day){
+  // Reset inline TBS state only if switching to a different day
+  if(activeDay!==day){
+    _modalTbsStop();
+    _modalTbs.open=false;
+    _modalTbs.selectedTaskIds={};
+    _modalTbs.topics=[];_modalTbs.running=false;_modalTbs.finished=false;
+    var tbsHd=document.getElementById('modal-tbs-hd');
+    var tbsArea=document.getElementById('modal-tbs-area');
+    if(tbsHd){tbsHd.classList.add('collapsed');}
+    if(tbsArea){tbsArea.classList.add('hidden');tbsArea.innerHTML='';}
+  }
   activeDay=day;
   if(!state.days[day]) state.days[day]={done:false,tasks:[],note:''};
   document.getElementById('mtitle').textContent='Day '+day;
@@ -1630,6 +1704,15 @@ function openModal(day){
   document.getElementById('overlay').classList.add('open');
   setTimeout(function(){document.getElementById('tadd-inp').focus()},200);
   renderDepSelect();
+  // If TBS was active for this same day, restore its UI
+  if(_modalTbs.open||_modalTbs.running||_modalTbs.finished){
+    var tbsHd2=document.getElementById('modal-tbs-hd');
+    var tbsArea2=document.getElementById('modal-tbs-area');
+    if(tbsHd2) tbsHd2.classList.remove('collapsed');
+    if(tbsArea2) tbsArea2.classList.remove('hidden');
+    _modalTbs.open=true;
+    renderModalTBS();
+  }
   // Resume tick if any running timers exist (tasks or challengers)
   if(_anyRunning()) _startTimerTick();
 }
@@ -3422,12 +3505,14 @@ renderTasks=function(){
     }
   });
   renderDepSelect();
+  // Refresh inline TBS task picker if it's open and not running
+  if(_modalTbs.open&&!_modalTbs.running&&!_modalTbs.finished) renderModalTBSSetup();
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
 // COLLAPSIBLE MODAL SECTIONS (Habits & Challengers)
 // ══════════════════════════════════════════════════════════════════════════════
-var _modalSectionState={ch:true,habits:true}; // true = expanded
+var _modalSectionState={ch:false,habits:false}; // true = expanded, false = collapsed
 
 function toggleModalSection(key){
   _modalSectionState[key]=!_modalSectionState[key];
@@ -3453,10 +3538,8 @@ function _startTimerTick(){
     var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
     tasks.forEach(function(task,ti){
       if(!_taskIsRunning(task)) return;
-      var tag=document.getElementById('timer-tag-'+ti);
       var btn=document.getElementById('btn-timer-'+ti);
       var total=_taskTotalMs(task);
-      if(tag) tag.textContent='⏱ '+_fmtMs(total);
       if(btn) btn.textContent='⏹ '+_fmtMs(total);
     });
     // Update challenger timers
@@ -3564,16 +3647,11 @@ function buildTimerFragment(task,ti){
   btn.addEventListener('mousedown',function(e){e.stopPropagation()});
   btn.onclick=function(e){e.stopPropagation();toggleTaskTimer(ti)};
 
-  // Timer tag (shows total in meta row when not running)
+  // Timer tag (shows total in meta row only when stopped, not when running — button already shows time)
   var tag=null;
   if(hasSessions&&!running){
     tag=document.createElement('span');
     tag.className='timer-tag';
-    tag.id='timer-tag-'+ti;
-    tag.textContent='⏱ '+_fmtMs(totalMs);
-  } else if(running){
-    tag=document.createElement('span');
-    tag.className='timer-tag running';
     tag.id='timer-tag-'+ti;
     tag.textContent='⏱ '+_fmtMs(totalMs);
   }
@@ -4641,7 +4719,438 @@ function _sprintReset(){
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// PATCH lsSet TO TRIGGER BADGE CHECK + AUTO-SYNC
+// INLINE TIME BLOCK SPLITTER (inside Day Modal)
+// Modes: 'weighted' = split total time by weights | 'per-task' = each task has its own fixed time
+// ══════════════════════════════════════════════════════════════════════════════
+var _modalTbs={
+  open:false,
+  mode:'weighted',        // 'weighted' | 'per-task'
+  topics:[],              // [{name, taskId, taskIdx, secs, done}]
+  totalSecs:0,
+  currentIdx:0,
+  secsLeft:0,
+  running:false,
+  interval:null,
+  finished:false,
+  selectedTaskIds:{},     // taskId → {weight: N} (weighted mode) or {mins: N} (per-task mode)
+  savedTotalMins:60       // remember total-time input across re-renders
+};
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+function _mtbsParseTime(str){
+  // Returns seconds from strings like "30m", "1.5h", "45", "1h30m"
+  if(!str) return 0;
+  var s=str.trim().toLowerCase();
+  var h=0,m=0;
+  var hm=s.match(/(\d+\.?\d*)\s*h/);if(hm) h=parseFloat(hm[1]);
+  var mm=s.match(/(\d+\.?\d*)\s*m/);if(mm) m=parseFloat(mm[1]);
+  if(h||m) return Math.round((h*60+m)*60);
+  var n=parseFloat(s);return n>0?Math.round(n*60):0;
+}
+
+function _mtbsGetTaskIdx(taskId){
+  var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  return tasks.findIndex(function(t){return t.id===taskId});
+}
+
+// ── start / stop task-level timer for current block ──────────────────────────
+function _mtbsStartTaskTimer(){
+  var topic=_modalTbs.topics[_modalTbs.currentIdx];
+  if(!topic||!topic.taskId||!activeDay) return;
+  var ti=_mtbsGetTaskIdx(topic.taskId);
+  if(ti<0) return;
+  var task=state.days[activeDay].tasks[ti];
+  if(!task) return;
+  if(!task.sessions) task.sessions=[];
+  // Don't double-open
+  var last=task.sessions[task.sessions.length-1];
+  if(last&&last.end===null) return;
+  task.sessions.push({start:Date.now(),end:null,tbs:true});
+  lsSet(pKey('state'),state);
+  renderTasks();
+  _startTimerTick();
+}
+
+function _mtbsStopTaskTimer(){
+  var topic=_modalTbs.topics[_modalTbs.currentIdx];
+  if(!topic||!topic.taskId||!activeDay) return;
+  var ti=_mtbsGetTaskIdx(topic.taskId);
+  if(ti<0) return;
+  var task=state.days[activeDay].tasks[ti];
+  if(!task||!task.sessions||!task.sessions.length) return;
+  var last=task.sessions[task.sessions.length-1];
+  if(last&&last.end===null){last.end=Date.now();lsSet(pKey('state'),state);renderTasks();}
+}
+
+// ── open / close ──────────────────────────────────────────────────────────────
+function toggleModalTBS(){
+  _modalTbs.open=!_modalTbs.open;
+  var hd=document.getElementById('modal-tbs-hd');
+  var body=document.getElementById('modal-tbs-area');
+  if(!hd||!body) return;
+  body.classList.toggle('hidden',!_modalTbs.open);
+  hd.classList.toggle('collapsed',!_modalTbs.open);
+  if(_modalTbs.open) renderModalTBS();
+}
+
+function renderModalTBS(){
+  if(!_modalTbs.open) return;
+  if(_modalTbs.running||_modalTbs.finished) renderModalTBSRunning();
+  else renderModalTBSSetup();
+}
+
+// ── SETUP SCREEN ──────────────────────────────────────────────────────────────
+function renderModalTBSSetup(){
+  var area=document.getElementById('modal-tbs-area');
+  if(!area) return;
+  area.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='modal-tbs-wrap';
+
+  // ── Mode toggle ──
+  var modeRow=document.createElement('div');modeRow.className='modal-tbs-mode-row';
+
+  var modeWLabel=document.createElement('button');
+  modeWLabel.className='modal-tbs-mode-btn'+(_modalTbs.mode==='weighted'?' active':'');
+  modeWLabel.innerHTML='⚖️ Total time + weights';
+  modeWLabel.title='Set a total session time and distribute it across tasks by relative weight';
+  modeWLabel.onclick=function(){_modalTbs.mode='weighted';renderModalTBSSetup();};
+
+  var modePLabel=document.createElement('button');
+  modePLabel.className='modal-tbs-mode-btn'+(_modalTbs.mode==='per-task'?' active':'');
+  modePLabel.innerHTML='⏱ Time per task';
+  modePLabel.title='Set a specific time for each task individually';
+  modePLabel.onclick=function(){_modalTbs.mode='per-task';renderModalTBSSetup();};
+
+  modeRow.appendChild(modeWLabel);modeRow.appendChild(modePLabel);
+  wrap.appendChild(modeRow);
+
+  // ── Mode description ──
+  var modeDesc=document.createElement('div');modeDesc.className='modal-tbs-mode-desc';
+  modeDesc.textContent=_modalTbs.mode==='weighted'
+    ? 'Set a total session time. Each task gets a slice proportional to its weight (default 1 = equal split). Tasks with a time tag auto-fill their weight.'
+    : 'Set the exact duration for each task. Tasks with a time tag are pre-filled. The session total is the sum of all task times.';
+  wrap.appendChild(modeDesc);
+
+  // ── Task list ──
+  var pickerLbl=document.createElement('div');pickerLbl.className='modal-tbs-picker-lbl';
+  pickerLbl.textContent='Select tasks for this session:';
+  wrap.appendChild(pickerLbl);
+
+  var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  if(!tasks.length){
+    var empty=document.createElement('div');empty.style.cssText='font-size:.78rem;color:var(--border);font-style:italic;padding:4px 0';
+    empty.textContent='No tasks for this day yet — add some tasks first.';
+    wrap.appendChild(empty);
+  } else {
+    var taskList=document.createElement('div');taskList.className='modal-tbs-task-list';
+    tasks.forEach(function(task,ti){
+      var selData=_modalTbs.selectedTaskIds[task.id];
+      var sel=!!selData;
+      var item=document.createElement('div');
+      item.className='modal-tbs-task-item'+(sel?' selected':'');
+
+      var cb=document.createElement('input');cb.type='checkbox';cb.className='modal-tbs-task-cb';cb.checked=sel;
+
+      var txt=document.createElement('span');txt.className='modal-tbs-task-txt';txt.textContent=task.text;
+
+      item.appendChild(cb);item.appendChild(txt);
+
+      // Right-side control: weight input (weighted mode) or time input (per-task mode)
+      if(_modalTbs.mode==='weighted'){
+        var wInp=document.createElement('input');
+        wInp.type='number';wInp.className='modal-tbs-weight-inp';
+        wInp.min='1';wInp.step='1';wInp.title='Weight — whole number (higher = more time)';
+        wInp.placeholder='wt';
+        // Pre-fill: if task has a time tag use minutes as weight, else saved weight, else 1
+        var autoW=Math.round(_mtbsParseTime(task.time)/60)||null;
+        var savedW=selData?selData.weight:null;
+        wInp.value=savedW!==null?savedW:(autoW||1);
+        if(!sel) wInp.style.opacity='.35';
+        wInp.addEventListener('mousedown',function(e){e.stopPropagation();});
+        wInp.addEventListener('click',function(e){e.stopPropagation();});
+        wInp.oninput=function(){
+          if(_modalTbs.selectedTaskIds[task.id]) _modalTbs.selectedTaskIds[task.id].weight=Math.max(1,parseInt(wInp.value)||1);
+        };
+        item.appendChild(wInp);
+        var wLbl=document.createElement('span');wLbl.className='modal-tbs-task-time';wLbl.textContent='wt';
+        item.appendChild(wLbl);
+      } else {
+        // Per-task: show minutes input
+        var mInp=document.createElement('input');
+        mInp.type='number';mInp.className='modal-tbs-weight-inp';
+        mInp.min='1';mInp.step='5';mInp.title='Duration (minutes)';mInp.placeholder='min';
+        var autoMins=Math.round(_mtbsParseTime(task.time)/60)||null;
+        var savedMins=selData?selData.mins:null;
+        mInp.value=savedMins!==null?savedMins:(autoMins||15);
+        if(!sel) mInp.style.opacity='.35';
+        mInp.addEventListener('mousedown',function(e){e.stopPropagation();});
+        mInp.addEventListener('click',function(e){e.stopPropagation();});
+        mInp.oninput=function(){
+          if(_modalTbs.selectedTaskIds[task.id]) _modalTbs.selectedTaskIds[task.id].mins=parseInt(mInp.value)||15;
+        };
+        item.appendChild(mInp);
+        var mLbl=document.createElement('span');mLbl.className='modal-tbs-task-time';mLbl.textContent='min';
+        item.appendChild(mLbl);
+      }
+
+      // Toggle selection
+      (function(task,ti,item,cb){
+        function toggleSel(){
+          if(_modalTbs.selectedTaskIds[task.id]){
+            delete _modalTbs.selectedTaskIds[task.id];
+          } else {
+            if(_modalTbs.mode==='weighted'){
+              var autoW2=Math.round(_mtbsParseTime(task.time)/60)||1;
+              _modalTbs.selectedTaskIds[task.id]={weight:autoW2,taskIdx:ti};
+            } else {
+              var autoM2=Math.round(_mtbsParseTime(task.time)/60)||15;
+              _modalTbs.selectedTaskIds[task.id]={mins:autoM2,taskIdx:ti};
+            }
+          }
+          renderModalTBSSetup();
+        }
+        cb.addEventListener('change',function(e){e.stopPropagation();toggleSel();});
+        item.addEventListener('click',function(e){
+          if(e.target===cb||e.target.tagName==='INPUT') return;
+          toggleSel();
+        });
+      })(task,ti,item,cb);
+
+      taskList.appendChild(item);
+    });
+    wrap.appendChild(taskList);
+  }
+
+  var selCount=Object.keys(_modalTbs.selectedTaskIds).length;
+
+  // ── Weighted mode: total time input ──
+  if(_modalTbs.mode==='weighted'){
+    var durRow=document.createElement('div');durRow.className='modal-tbs-dur-row';
+    var durLbl=document.createElement('span');durLbl.className='tbs-lbl';durLbl.textContent='Total session time';
+    var durInp=document.createElement('input');durInp.type='number';durInp.id='modal-tbs-mins';
+    durInp.className='tbs-inp sm';durInp.value=_modalTbs.savedTotalMins;durInp.min='5';durInp.max='600';
+    var durUnit=document.createElement('span');durUnit.style.cssText='font-size:.78rem;color:var(--muted)';durUnit.textContent='min';
+    durInp.oninput=function(){_modalTbs.savedTotalMins=parseInt(durInp.value)||60;};
+    durRow.appendChild(durLbl);durRow.appendChild(durInp);durRow.appendChild(durUnit);
+    wrap.appendChild(durRow);
+
+    // Preview split
+    if(selCount){
+      var tasks2=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+      var selEntries=tasks2.filter(function(t){return !!_modalTbs.selectedTaskIds[t.id]});
+      var totalW=selEntries.reduce(function(a,t){return a+(parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},0)||1;
+      var totalMins=_modalTbs.savedTotalMins;
+      var preview=document.createElement('div');preview.className='modal-tbs-preview';
+      selEntries.forEach(function(t){
+        var w=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+        var m=Math.round((w/totalW)*totalMins);
+        var row=document.createElement('div');row.className='modal-tbs-preview-row';
+        row.innerHTML='<span class="modal-tbs-preview-name">'+esc(t.text)+'</span><span class="modal-tbs-preview-time">'+m+'m</span>';
+        preview.appendChild(row);
+      });
+      wrap.appendChild(preview);
+    }
+  } else {
+    // Per-task: show computed total
+    if(selCount){
+      var tasks3=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+      var totalPerTask=tasks3.reduce(function(a,t){
+        if(!_modalTbs.selectedTaskIds[t.id]) return a;
+        return a+(_modalTbs.selectedTaskIds[t.id].mins||15);
+      },0);
+      var totalInfo=document.createElement('div');totalInfo.className='modal-tbs-dur-row';
+      totalInfo.style.cssText='font-size:.75rem;color:var(--muted);padding:2px 0';
+      totalInfo.innerHTML='Total session: <strong style="color:var(--ink)">'+totalPerTask+' min</strong>';
+      wrap.appendChild(totalInfo);
+    }
+  }
+
+  // Info
+  var selInfo=document.createElement('div');
+  selInfo.style.cssText='font-size:.7rem;color:var(--muted)';
+  selInfo.textContent=selCount?selCount+' task'+(selCount!==1?'s':'')+' selected':'Select tasks above to build your session';
+  wrap.appendChild(selInfo);
+
+  // Start button
+  var startBtn=document.createElement('button');startBtn.className='modal-tbs-start-btn';
+  startBtn.textContent='▶ Start Session';
+  startBtn.disabled=selCount===0;
+  startBtn.onclick=startModalTBS;
+  wrap.appendChild(startBtn);
+
+  area.appendChild(wrap);
+}
+
+// ── BUILD + LAUNCH ────────────────────────────────────────────────────────────
+function startModalTBS(){
+  var allTasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  var selected=allTasks.filter(function(t){return !!_modalTbs.selectedTaskIds[t.id]});
+  if(!selected.length){toast('⚠️ Select at least one task.');return;}
+
+  if(_modalTbs.mode==='weighted'){
+    var mins=_modalTbs.savedTotalMins||60;
+    var secsTotal=mins*60;
+    var totalW=selected.reduce(function(a,t){return a+(_modalTbs.selectedTaskIds[t.id].weight||1)},0)||1;
+    _modalTbs.topics=selected.map(function(t){
+      var w=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+      return {name:t.text,taskId:t.id,secs:Math.round((w/totalW)*secsTotal),done:false};
+    });
+    _modalTbs.totalSecs=secsTotal;
+  } else {
+    // per-task mode
+    _modalTbs.topics=selected.map(function(t){
+      var m=_modalTbs.selectedTaskIds[t.id].mins||15;
+      return {name:t.text,taskId:t.id,secs:m*60,done:false};
+    });
+    _modalTbs.totalSecs=_modalTbs.topics.reduce(function(a,t){return a+t.secs},0);
+  }
+
+  _modalTbs.currentIdx=0;
+  _modalTbs.secsLeft=_modalTbs.topics[0].secs;
+  _modalTbs.running=false;
+  _modalTbs.finished=false;
+
+  renderModalTBSRunning();
+  _modalTbsToggle(); // auto-start → also starts task timer
+}
+
+// ── RUNNING SCREEN ────────────────────────────────────────────────────────────
+function renderModalTBSRunning(){
+  var area=document.getElementById('modal-tbs-area');
+  if(!area) return;
+  area.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='modal-tbs-wrap';
+
+  // Progress bar
+  var pbWrap=document.createElement('div');pbWrap.className='modal-tbs-pb-wrap';
+  var pbFill=document.createElement('div');pbFill.className='modal-tbs-pb-fill';
+  pbFill.id='modal-tbs-pb';pbFill.style.width=_modalTbsOverallPct()+'%';
+  pbWrap.appendChild(pbFill);wrap.appendChild(pbWrap);
+
+  var curTopic=_modalTbs.topics[_modalTbs.currentIdx];
+  var curLbl=document.createElement('div');curLbl.className='modal-tbs-cur-lbl';
+  curLbl.textContent=_modalTbs.finished?'Session complete':'Now working on';wrap.appendChild(curLbl);
+  var curName=document.createElement('div');curName.className='modal-tbs-cur-name';curName.id='modal-tbs-cur-name';
+  curName.textContent=_modalTbs.finished?'🎉 All done!':(curTopic?curTopic.name:'—');
+  wrap.appendChild(curName);
+
+  var bigTime=document.createElement('div');bigTime.className='modal-tbs-big';bigTime.id='modal-tbs-big';
+  bigTime.textContent=_modalTbs.finished?'✓':_tbsFmt(_modalTbs.secsLeft);
+  wrap.appendChild(bigTime);
+
+  // Block list
+  var blockList=document.createElement('div');blockList.className='modal-tbs-block-list';
+  _modalTbs.topics.forEach(function(t,i){
+    var active=_modalTbs.currentIdx===i&&!_modalTbs.finished;
+    var item=document.createElement('div');
+    item.className='modal-tbs-block-item'+(t.done?' done':(active?' active':''));
+    item.id='modal-tbs-block-'+i;
+    item.innerHTML=
+      '<div class="modal-tbs-block-dot"></div>'+
+      '<div class="modal-tbs-block-name">'+esc(t.name)+'</div>'+
+      '<div class="modal-tbs-block-dur">'+Math.round(t.secs/60)+'m</div>'+
+      '<div class="modal-tbs-block-cd" id="modal-tbs-cd-'+i+'">'+(t.done?'✓':(active?_tbsFmt(_modalTbs.secsLeft):'—'))+'</div>';
+    blockList.appendChild(item);
+  });
+  wrap.appendChild(blockList);
+
+  if(!_modalTbs.finished){
+    var ctrlRow=document.createElement('div');ctrlRow.className='modal-tbs-ctrl-row';
+    var playBtn=document.createElement('button');playBtn.className='modal-tbs-ctrl primary';playBtn.id='modal-tbs-play-btn';
+    playBtn.textContent=_modalTbs.running?'⏸ Pause':'▶ Resume';
+    playBtn.onclick=_modalTbsToggle;
+    var skipBtn=document.createElement('button');skipBtn.className='modal-tbs-ctrl';skipBtn.textContent='⏭ Skip';
+    skipBtn.onclick=_modalTbsSkip;
+    var resetBtn=document.createElement('button');resetBtn.className='modal-tbs-ctrl danger';resetBtn.textContent='↺ Reset';
+    resetBtn.onclick=function(){_mtbsStopTaskTimer();_modalTbsStop();renderModalTBSSetup();};
+    ctrlRow.appendChild(playBtn);ctrlRow.appendChild(skipBtn);ctrlRow.appendChild(resetBtn);
+    wrap.appendChild(ctrlRow);
+  } else {
+    var banner=document.createElement('div');banner.className='modal-tbs-done-banner';
+    banner.textContent='🎉 Session complete! Great work.';wrap.appendChild(banner);
+    var newBtn=document.createElement('button');newBtn.className='modal-tbs-ctrl';
+    newBtn.style.cssText='display:block;width:100%';newBtn.textContent='↺ New session';
+    newBtn.onclick=function(){_modalTbsStop();_modalTbs.selectedTaskIds={};renderModalTBSSetup();};
+    wrap.appendChild(newBtn);
+  }
+  area.appendChild(wrap);
+}
+
+function _modalTbsOverallPct(){
+  if(!_modalTbs.totalSecs) return 0;
+  var elapsed=_modalTbs.topics.reduce(function(a,t,i){
+    if(t.done) return a+t.secs;
+    if(i===_modalTbs.currentIdx) return a+(t.secs-_modalTbs.secsLeft);
+    return a;
+  },0);
+  return Math.min(100,Math.round((elapsed/_modalTbs.totalSecs)*100));
+}
+
+function _modalTbsToggle(){
+  if(_modalTbs.running){
+    _mtbsStopTaskTimer();
+    clearInterval(_modalTbs.interval);_modalTbs.interval=null;
+    _modalTbs.running=false;
+    var pb=document.getElementById('modal-tbs-play-btn');if(pb) pb.textContent='▶ Resume';
+  } else {
+    _modalTbs.running=true;
+    _mtbsStartTaskTimer(); // ← activates the task's own session timer
+    var pb2=document.getElementById('modal-tbs-play-btn');if(pb2) pb2.textContent='⏸ Pause';
+    _modalTbs.interval=setInterval(_modalTbsTick,1000);
+  }
+}
+
+function _modalTbsTick(){
+  _modalTbs.secsLeft--;
+  var bt=document.getElementById('modal-tbs-big');if(bt) bt.textContent=_tbsFmt(_modalTbs.secsLeft);
+  var cd=document.getElementById('modal-tbs-cd-'+_modalTbs.currentIdx);if(cd) cd.textContent=_tbsFmt(_modalTbs.secsLeft);
+  var pb=document.getElementById('modal-tbs-pb');if(pb) pb.style.width=_modalTbsOverallPct()+'%';
+  // Update tab title
+  var cur=_modalTbs.topics[_modalTbs.currentIdx];
+  if(cur) document.title='⏱ '+_tbsFmt(_modalTbs.secsLeft)+' · '+cur.name;
+  if(_modalTbs.secsLeft<=0) _modalTbsNextBlock();
+}
+
+function _modalTbsNextBlock(){
+  // Stop timer on finished block
+  _mtbsStopTaskTimer();
+
+  if(_modalTbs.topics[_modalTbs.currentIdx]) _modalTbs.topics[_modalTbs.currentIdx].done=true;
+  var doneEl=document.getElementById('modal-tbs-block-'+_modalTbs.currentIdx);
+  if(doneEl){doneEl.classList.remove('active');doneEl.classList.add('done');}
+  var cd=document.getElementById('modal-tbs-cd-'+_modalTbs.currentIdx);if(cd) cd.textContent='✓';
+
+  _modalTbs.currentIdx++;
+  if(_modalTbs.currentIdx>=_modalTbs.topics.length){
+    _modalTbsStop();
+    _modalTbs.finished=true;
+    _pomoNotify('🎉 Day session complete!');
+    _pomoRestoreTitle();
+    renderModalTBSRunning();
+    return;
+  }
+  _modalTbs.secsLeft=_modalTbs.topics[_modalTbs.currentIdx].secs;
+  var nextEl=document.getElementById('modal-tbs-block-'+_modalTbs.currentIdx);
+  if(nextEl) nextEl.classList.add('active');
+  var curName=document.getElementById('modal-tbs-cur-name');
+  if(curName) curName.textContent=_modalTbs.topics[_modalTbs.currentIdx].name;
+  _pomoNotify('⏭ Now: '+_modalTbs.topics[_modalTbs.currentIdx].name);
+  // Start task timer for next block
+  _mtbsStartTaskTimer();
+}
+
+function _modalTbsSkip(){
+  _mtbsStopTaskTimer();
+  _modalTbsStop();
+  _modalTbsNextBlock();
+  if(!_modalTbs.finished) _modalTbsToggle();
+}
+
+function _modalTbsStop(){
+  clearInterval(_modalTbs.interval);_modalTbs.interval=null;
+  _modalTbs.running=false;
+}
+
 // ══════════════════════════════════════════════════════════════════════════════
 var _origLsSet=lsSet;
 lsSet=function(k,v){
