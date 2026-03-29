@@ -99,8 +99,6 @@ h1 em{color:var(--accent);font-style:normal}
 .grid{display:grid;gap:4px}
 .cell{aspect-ratio:1;border:1.5px solid var(--border);border-radius:var(--r);background:var(--card);display:flex;flex-direction:column;align-items:flex-start;padding:4px 5px;cursor:pointer;transition:border-color .13s,color .13s,background .13s;position:relative;overflow:hidden;user-select:none}
 .cell:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.1);z-index:2}
-.cell.done{background:var(--green-soft);border-color:var(--green)}
-.cell.done .num{color:var(--green)}
 .cell.today{border-color:var(--accent)!important;border-width:2px;box-shadow:0 0 0 2px rgba(181,69,27,.15)}
 .cell.today .num{color:var(--accent);font-weight:700}
 .cell.locked{opacity:.38;cursor:default;pointer-events:none}
@@ -108,9 +106,64 @@ h1 em{color:var(--accent);font-style:normal}
 .cell.done.has-t::after{background:var(--green)}
 .cell.has-ch::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.5}
 .cell.done.has-ch::before{background:var(--green);opacity:.7}
-/* rating tint */
-.cell.r1{background:#fdf0ef}.cell.r2{background:#fef6ec}.cell.r3{background:var(--card)}.cell.r4{background:#edf5f1}.cell.r5{background:var(--green-soft)}
-.cell.done.r1,.cell.done.r2,.cell.done.r3,.cell.done.r4,.cell.done.r5{background:var(--green-soft)}
+/* rating colors — IMDB-style scale (red→amber→yellow→lime→green) */
+.cell.r1{background:#fde8e8;border-color:#d9534f}
+.cell.r1 .num{color:#c0392b}
+.cell.r2{background:#fef0e0;border-color:#e08030}
+.cell.r2 .num{color:#c06010}
+.cell.r3{background:#fefbe0;border-color:#d4b800}
+.cell.r3 .num{color:#9a8700}
+.cell.r4{background:#eaf5e0;border-color:#7ab648}
+.cell.r4 .num{color:#4a8a20}
+.cell.r5{background:#d8f0e0;border-color:#27ae60}
+.cell.r5 .num{color:#1a7a42}
+/* done with no rating — green */
+.cell.done{background:var(--green-soft);border-color:var(--green)}
+.cell.done .num{color:var(--green)}
+/* done + rating: rating color wins; use a green checkmark tint via border only */
+.cell.done.r1{background:#fde8e8;border-color:#d9534f}
+.cell.done.r2{background:#fef0e0;border-color:#e08030}
+.cell.done.r3{background:#fefbe0;border-color:#d4b800}
+.cell.done.r4{background:#eaf5e0;border-color:#7ab648}
+.cell.done.r5{background:#d8f0e0;border-color:#27ae60}
+/* dark mode rating overrides */
+html.dark .cell.r1{background:#3a1a1a;border-color:#c0392b}
+html.dark .cell.r1 .num{color:#e06060}
+html.dark .cell.r2{background:#3a2510;border-color:#c06010}
+html.dark .cell.r2 .num{color:#e09040}
+html.dark .cell.r3{background:#2e2e10;border-color:#9a8700}
+html.dark .cell.r3 .num{color:#d4b800}
+html.dark .cell.r4{background:#142814;border-color:#4a8a20}
+html.dark .cell.r4 .num{color:#7ab648}
+html.dark .cell.r5{background:#0e2d1e;border-color:#27ae60}
+html.dark .cell.r5 .num{color:#3aaa72}
+/* dark done+rating */
+html.dark .cell.done.r1{background:#3a1a1a;border-color:#c0392b}
+html.dark .cell.done.r2{background:#3a2510;border-color:#c06010}
+html.dark .cell.done.r3{background:#2e2e10;border-color:#9a8700}
+html.dark .cell.done.r4{background:#142814;border-color:#4a8a20}
+html.dark .cell.done.r5{background:#0e2d1e;border-color:#27ae60}
+
+/* ── TASK EDIT PANEL ── */
+.task-edit-panel{background:var(--sub);border-top:1px dashed var(--border);padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.task-edit-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--bg)}
+.task-edit-cell{display:flex;align-items:center;gap:6px;padding:6px 9px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.task-edit-cell:nth-child(even){border-right:none}
+.task-edit-cell:nth-last-child(-n+2){border-bottom:none}
+.task-edit-cell-full{grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:6px 9px;border-bottom:none}
+.task-edit-lbl{font-size:.63rem;color:var(--muted);white-space:nowrap;font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+.task-edit-inp{font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;flex:1;min-width:0;transition:border-color .12s}
+.task-edit-inp:focus{border-color:var(--accent)}
+.task-edit-sel{font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;cursor:pointer;flex:1;min-width:0}
+.task-edit-sel:focus{border-color:var(--accent)}
+.task-edit-save{font-family:inherit;font-size:.72rem;padding:4px 12px;border:1.5px solid var(--green);border-radius:999px;background:transparent;color:var(--green);cursor:pointer;transition:border-color .13s,color .13s,background .13s;white-space:nowrap}
+.task-edit-save:hover{background:var(--green);color:#fff}
+.task-edit-cancel{font-family:inherit;font-size:.72rem;padding:4px 10px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.task-edit-cancel:hover{border-color:var(--accent);color:var(--accent)}
+.task-edit-actions{display:flex;gap:6px;justify-content:flex-end}
+.btn-edit-task{font-size:.66rem;padding:3px 8px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:border-color .13s,color .13s,background .13s;flex-shrink:0}
+.btn-edit-task:hover{border-color:#7c6ef5;color:#7c6ef5}
+.btn-edit-task.active{border-color:#7c6ef5;color:#7c6ef5;background:rgba(124,110,245,.08)}
 .num{font-size:clamp(.52rem,1.2vw,.7rem);font-weight:500;color:var(--muted);line-height:1}
 .chk{font-size:clamp(.6rem,1.5vw,.85rem);margin-top:2px}
 .cell-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(.5rem,1.1vw,.68rem);font-weight:700;color:var(--muted);opacity:.55;pointer-events:none;letter-spacing:-.01em}
@@ -242,7 +295,7 @@ h1 em{color:var(--accent);font-style:normal}
 .m-done.on{background:var(--green);color:#fff}
 .m-close{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:border-color .13s,color .13s,background .13s}
 .m-close:hover{border-color:var(--accent);color:var(--accent)}
-.mbody{padding:12px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.mbody{padding:10px 16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px}
 
 /* Day Rating */
 .rating-row{display:flex;align-items:center;gap:8px}
@@ -391,6 +444,10 @@ h1 em{color:var(--accent);font-style:normal}
 .tadd-inp::placeholder{color:var(--border)}
 .tadd-btn{padding:8px 13px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);font-family:inherit;font-size:.875rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .13s}
 .tadd-btn:hover{background:var(--accent)}
+.tadd-opts-toggle{padding:8px 10px;background:transparent;border:1.5px solid var(--border);border-radius:var(--r);color:var(--muted);cursor:pointer;font-size:.9rem;transition:border-color .13s,color .13s;flex-shrink:0}
+.tadd-opts-toggle:hover,.tadd-opts-toggle.active{border-color:var(--accent);color:var(--accent)}
+.show-tasks-btn{width:100%;font-family:inherit;font-size:.75rem;font-weight:500;padding:6px 12px;border:1.5px dashed var(--border);border-radius:var(--r);background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;letter-spacing:.03em}
+.show-tasks-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--sub)}
 /* Organized options grid */
 .tadd-opts-grid{display:flex;flex-direction:column;gap:0;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden}
 .tadd-opts-row{display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -431,7 +488,7 @@ h1 em{color:var(--accent);font-style:normal}
 .tpl-mgr-task-time{font-size:.65rem;color:var(--muted);flex-shrink:0}
 .tpl-mgr-empty{text-align:center;padding:20px;color:var(--border);font-size:.82rem;font-style:italic}
 
-.day-note-box{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);padding:9px 11px}
+.day-note-box{border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);padding:9px 11px;margin-top:6px}
 .note-lbl{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:5px}
 .note-ta{width:100%;border:none;background:transparent;font-family:inherit;font-size:.85rem;color:var(--ink);outline:none;resize:none;min-height:36px}
 .note-ta::placeholder{color:var(--border)}
@@ -643,6 +700,159 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .pomo-ctrl.stop-btn{border-color:#e06060;color:#e06060}
 .pomo-ctrl.stop-btn:hover{background:#e06060;color:#fff}
 .pomo-sessions{font-size:.65rem;opacity:.45;text-align:center;margin-top:10px}
+.pomo-pip-btn{font-family:inherit;font-size:.65rem;padding:2px 8px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:inherit;cursor:pointer;transition:border-color .13s,background .13s;line-height:1.5;white-space:nowrap}
+.pomo-pip-btn:hover{background:rgba(255,255,255,.25)}
+.pomo-pip-btn.active{background:#4d8ef0;border-color:#4d8ef0;color:#fff}
+
+/* ── TIME BLOCK SPLITTER ── */
+.tbs-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:600;display:none;align-items:center;justify-content:center}
+.tbs-overlay.open{display:flex}
+.tbs-modal{background:var(--card);border:1.5px solid var(--border);border-radius:14px;width:min(560px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;box-shadow:0 12px 50px rgba(0,0,0,.3)}
+.tbs-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--border);flex-shrink:0}
+.tbs-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700}
+.tbs-close{background:transparent;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:2px 6px;transition:color .13s}
+.tbs-close:hover{color:var(--accent)}
+.tbs-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px;flex:1}
+/* Setup phase */
+.tbs-setup-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tbs-lbl{font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.tbs-inp{font-family:inherit;font-size:.85rem;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;transition:border-color .13s}
+.tbs-inp:focus{border-color:var(--accent)}
+.tbs-inp.sm{width:70px}
+.tbs-inp.md{width:110px}
+.tbs-inp.full{flex:1;min-width:0}
+.tbs-topics{display:flex;flex-direction:column;gap:6px}
+.tbs-topic-row{display:flex;align-items:center;gap:7px}
+.tbs-topic-name{flex:1;font-family:inherit;font-size:.82rem;padding:5px 9px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;transition:border-color .13s}
+.tbs-topic-name:focus{border-color:var(--accent)}
+.tbs-topic-weight{width:60px;font-family:inherit;font-size:.82rem;padding:5px 7px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;text-align:center}
+.tbs-topic-weight:focus{border-color:var(--accent)}
+.tbs-topic-del{background:transparent;border:none;color:var(--border);cursor:pointer;font-size:.85rem;flex-shrink:0;transition:color .12s;padding:2px 5px}
+.tbs-topic-del:hover{color:var(--accent)}
+.tbs-add-btn{font-family:inherit;font-size:.75rem;padding:5px 12px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s;align-self:flex-start}
+.tbs-add-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tbs-meta-row{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--muted);background:var(--sub);padding:7px 11px;border-radius:var(--r);flex-wrap:wrap}
+.tbs-meta-val{font-weight:700;color:var(--ink)}
+.tbs-start-btn{font-family:inherit;font-size:.88rem;font-weight:600;padding:10px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);cursor:pointer;transition:background .13s;width:100%}
+.tbs-start-btn:hover{background:var(--accent)}
+.tbs-start-btn:disabled{opacity:.4;cursor:default}
+/* Running phase */
+.tbs-running{display:flex;flex-direction:column;gap:12px}
+.tbs-progress-bar-wrap{height:6px;background:var(--border);border-radius:999px;overflow:hidden}
+.tbs-progress-bar-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .5s linear}
+.tbs-block-list{display:flex;flex-direction:column;gap:5px}
+.tbs-block-item{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1.5px solid var(--border);border-radius:var(--r);transition:border-color .2s,background .2s}
+.tbs-block-item.active{border-color:var(--accent);background:var(--sub)}
+.tbs-block-item.done{opacity:.45}
+.tbs-block-dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0}
+.tbs-block-item.active .tbs-block-dot{background:var(--accent);animation:blink 1.2s infinite}
+.tbs-block-item.done .tbs-block-dot{background:var(--green)}
+.tbs-block-name{flex:1;font-size:.82rem;font-weight:500}
+.tbs-block-dur{font-size:.75rem;color:var(--muted);white-space:nowrap}
+.tbs-block-cd{font-size:.75rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbs-big-time{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;text-align:center;letter-spacing:.02em;line-height:1}
+.tbs-current-lbl{font-size:.7rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.1em;margin-bottom:-4px}
+.tbs-current-name{font-size:1rem;font-weight:600;text-align:center;color:var(--accent)}
+.tbs-ctrl-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tbs-ctrl{font-family:inherit;font-size:.8rem;padding:6px 16px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--ink);cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.tbs-ctrl:hover{border-color:var(--accent);color:var(--accent)}
+.tbs-ctrl.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tbs-ctrl.primary:hover{background:var(--accent);border-color:var(--accent)}
+.tbs-ctrl.danger{color:#c0392b;border-color:#e8c0bb}
+.tbs-ctrl.danger:hover{background:#fdf0ef}
+.tbs-done-banner{text-align:center;padding:14px;font-size:.95rem;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:var(--r);border:1.5px solid var(--green)}
+
+/* ── INLINE TBS (inside day modal) ── */
+.modal-tbs-wrap{display:flex;flex-direction:column;gap:10px;padding:10px 0}
+.modal-tbs-task-picker{display:flex;flex-direction:column;gap:6px}
+.modal-tbs-picker-lbl{font-size:.67rem;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.modal-tbs-task-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto}
+.modal-tbs-task-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);cursor:pointer;transition:border-color .12s,background .12s;user-select:none}
+.modal-tbs-task-item:hover{border-color:var(--accent)}
+.modal-tbs-task-item.selected{border-color:var(--accent);background:#fef3ed}
+html.dark .modal-tbs-task-item.selected{background:rgba(77,142,240,.12)}
+.modal-tbs-task-cb{width:13px;height:13px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.modal-tbs-task-txt{flex:1;font-size:.8rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal-tbs-task-time{font-size:.65rem;color:var(--muted);flex-shrink:0;background:var(--sub);padding:1px 5px;border-radius:3px}
+.modal-tbs-dur-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.modal-tbs-start-btn{font-family:inherit;font-size:.82rem;font-weight:600;padding:8px 12px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);cursor:pointer;transition:background .13s;flex:1}
+.modal-tbs-start-btn:hover{background:var(--accent)}
+.modal-tbs-start-btn:disabled{opacity:.35;cursor:default}
+.modal-tbs-running{display:flex;flex-direction:column;gap:8px}
+.modal-tbs-pb-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+.modal-tbs-pb-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .5s linear}
+.modal-tbs-big{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;text-align:center;letter-spacing:.02em;line-height:1}
+.modal-tbs-cur-lbl{font-size:.65rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.1em}
+.modal-tbs-cur-name{font-size:.9rem;font-weight:600;text-align:center;color:var(--accent)}
+.modal-tbs-block-list{display:flex;flex-direction:column;gap:4px}
+.modal-tbs-block-item{display:flex;align-items:center;gap:7px;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--r);font-size:.78rem;transition:border-color .2s,background .2s}
+.modal-tbs-block-item.active{border-color:var(--accent);background:var(--sub)}
+.modal-tbs-block-item.done{opacity:.4}
+.modal-tbs-block-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0}
+.modal-tbs-block-item.active .modal-tbs-block-dot{background:var(--accent);animation:blink 1.2s infinite}
+.modal-tbs-block-item.done .modal-tbs-block-dot{background:var(--green)}
+.modal-tbs-block-name{flex:1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal-tbs-block-dur{font-size:.7rem;color:var(--muted)}
+.modal-tbs-block-cd{font-size:.72rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.modal-tbs-ctrl-row{display:flex;gap:6px;flex-wrap:wrap}
+.modal-tbs-ctrl{font-family:inherit;font-size:.76rem;padding:5px 12px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--ink);cursor:pointer;transition:border-color .13s,color .13s,background .13s;flex:1;text-align:center}
+.modal-tbs-ctrl:hover{border-color:var(--accent);color:var(--accent)}
+.modal-tbs-ctrl.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modal-tbs-ctrl.primary:hover{background:var(--accent);border-color:var(--accent)}
+.modal-tbs-ctrl.danger{color:#c0392b;border-color:#e8c0bb}
+.modal-tbs-ctrl.danger:hover{background:#fdf0ef}
+.modal-tbs-done-banner{text-align:center;padding:10px;font-size:.85rem;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:var(--r);border:1.5px solid var(--green)}
+
+/* mode toggle */
+.modal-tbs-mode-row{display:flex;gap:5px;margin-bottom:2px}
+.modal-tbs-mode-btn{flex:1;font-family:inherit;font-size:.72rem;font-weight:600;padding:5px 8px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;white-space:nowrap}
+.modal-tbs-mode-btn:hover{border-color:var(--accent);color:var(--accent)}
+.modal-tbs-mode-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.modal-tbs-mode-desc{font-size:.68rem;color:var(--muted);font-style:italic;line-height:1.45;padding:3px 0 6px}
+/* priority input inside task rows (1 = highest priority) */
+.modal-tbs-weight-inp{width:46px;font-family:inherit;font-size:.78rem;padding:2px 5px;border:1.5px solid var(--border);border-radius:4px;background:var(--card);color:var(--ink);outline:none;text-align:center;transition:border-color .12s;flex-shrink:0}
+.modal-tbs-weight-inp:focus{border-color:var(--accent)}
+/* split preview */
+.modal-tbs-preview{display:flex;flex-direction:column;gap:3px;background:var(--sub);border:1px dashed var(--border);border-radius:var(--r);padding:7px 10px}
+.modal-tbs-preview-row{display:flex;align-items:center;justify-content:space-between;font-size:.72rem}
+.modal-tbs-preview-name{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;margin-right:8px}
+.modal-tbs-preview-time{font-weight:700;color:var(--accent);flex-shrink:0}
+
+/* ── POMO MODE TABS ── */
+.pomo-mode-tabs{display:flex;gap:4px;margin-bottom:10px}
+.pomo-mode-tab{flex:1;font-family:inherit;font-size:.65rem;font-weight:600;padding:4px 6px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;white-space:nowrap;letter-spacing:.03em}
+.pomo-mode-tab:hover{border-color:var(--accent);color:var(--accent)}
+.pomo-mode-tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ── STUDY SPRINT PLANNER (inside pomo overlay) ── */
+.sprint-planner{display:flex;flex-direction:column;gap:8px}
+.sprint-queue{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto}
+.sprint-item{display:flex;align-items:center;gap:7px;padding:6px 9px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg)}
+.sprint-item.active{border-color:#e06060;background:rgba(224,96,96,.08)}
+.sprint-item.done{opacity:.4}
+.sprint-item-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.sprint-item.active .sprint-item-dot{background:#e06060;animation:blink 1.2s infinite}
+.sprint-item.done .sprint-item-dot{background:var(--green)}
+.sprint-item-name{flex:1;font-size:.75rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sprint-item-pomo{display:flex;gap:3px;align-items:center}
+.sprint-dot{font-size:.65rem;opacity:.35}
+.sprint-dot.filled{opacity:1}
+.sprint-btn-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sprint-inp{flex:1;min-width:80px;font-family:inherit;font-size:.75rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none}
+.sprint-inp:focus{border-color:var(--accent)}
+.sprint-count{width:38px;font-family:inherit;font-size:.75rem;padding:4px 5px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;text-align:center}
+.sprint-add-btn{font-family:inherit;font-size:.68rem;padding:4px 9px;border:1.5px solid var(--accent);border-radius:999px;background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap;transition:border-color .13s,color .13s,background .13s}
+.sprint-add-btn:hover{background:var(--accent);color:#fff}
+.sprint-del-btn{background:transparent;border:none;color:var(--border);cursor:pointer;font-size:.78rem;transition:color .12s;flex-shrink:0}
+.sprint-del-btn:hover{color:var(--accent)}
+.sprint-clear-btn{font-family:inherit;font-size:.65rem;padding:3px 8px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s}
+.sprint-clear-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pomo-adj-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.pomo-adj-btn{font-family:inherit;font-size:.72rem;padding:3px 10px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;cursor:pointer;transition:border-color .13s,background .13s;line-height:1.4}
+.pomo-adj-btn:hover{background:rgba(255,255,255,.22)}
+.pomo-dur-lbl{font-size:.68rem;opacity:.5;letter-spacing:.06em}
+.bbtn-planner-rst{background:transparent;color:#c0392b;border-color:#e8c0bb}
+.bbtn-planner-rst:hover{background:#fdf0ef}
 /* ── BADGES ── */
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .badge-card{border:1.5px solid var(--border);border-radius:var(--r);padding:12px 8px;text-align:center;background:var(--bg);transition:border-color .2s,background .2s;position:relative}
@@ -712,7 +922,7 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
 
 /* ── COLLAPSIBLE MODAL SECTIONS ── */
-.modal-section-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:7px 11px;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:0;transition:background .13s}
+.modal-section-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:6px 10px;background:var(--sub);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:0;transition:background .13s}
 .modal-section-hd:hover{background:var(--border)}
 .modal-section-hd .msh-title{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .modal-section-hd .msh-arrow{font-size:.7rem;color:var(--muted);transition:transform .2s}
@@ -894,31 +1104,43 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
       </div>
       <!-- Events for this day -->
       <div id="modal-events-area"></div>
-      <!-- Challenger blocks (collapsible) -->
-      <div id="modal-ch-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-ch-hd" onclick="toggleModalSection('ch')">
-          <span class="msh-title">⚡ Challengers</span>
-          <span class="msh-arrow">▾</span>
-        </div>
-        <div class="modal-section-body" id="modal-ch-area"></div>
-      </div>
-      <!-- Habits (collapsible) -->
+      <!-- Habits (collapsible) — now first -->
       <div id="modal-habits-wrapper" style="display:none">
-        <div class="modal-section-hd" id="modal-habits-hd" onclick="toggleModalSection('habits')">
+        <div class="modal-section-hd collapsed" id="modal-habits-hd" onclick="toggleModalSection('habits')">
           <span class="msh-title">✅ Daily Habits</span>
           <span class="msh-arrow">▾</span>
         </div>
-        <div class="modal-section-body" id="modal-habits-area"></div>
+        <div class="modal-section-body hidden" id="modal-habits-area"></div>
       </div>
-      <!-- Tasks -->
-      <ul class="tlist" id="tlist"></ul>
-      <!-- Task add -->
-      <div class="tadd-area">
-        <div class="tadd">
-          <input class="tadd-inp" id="tadd-inp" type="text" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()">
-          <button class="tadd-btn" onclick="addTask()">+ Add</button>
+      <!-- Challenger blocks (collapsible) — now second -->
+      <div id="modal-ch-wrapper" style="display:none">
+        <div class="modal-section-hd collapsed" id="modal-ch-hd" onclick="toggleModalSection('ch')">
+          <span class="msh-title">⚡ Challengers</span>
+          <span class="msh-arrow">▾</span>
         </div>
-        <div class="tadd-opts-grid">
+        <div class="modal-section-body hidden" id="modal-ch-area"></div>
+      </div>
+      <!-- Inline Time Block Splitter (collapsible) -->
+      <div id="modal-tbs-wrapper">
+        <div class="modal-section-hd collapsed" id="modal-tbs-hd" onclick="toggleModalTBS()">
+          <span class="msh-title">⏱ Time Block Splitter</span>
+          <span class="msh-arrow">▾</span>
+        </div>
+        <div class="modal-section-body hidden" id="modal-tbs-area"></div>
+      </div>
+      <!-- Tasks (hidden when TBS is active) -->
+      <div id="modal-tasks-section">
+        <button class="show-tasks-btn" id="show-tasks-btn" onclick="toggleTasksUnderTBS()" style="display:none">▼ Show tasks</button>
+        <div id="modal-tasks-body">
+          <ul class="tlist" id="tlist"></ul>
+          <!-- Task add -->
+          <div class="tadd-area">
+            <div class="tadd">
+              <input class="tadd-inp" id="tadd-inp" type="text" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()">
+              <button class="tadd-btn" onclick="addTask()">+ Add</button>
+              <button class="tadd-opts-toggle" id="tadd-opts-toggle" onclick="toggleTaskOpts()" title="More options">⚙</button>
+            </div>
+            <div class="tadd-opts-grid" id="tadd-opts-grid" style="display:none">
           <div class="tadd-opts-row">
             <div class="tadd-opts-cell">
               <span class="tadd-opts-lbl">Priority:</span>
@@ -960,7 +1182,8 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
             <button class="btn-manage-tpl" onclick="openTplModal()">&#9998; Manage</button>
           </div>
         </div>
-      </div>
+      </div><!-- /modal-tasks-body -->
+      </div><!-- /modal-tasks-section -->
       <!-- Note -->
       <div class="day-note-box">
         <div class="note-lbl">Note</div>
@@ -1383,7 +1606,8 @@ function renderGrid(){
     var cellEv=evDays[i];
     var r=day.rating||0;
     var cls='cell';
-    if(day.done) cls+=' done'; else if(r>0) cls+=' r'+r;
+    if(day.done) cls+=' done';
+    if(r>0) cls+=' r'+r;
     if(hasTasks||hasNote) cls+=' has-t';
     if(isToday) cls+=' today';
     if(isFuture) cls+=' locked';
@@ -1454,6 +1678,24 @@ function addHabit(){
 // DAY MODAL
 // ══════════════════════════════════════════════════════════════════════════════
 function openModal(day){
+  // Reset inline TBS state only if switching to a genuinely different day
+  // (activeDay===null after closeModal, but TBS may still be running — preserve it)
+  var tbsActive=_modalTbs.open||_modalTbs.running||_modalTbs.finished;
+  if(activeDay!==day && !(activeDay===null && tbsActive)){
+    _modalTbsStop();
+    _modalTbs.open=false;
+    _modalTbs.selectedTaskIds={};
+    _modalTbs.topics=[];_modalTbs.running=false;_modalTbs.finished=false;
+    var tbsHd=document.getElementById('modal-tbs-hd');
+    var tbsArea=document.getElementById('modal-tbs-area');
+    if(tbsHd){tbsHd.classList.add('collapsed');}
+    if(tbsArea){tbsArea.classList.add('hidden');tbsArea.innerHTML='';}
+    // Reset tasks visibility
+    var tasksBody=document.getElementById('modal-tasks-body');
+    var showBtn=document.getElementById('show-tasks-btn');
+    if(tasksBody){tasksBody.style.display='';delete tasksBody.dataset.manualOpen;}
+    if(showBtn){showBtn.style.display='none';showBtn.textContent='▼ Show tasks';}
+  }
   activeDay=day;
   if(!state.days[day]) state.days[day]={done:false,tasks:[],note:''};
   document.getElementById('mtitle').textContent='Day '+day;
@@ -1478,6 +1720,16 @@ function openModal(day){
   document.getElementById('overlay').classList.add('open');
   setTimeout(function(){document.getElementById('tadd-inp').focus()},200);
   renderDepSelect();
+  // If TBS was active for this same day, restore its UI
+  if(_modalTbs.open||_modalTbs.running||_modalTbs.finished){
+    var tbsHd2=document.getElementById('modal-tbs-hd');
+    var tbsArea2=document.getElementById('modal-tbs-area');
+    if(tbsHd2) tbsHd2.classList.remove('collapsed');
+    if(tbsArea2) tbsArea2.classList.remove('hidden');
+    _modalTbs.open=true;
+    renderModalTBS();
+  }
+  _syncTasksVisibility();
   // Resume tick if any running timers exist (tasks or challengers)
   if(_anyRunning()) _startTimerTick();
 }
@@ -1600,7 +1852,41 @@ function renderModalHabits(day){
   area.appendChild(block);
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');renderGrid();renderProgress();activeDay=null}
+function closeModal(){document.getElementById('overlay').classList.remove('open');renderGrid();renderProgress();if(!(_modalTbs.open||_modalTbs.running||_modalTbs.finished))activeDay=null;}
+function toggleTaskOpts(){var g=document.getElementById('tadd-opts-grid');var btn=document.getElementById('tadd-opts-toggle');if(!g||!btn)return;var open=g.style.display!=='none';g.style.display=open?'none':'';btn.classList.toggle('active',!open);}
+
+function _syncTasksVisibility(){
+  var tbsOn=_modalTbs.open;
+  var showBtn=document.getElementById('show-tasks-btn');
+  var tasksBody=document.getElementById('modal-tasks-body');
+  if(!showBtn||!tasksBody) return;
+  if(tbsOn){
+    // Hide tasks body, show the reveal button
+    showBtn.style.display='block';
+    // Only hide if user hasn't manually revealed them
+    if(!tasksBody.dataset.manualOpen) tasksBody.style.display='none';
+  } else {
+    showBtn.style.display='none';
+    tasksBody.style.display='';
+    delete tasksBody.dataset.manualOpen;
+  }
+}
+
+function toggleTasksUnderTBS(){
+  var tasksBody=document.getElementById('modal-tasks-body');
+  var showBtn=document.getElementById('show-tasks-btn');
+  if(!tasksBody||!showBtn) return;
+  var hidden=tasksBody.style.display==='none';
+  if(hidden){
+    tasksBody.style.display='';
+    tasksBody.dataset.manualOpen='1';
+    showBtn.textContent='▲ Hide tasks';
+  } else {
+    tasksBody.style.display='none';
+    delete tasksBody.dataset.manualOpen;
+    showBtn.textContent='▼ Show tasks';
+  }
+}
 function bgClick(e){if(e.target===document.getElementById('overlay'))closeModal()}
 function syncDoneBtn(){
   var on=!!(state.days[activeDay]&&state.days[activeDay].done);
@@ -1608,8 +1894,8 @@ function syncDoneBtn(){
 }
 function toggleDone(){
   var nv=!state.days[activeDay].done;state.days[activeDay].done=nv;syncDoneBtn();
-  lsSet(pKey('state'),state)
-    .then(function(){setStatus('✅ Saved at '+new Date().toLocaleTimeString())});
+  lsSet(pKey('state'),state);
+  setStatus('✅ Saved at '+new Date().toLocaleTimeString());
   renderGrid();renderProgress();
 }
 
@@ -1689,7 +1975,9 @@ function renderTasks(){
         progPctHtml+
         '<div class="tact">'+
           '<button class="btn-sub">'+(task.open?'▲':'⊕')+'</button>'+
+          '<button class="btn-edit-task" title="Edit task options">✎</button>'+
           '<button class="btn-rollctl'+(task.noRoll?' no-roll':'')+'" title="'+(task.noRoll?'Will NOT roll over':'Will roll over')+'">'+(task.noRoll?'🚫↩':'↩')+'</button>'+
+          '<button class="pomo-btn" title="🍅 Start Pomodoro">🍅</button>'+
           '<button class="btn-del">✕</button>'+
         '</div>';
       // Prevent drag from firing on interactive children
@@ -1700,6 +1988,23 @@ function renderTasks(){
       trow.querySelector('.btn-sub').onclick=function(){toggleSubOpen(ti)};
       trow.querySelector('.btn-rollctl').onclick=function(){toggleRollCtl(ti)};
       trow.querySelector('.btn-del').onclick=function(){delTask(ti)};
+      trow.querySelector('.pomo-btn').onclick=function(e){e.stopPropagation();openPomo(task.text,'task',ti);};
+
+      // Edit button — toggles inline edit panel
+      trow.querySelector('.btn-edit-task').onclick=function(e){
+        e.stopPropagation();
+        var existing=li.querySelector('.task-edit-panel');
+        if(existing){existing.remove();trow.querySelector('.btn-edit-task').classList.remove('active');return;}
+        trow.querySelector('.btn-edit-task').classList.add('active');
+        var panel=buildTaskEditPanel(task,ti,function(){
+          li.querySelector('.task-edit-panel')&&li.querySelector('.task-edit-panel').remove();
+          trow.querySelector('.btn-edit-task').classList.remove('active');
+        });
+        // Insert after trow, before timer log panel or subtasks
+        var insertBefore=li.querySelector('.timer-log-panel')||li.querySelector('.sbox')||null;
+        li.insertBefore(panel,insertBefore);
+        panel.querySelector('.task-edit-inp-time').focus();
+      };
 
       // ── Timer: inject tag into meta row + button into tact ──
       var _tf=buildTimerFragment(task,ti);
@@ -1737,10 +2042,12 @@ function renderTasks(){
               '<input type="checkbox" class="scb" style="position:relative;z-index:1"'+(sub.checked?' checked':'')+'>'+
               '<input type="text" class="stxt'+(sub.checked?' done':'')+'" style="position:relative;z-index:1" value="'+esc(sub.text)+'">'+
               '<button class="btn-sexpand" title="Tasks inside this subtask" style="position:relative;z-index:1">'+(sub.open?'▲':'▼')+'</button>'+
+              '<button class="pomo-btn" title="🍅 Pomodoro" style="position:relative;z-index:1">🍅</button>'+
               '<button class="sdel" style="position:relative;z-index:1">✕</button>';
             srow.querySelector('.scb').onchange=function(){toggleSub(ti,si)};
             srow.querySelector('.stxt').onblur=function(e){editSub(ti,si,e.target.value)};
             srow.querySelector('.btn-sexpand').onclick=function(){toggleSubExpand(ti,si)};
+            srow.querySelector('.pomo-btn').onclick=function(e){e.stopPropagation();openPomo(sub.text,'sub',ti,si)};
             srow.querySelector('.sdel').onclick=function(){delSub(ti,si)};
             sli.appendChild(srow);
             // Inner tasks (when expanded)
@@ -1763,10 +2070,12 @@ function renderTasks(){
                     '<span class="sub-inner-drag">⠿</span>'+
                     '<input type="checkbox" class="sub-inner-cb"'+(nt.checked?' checked':'')+'>'+
                     '<input type="text" class="sub-inner-txt'+(nt.checked?' done':'')+'" value="'+esc(nt.text)+'">'+
+                    '<button class="pomo-btn sub-inner-pomo" title="🍅 Pomodoro">🍅</button>'+
                     '<button class="sub-inner-del">✕</button>';
                   ntEl.querySelector('.sub-inner-cb').onchange=function(){toggleInnerTask(ti,si,ni)};
                   ntEl.querySelector('.sub-inner-txt').onblur=function(e){editInnerTask(ti,si,ni,e.target.value)};
                   ntEl.querySelector('.sub-inner-del').onclick=function(){delInnerTask(ti,si,ni)};
+                  ntEl.querySelector('.sub-inner-pomo').onclick=function(e){e.stopPropagation();openPomo(nt.text,'inner',ti,si,ni)};
                   ntEl.addEventListener('dragstart',function(e){
                     e.stopPropagation();
                     e.dataTransfer.effectAllowed='move';
@@ -1958,6 +2267,95 @@ function addTask(){
   renderTasks();renderGrid();setStatus('✅ Saved at '+new Date().toLocaleTimeString());
   if(interval) applyRecurringTask(txt,prio,time,interval);
 }
+function buildTaskEditPanel(task,ti,onClose){
+  var panel=document.createElement('div');
+  panel.className='task-edit-panel';
+
+  // Row 1: Time + Priority
+  var row1=document.createElement('div');row1.className='task-edit-row';
+
+  var cellTime=document.createElement('div');cellTime.className='task-edit-cell';
+  var lblTime=document.createElement('span');lblTime.className='task-edit-lbl';lblTime.textContent='Time';
+  var inpTime=document.createElement('input');
+  inpTime.className='task-edit-inp task-edit-inp-time';
+  inpTime.type='text';inpTime.placeholder='e.g. 30m';
+  inpTime.value=task.time||'';
+  cellTime.appendChild(lblTime);cellTime.appendChild(inpTime);
+
+  var cellPrio=document.createElement('div');cellPrio.className='task-edit-cell';
+  var lblPrio=document.createElement('span');lblPrio.className='task-edit-lbl';lblPrio.textContent='Priority';
+  var selPrio=document.createElement('select');selPrio.className='task-edit-sel';
+  [['','None'],['high','🔴 High'],['med','🟡 Medium'],['low','🟢 Low']].forEach(function(opt){
+    var o=document.createElement('option');o.value=opt[0];o.textContent=opt[1];
+    if(task.priority===opt[0]) o.selected=true;
+    selPrio.appendChild(o);
+  });
+  cellPrio.appendChild(lblPrio);cellPrio.appendChild(selPrio);
+
+  row1.appendChild(cellTime);row1.appendChild(cellPrio);
+
+  // Row 2: Recurrence
+  var row2=document.createElement('div');row2.className='task-edit-row';
+  var cellRecur=document.createElement('div');
+  cellRecur.className='task-edit-cell task-edit-cell-full';
+  cellRecur.style.gridColumn='1/-1';
+  var lblRecur=document.createElement('span');lblRecur.className='task-edit-lbl';lblRecur.textContent='Recurrence';
+  var selRecur=document.createElement('select');selRecur.className='task-edit-sel';
+  var recurOpts=[['','None'],['1','Every day'],['2','Every 2 days'],['7','Every week'],['custom','Custom…']];
+  var curRecur=task.recurInterval?String(task.recurInterval):'';
+  var isCustom=curRecur&&curRecur!=='1'&&curRecur!=='2'&&curRecur!=='7';
+  recurOpts.forEach(function(opt){
+    var o=document.createElement('option');o.value=opt[0];o.textContent=opt[1];
+    if(isCustom&&opt[0]==='custom') o.selected=true;
+    else if(!isCustom&&curRecur===opt[0]) o.selected=true;
+    selRecur.appendChild(o);
+  });
+  var inpCustom=document.createElement('input');
+  inpCustom.className='task-edit-inp';inpCustom.type='number';
+  inpCustom.min='1';inpCustom.max='365';inpCustom.placeholder='days';
+  inpCustom.style.display=isCustom?'':'none';
+  if(isCustom) inpCustom.value=curRecur;
+  selRecur.onchange=function(){inpCustom.style.display=selRecur.value==='custom'?'':'none'};
+  cellRecur.appendChild(lblRecur);
+  cellRecur.appendChild(selRecur);
+  cellRecur.appendChild(inpCustom);
+  row2.appendChild(cellRecur);
+
+  // Actions
+  var actions=document.createElement('div');actions.className='task-edit-actions';
+  var cancelBtn=document.createElement('button');cancelBtn.className='task-edit-cancel';cancelBtn.textContent='Cancel';
+  cancelBtn.onclick=function(e){e.stopPropagation();onClose()};
+  var saveBtn=document.createElement('button');saveBtn.className='task-edit-save';saveBtn.textContent='✓ Save';
+  saveBtn.onclick=function(e){
+    e.stopPropagation();
+    var t=state.days[activeDay].tasks[ti];if(!t) return;
+    // Save priority
+    var newPrio=selPrio.value;
+    t.priority=newPrio;
+    // Save time
+    t.time=inpTime.value.trim();
+    // Save recurrence
+    var newRecurVal=selRecur.value;
+    if(newRecurVal===''){
+      t.recurInterval=0;
+    } else if(newRecurVal==='custom'){
+      var cv=parseInt(inpCustom.value)||0;
+      t.recurInterval=cv>0?cv:0;
+    } else {
+      t.recurInterval=parseInt(newRecurVal)||0;
+    }
+    lsSet(pKey('state'),state);
+    renderTasks();
+    toast('✓ Task updated');
+  };
+  actions.appendChild(cancelBtn);actions.appendChild(saveBtn);
+
+  panel.appendChild(row1);
+  panel.appendChild(row2);
+  panel.appendChild(actions);
+  return panel;
+}
+
 function toggleTask(ti){var task=state.days[activeDay].tasks[ti];task.checked=!task.checked;lsSet(pKey('state'),state);renderTasks();checkAndAwardBadges();}
 function editTask(ti,val){var task=state.days[activeDay].tasks[ti];if(task.text===val) return;task.text=val;lsSet(pKey('state'),state)}
 function delTask(ti){state.days[activeDay].tasks.splice(ti,1);lsSet(pKey('state'),state);renderTasks();renderGrid()}
@@ -3158,12 +3556,14 @@ renderTasks=function(){
     }
   });
   renderDepSelect();
+  // Refresh inline TBS task picker if it's open and not running
+  if(_modalTbs.open&&!_modalTbs.running&&!_modalTbs.finished) renderModalTBSSetup();
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
 // COLLAPSIBLE MODAL SECTIONS (Habits & Challengers)
 // ══════════════════════════════════════════════════════════════════════════════
-var _modalSectionState={ch:true,habits:true}; // true = expanded
+var _modalSectionState={ch:false,habits:false}; // true = expanded, false = collapsed
 
 function toggleModalSection(key){
   _modalSectionState[key]=!_modalSectionState[key];
@@ -3189,10 +3589,8 @@ function _startTimerTick(){
     var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
     tasks.forEach(function(task,ti){
       if(!_taskIsRunning(task)) return;
-      var tag=document.getElementById('timer-tag-'+ti);
       var btn=document.getElementById('btn-timer-'+ti);
       var total=_taskTotalMs(task);
-      if(tag) tag.textContent='⏱ '+_fmtMs(total);
       if(btn) btn.textContent='⏹ '+_fmtMs(total);
     });
     // Update challenger timers
@@ -3300,16 +3698,11 @@ function buildTimerFragment(task,ti){
   btn.addEventListener('mousedown',function(e){e.stopPropagation()});
   btn.onclick=function(e){e.stopPropagation();toggleTaskTimer(ti)};
 
-  // Timer tag (shows total in meta row when not running)
+  // Timer tag (shows total in meta row only when stopped, not when running — button already shows time)
   var tag=null;
   if(hasSessions&&!running){
     tag=document.createElement('span');
     tag.className='timer-tag';
-    tag.id='timer-tag-'+ti;
-    tag.textContent='⏱ '+_fmtMs(totalMs);
-  } else if(running){
-    tag=document.createElement('span');
-    tag.className='timer-tag running';
     tag.id='timer-tag-'+ti;
     tag.textContent='⏱ '+_fmtMs(totalMs);
   }
@@ -3455,7 +3848,1364 @@ function buildChallengerTimerBlock(ch){
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// PATCH lsSet TO TRIGGER BADGE CHECK + AUTO-SYNC
+// RESET WEEK PLANNER
+// ══════════════════════════════════════════════════════════════════════════════
+function resetWeekPlanner(){
+  if(!state.startDate){toast('⚠️ No start date set.');return;}
+  var start=new Date(state.startDate+'T00:00:00');
+  var today=new Date();today.setHours(0,0,0,0);
+  var curDay=Math.floor((today-start)/86400000)+1;
+  var weekStart=curDay-((curDay-1)%7)+plannerWeekOffset*7;
+  var weekEnd=Math.min(weekStart+6,state.duration);
+  if(!confirm('Clear all tasks added via the Weekly Planner for Days '+weekStart+'–'+weekEnd+'? Tasks added from the Day modal are kept.')) return;
+  var cleared=0;
+  for(var d=weekStart;d<=weekEnd;d++){
+    if(!state.days[d]) continue;
+    var before=state.days[d].tasks.length;
+    // Remove tasks whose id starts with 'pl_' (added via planner) and have no sessions
+    state.days[d].tasks=state.days[d].tasks.filter(function(t){
+      return !(t.id&&t.id.indexOf('pl_')===0);
+    });
+    cleared+=before-state.days[d].tasks.length;
+  }
+  lsSet(pKey('state'),state);
+  renderPlanner();renderGrid();
+  toast('↺ Cleared '+cleared+' planner task'+(cleared!==1?'s':'')+' from this week');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POMODORO TIMER ENGINE  (integrated with task session timer)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pomo={
+  running:false,
+  taskName:'',
+  // target task reference
+  targetType:null,   // 'task' | 'sub' | 'inner' | null
+  targetTi:null,
+  targetSi:null,
+  targetNi:null,
+  // timing
+  durMin:25,
+  breakMin:5,
+  longBreakMin:15,
+  secondsLeft:25*60,
+  phase:'focus',     // 'focus' | 'break' | 'longbreak'
+  session:1,
+  totalSessions:4,
+  interval:null
+};
+
+// ── resolve the live task object from the current state ──
+function _pomoGetTarget(){
+  if(!_pomo.targetType||!activeDay) return null;
+  var tasks=(state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  var ti=_pomo.targetTi;
+  if(ti==null||!tasks[ti]) return null;
+  if(_pomo.targetType==='task') return tasks[ti];
+  var subs=tasks[ti].subs||[];
+  var si=_pomo.targetSi;
+  if(si==null||!subs[si]) return null;
+  if(_pomo.targetType==='sub') return subs[si];
+  var inner=subs[si].tasks||[];
+  var ni=_pomo.targetNi;
+  if(ni==null||!inner[ni]) return null;
+  return inner[ni];
+}
+
+// ── open a timer session on the target task ──
+function _pomoStartSession(){
+  var t=_pomoGetTarget();
+  if(!t) return;
+  if(!t.sessions) t.sessions=[];
+  // Don't double-open if one is already active (e.g. re-opened overlay)
+  var last=t.sessions[t.sessions.length-1];
+  if(last&&last.end===null) return;
+  t.sessions.push({start:Date.now(),end:null,pomo:true});
+  lsSet(pKey('state'),state);
+  // Refresh task UI to show running timer tag
+  renderTasks();
+  _startTimerTick();
+}
+
+// ── close the active timer session on the target task ──
+function _pomoStopSession(){
+  var t=_pomoGetTarget();
+  if(!t||!t.sessions||!t.sessions.length) return;
+  var last=t.sessions[t.sessions.length-1];
+  if(last&&last.end===null){
+    last.end=Date.now();
+    lsSet(pKey('state'),state);
+    renderTasks();
+  }
+}
+
+// ── update the "logged" status line in the overlay ──
+function _pomoUpdateStatus(){
+  var el=document.getElementById('pomo-timer-status');
+  if(!el) return;
+  var t=_pomoGetTarget();
+  if(!t||!t.sessions||!t.sessions.length){el.textContent='';return;}
+  var total=_taskTotalMs(t);
+  el.textContent='⏱ '+_fmtMs(total)+' logged to task';
+}
+
+function openPomo(taskName, type, ti, si, ni){
+  var sameTarget=(
+    _pomo.targetType===type &&
+    _pomo.targetTi===ti &&
+    _pomo.targetSi===si &&
+    _pomo.targetNi===ni
+  );
+
+  // If switching to a different task while running, stop the old session first
+  if(_pomo.running && !sameTarget){
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+  }
+
+  _pomo.taskName  = taskName||'Task';
+  _pomo.targetType= type||null;
+  _pomo.targetTi  = (ti!=null)?ti:null;
+  _pomo.targetSi  = (si!=null)?si:null;
+  _pomo.targetNi  = (ni!=null)?ni:null;
+
+  // Reset to start of cycle only if not already mid-session for same target
+  if(!_pomo.running){
+    _pomo.phase='focus';
+    _pomo.session=1;
+    _pomo.secondsLeft=_pomo.durMin*60;
+  }
+
+  _pomoUpdateUI();
+  document.getElementById('pomo-overlay').classList.add('show');
+}
+
+function closePomo(){
+  // Closing the overlay does NOT stop the timer — it keeps running in background
+  document.getElementById('pomo-overlay').classList.remove('show');
+  // Restore title only if timer is idle
+  if(!_pomo.running) _pomoRestoreTitle();
+}
+
+function pomoToggle(){
+  if(_pomo.running){
+    // Pause — close the active task session
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+    document.getElementById('pomo-start-btn').textContent='▶ Resume';
+  } else {
+    // Start / Resume — open a task session (focus phase only)
+    _pomo.running=true;
+    document.getElementById('pomo-start-btn').textContent='⏸ Pause';
+    if(_pomo.phase==='focus') _pomoStartSession();
+    _pomo.interval=setInterval(function(){
+      _pomo.secondsLeft--;
+      _pomoUpdateTime();
+      _pomoUpdateStatus();
+      if(_pomo.secondsLeft<=0) _pomoPhaseComplete();
+    },1000);
+  }
+}
+
+function pomoReset(){
+  if(_pomo.running){
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+  }
+  _pomo.phase='focus';
+  _pomo.session=1;
+  _pomo.secondsLeft=_pomo.durMin*60;
+  _pomoUpdateUI();
+  _pomoRestoreTitle();
+}
+
+function pomoDurAdj(delta){
+  var newDur=Math.max(1,Math.min(90,_pomo.durMin+delta));
+  if(newDur===_pomo.durMin) return;
+  _pomo.durMin=newDur;
+  if(!_pomo.running && _pomo.phase==='focus') _pomo.secondsLeft=newDur*60;
+  if(_pomo.running  && _pomo.phase==='focus') _pomo.secondsLeft=Math.max(1,_pomo.secondsLeft+(delta*60));
+  _pomoUpdateUI();
+}
+
+function pomoSessionsAdj(delta){
+  var newVal=Math.max(1,Math.min(12,_pomo.totalSessions+delta));
+  if(newVal===_pomo.totalSessions) return;
+  _pomo.totalSessions=newVal;
+  // If current session number exceeds new total, clamp it
+  if(_pomo.session>_pomo.totalSessions) _pomo.session=_pomo.totalSessions;
+  _pomoUpdateUI();
+}
+
+function _pomoPhaseComplete(){
+  // Close any open task session when a focus phase ends
+  if(_pomo.phase==='focus') _pomoStopSession();
+  clearInterval(_pomo.interval);_pomo.interval=null;
+  _pomo.running=false;
+
+  if(_pomo.phase==='focus'){
+    _pomoNotify('🍅 Focus session done! Time for a break.');
+    if(_pomo.session>=_pomo.totalSessions){
+      _pomo.phase='longbreak';
+      _pomo.secondsLeft=_pomo.longBreakMin*60;
+    } else {
+      _pomo.phase='break';
+      _pomo.secondsLeft=_pomo.breakMin*60;
+    }
+  } else {
+    _pomoNotify('✅ Break over! Back to work.');
+    if(_pomo.phase==='longbreak'){
+      _pomo.session=1;
+    } else {
+      _pomo.session++;
+    }
+    _pomo.phase='focus';
+    _pomo.secondsLeft=_pomo.durMin*60;
+  }
+  _pomoUpdateUI();
+  // Auto-start next phase after 1.5s
+  setTimeout(function(){if(!_pomo.running) pomoToggle();},1500);
+}
+
+function _pomoNotify(msg){
+  toast(msg);
+  if(typeof Notification!=='undefined'&&Notification.permission==='granted'){
+    new Notification('Pomodoro',{body:msg,icon:''});
+  }
+}
+
+function _pomoUpdateTime(){
+  var s=_pomo.secondsLeft;
+  var m=Math.floor(s/60);
+  var sec=s%60;
+  var timeStr=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+  var el=document.getElementById('pomo-time');
+  if(el) el.textContent=timeStr;
+  // ── Browser tab title ──
+  var phaseEmoji={focus:'🍅',break:'☕',longbreak:'🌿'};
+  var emoji=phaseEmoji[_pomo.phase]||'🍅';
+  if(_pomo.running){
+    document.title=emoji+' '+timeStr+' · '+_pomo.taskName;
+  } else if(_pomo.secondsLeft<_pomo.durMin*60||_pomo.phase!=='focus'){
+    document.title=emoji+' '+timeStr+' (paused)';
+  } else {
+    document.title='🍅 Pomodoro · Day Challenge Tracker';
+  }
+  // ── PiP canvas frame ──
+  _pomoDrawPiP(timeStr);
+}
+
+function _pomoUpdateUI(){
+  var phaseLabels={focus:'🍅 Focus',break:'☕ Short Break',longbreak:'🌿 Long Break'};
+  var nameEl=document.getElementById('pomo-task-name');
+  var phaseEl=document.getElementById('pomo-phase');
+  var sessEl=document.getElementById('pomo-sessions');
+  var durEl=document.getElementById('pomo-dur-lbl');
+  var sessCntEl=document.getElementById('pomo-sessions-lbl');
+  var startBtn=document.getElementById('pomo-start-btn');
+  if(nameEl)   nameEl.textContent=_pomo.taskName;
+  if(phaseEl)  phaseEl.textContent=phaseLabels[_pomo.phase]||_pomo.phase;
+  if(sessEl)   sessEl.textContent='Session '+_pomo.session+' of '+_pomo.totalSessions;
+  if(durEl)    durEl.textContent=_pomo.durMin+' min';
+  if(sessCntEl)sessCntEl.textContent=_pomo.totalSessions+' session'+(_pomo.totalSessions!==1?'s':'');
+  if(startBtn) startBtn.textContent=_pomo.running?'⏸ Pause':(_pomo.secondsLeft<_pomo.durMin*60&&_pomo.phase==='focus'?'▶ Resume':'▶ Start');
+  _pomoUpdateTime();
+  _pomoUpdateStatus();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BROWSER TAB — restore title when pomo is idle / closed
+// ══════════════════════════════════════════════════════════════════════════════
+var _defaultTitle='Day Challenge Tracker';
+function _pomoRestoreTitle(){
+  document.title=_defaultTitle;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PICTURE-IN-PICTURE  (Canvas → MediaStream → <video> → PiP)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pipActive=false;
+var _pipStream=null;
+var _pipRAF=null;
+
+function _pomoDrawPiP(timeStr){
+  // Always draw — even when PiP is not active so the stream stays fresh
+  var canvas=document.getElementById('pomo-pip-canvas');
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  var isDark=document.documentElement.classList.contains('dark');
+
+  // Background
+  var bg=isDark?'#0f1623':'#1a1612';
+  var fg=isDark?'#e8edf5':'#f5f0e8';
+  var accent={focus:'#e06060',break:'#3aaa72',longbreak:'#4d8ef0'}[_pomo.phase]||'#e06060';
+  var phaseLabels={focus:'🍅 FOCUS',break:'☕ BREAK',longbreak:'🌿 LONG BREAK'};
+
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,W,H);
+
+  // Accent top bar
+  ctx.fillStyle=accent;
+  ctx.fillRect(0,0,W,5);
+
+  // Phase label
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.5;
+  ctx.font='bold 13px "DM Sans", sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(phaseLabels[_pomo.phase]||'FOCUS', W/2, 36);
+  ctx.globalAlpha=1;
+
+  // Big timer
+  ctx.fillStyle=fg;
+  ctx.font='bold 72px "Playfair Display", Georgia, serif';
+  ctx.textAlign='center';
+  ctx.fillText(timeStr, W/2, 130);
+
+  // Task name (truncated)
+  var name=_pomo.taskName||'';
+  if(name.length>32) name=name.slice(0,31)+'…';
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.65;
+  ctx.font='15px "DM Sans", sans-serif';
+  ctx.fillText(name, W/2, 165);
+  ctx.globalAlpha=1;
+
+  // Session dots
+  var dotR=6, dotGap=18, dotsW=(_pomo.totalSessions-1)*dotGap+dotR*2;
+  var sx=W/2-dotsW/2+dotR;
+  for(var i=0;i<_pomo.totalSessions;i++){
+    ctx.beginPath();
+    ctx.arc(sx+i*dotGap, 196, dotR, 0, Math.PI*2);
+    if(i<_pomo.session){
+      ctx.fillStyle=accent;
+    } else {
+      ctx.fillStyle=isDark?'#2a3a55':'#3a3028';
+    }
+    ctx.fill();
+  }
+
+  // Status line
+  var statusTxt=_pomo.running?'▶ Running':'⏸ Paused';
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.35;
+  ctx.font='12px "DM Sans", sans-serif';
+  ctx.fillText(statusTxt, W/2, 228);
+  ctx.globalAlpha=1;
+}
+
+async function togglePomoPiP(){
+  var btn=document.getElementById('pomo-pip-btn');
+  // If PiP is already active, exit it
+  if(_pipActive){
+    if(document.pictureInPictureElement){
+      await document.exitPictureInPicture().catch(function(){});
+    }
+    _pipActive=false;
+    if(btn){btn.classList.remove('active');btn.textContent='⧉ PiP';}
+    return;
+  }
+
+  // Check support
+  if(!document.pictureInPictureEnabled){
+    toast('⚠️ Picture-in-Picture is not supported in this browser.');
+    return;
+  }
+
+  try{
+    var canvas=document.getElementById('pomo-pip-canvas');
+    var video=document.getElementById('pomo-pip-video');
+
+    // Draw initial frame before streaming
+    var s=_pomo.secondsLeft;
+    _pomoDrawPiP(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
+
+    // Capture canvas as a MediaStream (1 fps is enough — we redraw on each tick)
+    _pipStream=canvas.captureStream(1);
+    video.srcObject=_pipStream;
+    await video.play();
+
+    // Enter PiP
+    await video.requestPictureInPicture();
+    _pipActive=true;
+    if(btn){btn.classList.add('active');btn.textContent='⧉ Exit PiP';}
+
+    // When user closes PiP via browser chrome, update button
+    video.addEventListener('leavepictureinpicture',function(){
+      _pipActive=false;
+      var b=document.getElementById('pomo-pip-btn');
+      if(b){b.classList.remove('active');b.textContent='⧉ PiP';}
+    },{once:false});
+
+  } catch(err){
+    toast('⚠️ PiP failed: '+(err.message||err));
+    _pipActive=false;
+    if(btn){btn.classList.remove('active');btn.textContent='⧉ PiP';}
+  }
+}
+
+// Request notification permission on first interaction
+(function(){
+  if(typeof Notification!=='undefined'&&Notification.permission==='default'){
+    document.addEventListener('click',function reqPerm(){
+      Notification.requestPermission();
+      document.removeEventListener('click',reqPerm);
+    },{once:true});
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TIME BLOCK SPLITTER
+// ══════════════════════════════════════════════════════════════════════════════
+var _tbs={
+  topics:[],           // [{name, weight, secs, done}]
+  totalSecs:0,
+  currentIdx:0,
+  secsLeft:0,
+  running:false,
+  interval:null,
+  finished:false
+};
+
+function openTBS(){
+  renderTBSSetup();
+  document.getElementById('tbs-overlay').classList.add('open');
+}
+function closeTBS(){
+  document.getElementById('tbs-overlay').classList.remove('open');
+}
+
+/* ── helpers ── */
+function _tbsFmt(s){
+  var m=Math.floor(s/60);var sec=s%60;
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function _tbsTotalMins(){
+  var el=document.getElementById('tbs-total-mins');
+  return el?Math.max(1,parseInt(el.value)||60):60;
+}
+function _tbsGetRows(){
+  var rows=document.querySelectorAll('.tbs-topic-row');
+  var out=[];
+  rows.forEach(function(r){
+    var n=r.querySelector('.tbs-topic-name').value.trim();
+    var w=parseFloat(r.querySelector('.tbs-topic-weight').value)||1;
+    if(n) out.push({name:n,weight:Math.max(0.1,w)});
+  });
+  return out;
+}
+function _tbsUpdateMeta(){
+  var mins=_tbsTotalMins();
+  var rows=_tbsGetRows();
+  var totalW=rows.reduce(function(a,r){return a+r.weight},0)||1;
+  var secsTotal=mins*60;
+  var parts=rows.map(function(r){
+    return {name:r.name,secs:Math.round((r.weight/totalW)*secsTotal)};
+  });
+  var metaEl=document.getElementById('tbs-meta');
+  if(!metaEl) return;
+  if(!rows.length){metaEl.innerHTML='<span>Add topics below</span>';return;}
+  metaEl.innerHTML=
+    '<span>Total: <span class="tbs-meta-val">'+mins+' min</span></span> · '+
+    parts.map(function(p){return esc(p.name)+': <span class="tbs-meta-val">'+Math.round(p.secs/60)+'m</span>'}).join(' · ');
+}
+
+function renderTBSSetup(){
+  var body=document.getElementById('tbs-body');body.innerHTML='';
+
+  // If session is in progress, show running UI
+  if(_tbs.running||_tbs.finished){renderTBSRunning();return;}
+
+  // ── Total duration row ──
+  var durRow=document.createElement('div');durRow.className='tbs-setup-row';
+  durRow.innerHTML='<span class="tbs-lbl">Total time</span>';
+  var durInp=document.createElement('input');
+  durInp.type='number';durInp.id='tbs-total-mins';durInp.className='tbs-inp sm';
+  durInp.value='120';durInp.min='5';durInp.max='600';
+  durInp.oninput=_tbsUpdateMeta;
+  var durUnit=document.createElement('span');durUnit.style.cssText='font-size:.8rem;color:var(--muted)';durUnit.textContent='minutes';
+  durRow.appendChild(durInp);durRow.appendChild(durUnit);
+  body.appendChild(durRow);
+
+  // ── Topics section ──
+  var topicsLbl=document.createElement('div');
+  topicsLbl.style.cssText='font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase';
+  topicsLbl.textContent='Topics  ·  weight column sets relative time split';
+  body.appendChild(topicsLbl);
+
+  var topicsWrap=document.createElement('div');topicsWrap.className='tbs-topics';topicsWrap.id='tbs-topics';
+
+  // Default 3 rows
+  var defaults=['Topic A','Topic B','Topic C'];
+  defaults.forEach(function(d){_tbsAddTopicRow(topicsWrap,d,1);});
+  body.appendChild(topicsWrap);
+
+  var addBtn=document.createElement('button');addBtn.className='tbs-add-btn';addBtn.textContent='＋ Add topic';
+  addBtn.onclick=function(){_tbsAddTopicRow(topicsWrap,'',1);_tbsUpdateMeta();};
+  body.appendChild(addBtn);
+
+  // ── Meta preview ──
+  var meta=document.createElement('div');meta.className='tbs-meta-row';meta.id='tbs-meta';
+  meta.innerHTML='<span>Add topics above</span>';
+  body.appendChild(meta);
+
+  // ── Sound toggle ──
+  var soundRow=document.createElement('div');soundRow.className='tbs-setup-row';
+  soundRow.innerHTML='<span class="tbs-lbl">Alert sound</span>';
+  var soundSel=document.createElement('select');soundSel.id='tbs-sound';soundSel.className='tbs-inp';
+  soundSel.style.width='auto';
+  [['beep','Beep'],['bell','Bell'],['chime','Chime'],['none','Silent']].forEach(function(o){
+    var opt=document.createElement('option');opt.value=o[0];opt.textContent=o[1];soundSel.appendChild(opt);
+  });
+  soundRow.appendChild(soundSel);
+  body.appendChild(soundRow);
+
+  // ── Start button ──
+  var startBtn=document.createElement('button');startBtn.className='tbs-start-btn';startBtn.textContent='▶ Start Session';
+  startBtn.onclick=startTBS;
+  body.appendChild(startBtn);
+
+  _tbsUpdateMeta();
+}
+
+function _tbsAddTopicRow(container,name,weight){
+  var row=document.createElement('div');row.className='tbs-topic-row';
+  var ni=document.createElement('input');ni.type='text';ni.className='tbs-topic-name';ni.placeholder='Topic name…';ni.value=name;
+  ni.oninput=_tbsUpdateMeta;
+  var wi=document.createElement('input');wi.type='number';wi.className='tbs-topic-weight';wi.min='.1';wi.step='.5';wi.value=weight;wi.title='Relative weight';
+  wi.oninput=_tbsUpdateMeta;
+  var del=document.createElement('button');del.className='tbs-topic-del';del.textContent='✕';del.title='Remove';
+  del.onclick=function(){row.remove();_tbsUpdateMeta();};
+  row.appendChild(ni);row.appendChild(wi);row.appendChild(del);
+  container.appendChild(row);
+}
+
+function startTBS(){
+  var mins=_tbsTotalMins();
+  var rows=_tbsGetRows();
+  if(!rows.length){toast('⚠️ Add at least one topic.');return;}
+  var totalW=rows.reduce(function(a,r){return a+r.weight},0);
+  var secsTotal=mins*60;
+  _tbs.topics=rows.map(function(r){
+    return {name:r.name,weight:r.weight,secs:Math.round((r.weight/totalW)*secsTotal),done:false};
+  });
+  _tbs.totalSecs=secsTotal;
+  _tbs.currentIdx=0;
+  _tbs.secsLeft=_tbs.topics[0].secs;
+  _tbs.running=false;
+  _tbs.finished=false;
+  renderTBSRunning();
+  _tbsToggle(); // auto-start
+}
+
+function renderTBSRunning(){
+  var body=document.getElementById('tbs-body');body.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='tbs-running';
+
+  // Overall progress bar
+  var pbWrap=document.createElement('div');pbWrap.className='tbs-progress-bar-wrap';
+  var pbFill=document.createElement('div');pbFill.className='tbs-progress-bar-fill';pbFill.id='tbs-pb';
+  pbFill.style.width=_tbsOverallPct()+'%';
+  pbWrap.appendChild(pbFill);wrap.appendChild(pbWrap);
+
+  // Current block display
+  var curLbl=document.createElement('div');curLbl.className='tbs-current-lbl';curLbl.textContent='Now studying';wrap.appendChild(curLbl);
+  var curName=document.createElement('div');curName.className='tbs-current-name';curName.id='tbs-cur-name';
+  curName.textContent=_tbs.finished?'Session complete!':(_tbs.topics[_tbs.currentIdx]?_tbs.topics[_tbs.currentIdx].name:'—');
+  wrap.appendChild(curName);
+
+  // Big countdown
+  var bigTime=document.createElement('div');bigTime.className='tbs-big-time';bigTime.id='tbs-big-time';
+  bigTime.textContent=_tbs.finished?'✓':_tbsFmt(_tbs.secsLeft);
+  wrap.appendChild(bigTime);
+
+  // Block list
+  var blockList=document.createElement('div');blockList.className='tbs-block-list';blockList.id='tbs-block-list';
+  _tbs.topics.forEach(function(t,i){
+    var item=document.createElement('div');
+    item.className='tbs-block-item'+(t.done?' done':(_tbs.currentIdx===i&&!_tbs.finished?' active':''));
+    item.id='tbs-block-'+i;
+    item.innerHTML=
+      '<div class="tbs-block-dot"></div>'+
+      '<div class="tbs-block-name">'+esc(t.name)+'</div>'+
+      '<div class="tbs-block-dur">'+Math.round(t.secs/60)+'m</div>'+
+      '<div class="tbs-block-cd" id="tbs-cd-'+i+'">'+(t.done?'✓':(_tbs.currentIdx===i?_tbsFmt(_tbs.secsLeft):'—'))+'</div>';
+    blockList.appendChild(item);
+  });
+  wrap.appendChild(blockList);
+
+  // Controls
+  if(!_tbs.finished){
+    var ctrlRow=document.createElement('div');ctrlRow.className='tbs-ctrl-row';
+    var startBtn=document.createElement('button');startBtn.className='tbs-ctrl primary';startBtn.id='tbs-play-btn';
+    startBtn.textContent=_tbs.running?'⏸ Pause':'▶ Start';
+    startBtn.onclick=_tbsToggle;
+
+    var skipBtn=document.createElement('button');skipBtn.className='tbs-ctrl';skipBtn.textContent='⏭ Skip';
+    skipBtn.onclick=_tbsSkip;
+
+    var resetBtn=document.createElement('button');resetBtn.className='tbs-ctrl danger';resetBtn.textContent='↺ Reset';
+    resetBtn.onclick=function(){_tbsStop();renderTBSSetup();};
+
+    ctrlRow.appendChild(startBtn);ctrlRow.appendChild(skipBtn);ctrlRow.appendChild(resetBtn);
+    wrap.appendChild(ctrlRow);
+  } else {
+    var banner=document.createElement('div');banner.className='tbs-done-banner';
+    banner.textContent='🎉 Session complete! Great work.';wrap.appendChild(banner);
+    var resetBtn2=document.createElement('button');resetBtn2.className='tbs-ctrl';resetBtn2.style.margin='0 auto';resetBtn2.style.display='block';
+    resetBtn2.textContent='↺ New session';resetBtn2.onclick=function(){_tbsStop();renderTBSSetup();};
+    wrap.appendChild(resetBtn2);
+  }
+  body.appendChild(wrap);
+}
+
+function _tbsOverallPct(){
+  if(!_tbs.totalSecs) return 0;
+  var elapsed=_tbs.topics.reduce(function(a,t,i){
+    if(t.done) return a+t.secs;
+    if(i===_tbs.currentIdx) return a+(t.secs-_tbs.secsLeft);
+    return a;
+  },0);
+  return Math.min(100,Math.round((elapsed/_tbs.totalSecs)*100));
+}
+
+function _tbsToggle(){
+  if(_tbs.running){
+    clearInterval(_tbs.interval);_tbs.interval=null;
+    _tbs.running=false;
+    var pb=document.getElementById('tbs-play-btn');if(pb) pb.textContent='▶ Resume';
+  } else {
+    _tbs.running=true;
+    var pb2=document.getElementById('tbs-play-btn');if(pb2) pb2.textContent='⏸ Pause';
+    _tbs.interval=setInterval(_tbsTick,1000);
+  }
+}
+
+function _tbsTick(){
+  _tbs.secsLeft--;
+  // Update tab title
+  var cur=_tbs.topics[_tbs.currentIdx];
+  if(cur) document.title='⏱ '+_tbsFmt(_tbs.secsLeft)+' · '+cur.name;
+
+  // Update UI elements
+  var bt=document.getElementById('tbs-big-time');if(bt) bt.textContent=_tbsFmt(_tbs.secsLeft);
+  var cd=document.getElementById('tbs-cd-'+_tbs.currentIdx);if(cd) cd.textContent=_tbsFmt(_tbs.secsLeft);
+  var pb=document.getElementById('tbs-pb');if(pb) pb.style.width=_tbsOverallPct()+'%';
+
+  if(_tbs.secsLeft<=0) _tbsNextBlock();
+}
+
+function _tbsNextBlock(){
+  // Mark current done
+  if(_tbs.topics[_tbs.currentIdx]) _tbs.topics[_tbs.currentIdx].done=true;
+  var doneEl=document.getElementById('tbs-block-'+_tbs.currentIdx);
+  if(doneEl){doneEl.classList.remove('active');doneEl.classList.add('done');}
+  var cd=document.getElementById('tbs-cd-'+_tbs.currentIdx);if(cd) cd.textContent='✓';
+
+  _tbs.currentIdx++;
+  if(_tbs.currentIdx>=_tbs.topics.length){
+    // Session complete
+    _tbsStop();
+    _tbs.finished=true;
+    _pomoNotify('🎉 Time Block session complete!');
+    _pomoRestoreTitle();
+    renderTBSRunning();
+    return;
+  }
+  // Start next block
+  _tbs.secsLeft=_tbs.topics[_tbs.currentIdx].secs;
+  _pomoNotify('⏭ Moving to: '+_tbs.topics[_tbs.currentIdx].name);
+
+  // Update active block styling
+  var nextEl=document.getElementById('tbs-block-'+_tbs.currentIdx);
+  if(nextEl) nextEl.classList.add('active');
+  var curName=document.getElementById('tbs-cur-name');
+  if(curName) curName.textContent=_tbs.topics[_tbs.currentIdx].name;
+}
+
+function _tbsSkip(){
+  if(!_tbs.running&&_tbs.secsLeft===_tbs.topics[_tbs.currentIdx]?.secs) return;
+  _tbs.secsLeft=0;_tbsTick();
+}
+
+function _tbsStop(){
+  clearInterval(_tbs.interval);_tbs.interval=null;
+  _tbs.running=false;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POMODORO MODE SWITCHING (Classic ↔ Sprint)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pomoMode='classic'; // 'classic' | 'sprint'
+
+function setPomoMode(mode){
+  _pomoMode=mode;
+  document.getElementById('pomo-classic-panel').style.display=mode==='classic'?'':'none';
+  document.getElementById('pomo-sprint-panel').style.display=mode==='sprint'?'':'none';
+  document.getElementById('pomo-tab-classic').classList.toggle('on',mode==='classic');
+  document.getElementById('pomo-tab-sprint').classList.toggle('on',mode==='sprint');
+  var htEl=document.getElementById('pomo-header-title');
+  if(htEl) htEl.textContent=mode==='sprint'?'📚 Sprint Planner':'🍅 Pomodoro';
+  if(mode==='sprint') renderSprintUI();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STUDY SPRINT PLANNER
+// ══════════════════════════════════════════════════════════════════════════════
+var _sprint={
+  queue:[],       // [{name, total, done}]  total=number of pomos, done=completed pomos
+  currentIdx:0,
+  currentPomo:0,  // which pomo within the current topic (0-based)
+  running:false,
+  phase:'focus',  // 'focus'|'break'|'longbreak'
+  secsLeft:0,
+  interval:null,
+  sessionsBeforeLong:4,
+  completedFocusSessions:0  // across all topics
+};
+
+function renderSprintUI(){
+  var wrap=document.getElementById('sprint-ui');if(!wrap) return;
+  wrap.innerHTML='';
+  var sp=document.createElement('div');sp.className='sprint-planner';
+
+  // Header / state
+  if(_sprint.running||_sprint.queue.some(function(q){return q.done>0})){
+    // ── Running view ──
+    var curTopic=_sprint.queue[_sprint.currentIdx];
+    if(curTopic){
+      // Phase + timer
+      var phaseLabels={focus:'🍅 Focus',break:'☕ Break',longbreak:'🌿 Long Break'};
+      var phase=document.createElement('div');phase.style.cssText='font-size:.6rem;opacity:.5;text-align:center;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px';
+      phase.id='sprint-phase-lbl';phase.textContent=phaseLabels[_sprint.phase]||'Focus';
+      sp.appendChild(phase);
+
+      var timeEl=document.createElement('div');
+      timeEl.style.cssText='font-family:\'Playfair Display\',serif;font-size:2.2rem;font-weight:700;text-align:center;letter-spacing:.02em;margin-bottom:6px';
+      timeEl.id='sprint-time';timeEl.textContent=_tbsFmt(_sprint.secsLeft);
+      sp.appendChild(timeEl);
+
+      var curLbl=document.createElement('div');curLbl.style.cssText='font-size:.7rem;color:var(--accent);text-align:center;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+      curLbl.id='sprint-cur-name';
+      curLbl.textContent=curTopic.name+' — 🍅 '+(curTopic.done+1)+'/'+curTopic.total;
+      sp.appendChild(curLbl);
+
+      // Controls
+      var cr=document.createElement('div');cr.style.cssText='display:flex;gap:6px;justify-content:center;margin-bottom:10px';
+      var startBtn=document.createElement('button');startBtn.className='pomo-ctrl';startBtn.id='sprint-start-btn';
+      startBtn.textContent=_sprint.running?'⏸ Pause':'▶ Start';
+      startBtn.onclick=_sprintToggle;
+      var resetBtn=document.createElement('button');resetBtn.className='pomo-ctrl stop-btn';resetBtn.textContent='↺ Reset';
+      resetBtn.onclick=_sprintReset;
+      cr.appendChild(startBtn);cr.appendChild(resetBtn);
+      sp.appendChild(cr);
+    }
+  }
+
+  // Queue list
+  var queueDiv=document.createElement('div');queueDiv.className='sprint-queue';queueDiv.id='sprint-queue';
+  if(!_sprint.queue.length){
+    var empty=document.createElement('div');empty.style.cssText='font-size:.75rem;color:var(--border);font-style:italic;text-align:center;padding:8px 0';
+    empty.textContent='Add topics with their number of 🍅 sessions below.';
+    queueDiv.appendChild(empty);
+  } else {
+    _sprint.queue.forEach(function(q,i){
+      var item=document.createElement('div');
+      var isCur=i===_sprint.currentIdx&&(_sprint.running||q.done>0);
+      var isDone=q.done>=q.total;
+      item.className='sprint-item'+(isDone?' done':(isCur?' active':''));
+      item.id='sprint-item-'+i;
+      var dot=document.createElement('div');dot.className='sprint-item-dot';
+      var name=document.createElement('div');name.className='sprint-item-name';name.textContent=q.name;
+      var poms=document.createElement('div');poms.className='sprint-item-pomo';
+      for(var p=0;p<q.total;p++){
+        var d=document.createElement('span');d.className='sprint-dot'+(p<q.done?' filled':'');d.textContent='🍅';
+        poms.appendChild(d);
+      }
+      var del=document.createElement('button');del.className='sprint-del-btn';del.textContent='✕';
+      (function(idx){del.onclick=function(){_sprint.queue.splice(idx,1);renderSprintUI();};})(i);
+      item.appendChild(dot);item.appendChild(name);item.appendChild(poms);item.appendChild(del);
+      queueDiv.appendChild(item);
+    });
+  }
+  sp.appendChild(queueDiv);
+
+  // Add row
+  var addRow=document.createElement('div');addRow.className='sprint-btn-row';
+  var ni=document.createElement('input');ni.type='text';ni.className='sprint-inp';ni.placeholder='Topic name…';ni.id='sprint-new-name';
+  var ci=document.createElement('input');ci.type='number';ci.className='sprint-count';ci.min=1;ci.max=20;ci.value=2;ci.id='sprint-new-count';ci.title='Pomodoros';
+  var addBtn=document.createElement('button');addBtn.className='sprint-add-btn';addBtn.textContent='＋ Add';
+  addBtn.onclick=function(){
+    var n=document.getElementById('sprint-new-name').value.trim();
+    var c=Math.max(1,parseInt(document.getElementById('sprint-new-count').value)||1);
+    if(!n){toast('⚠️ Enter a topic name.');return;}
+    _sprint.queue.push({name:n,total:c,done:0});
+    document.getElementById('sprint-new-name').value='';
+    renderSprintUI();
+  };
+  ni.onkeydown=function(e){if(e.key==='Enter')addBtn.click();};
+  var clrBtn=document.createElement('button');clrBtn.className='sprint-clear-btn';clrBtn.textContent='Clear all';
+  clrBtn.onclick=function(){if(confirm('Clear sprint queue?')){_sprintReset();_sprint.queue=[];renderSprintUI();}};
+  addRow.appendChild(ni);addRow.appendChild(ci);addRow.appendChild(addBtn);addRow.appendChild(clrBtn);
+  sp.appendChild(addRow);
+
+  // Info line
+  if(_sprint.queue.length){
+    var total=_sprint.queue.reduce(function(a,q){return a+q.total},0);
+    var done=_sprint.queue.reduce(function(a,q){return a+q.done},0);
+    var info=document.createElement('div');info.style.cssText='font-size:.62rem;opacity:.4;text-align:center';
+    info.textContent=done+'/'+total+' 🍅 completed · '+(total-done)+' remaining (≈'+Math.round((total-done)*(_pomo.durMin+_pomo.breakMin))+'m)';
+    sp.appendChild(info);
+  }
+
+  wrap.appendChild(sp);
+}
+
+function _sprintToggle(){
+  if(_sprint.running){
+    clearInterval(_sprint.interval);_sprint.interval=null;
+    _sprint.running=false;
+    // Close task session if focus
+    if(_sprint.phase==='focus') _pomoStopSession();
+    var sb=document.getElementById('sprint-start-btn');if(sb) sb.textContent='▶ Resume';
+  } else {
+    // Init if fresh start
+    if(_sprint.secsLeft===0){
+      var q=_sprint.queue[_sprint.currentIdx];
+      if(!q){toast('⚠️ Add topics to the sprint queue.');return;}
+      _sprint.phase='focus';
+      _sprint.secsLeft=_pomo.durMin*60;
+    }
+    _sprint.running=true;
+    if(_sprint.phase==='focus') _pomoStartSession();
+    var sb2=document.getElementById('sprint-start-btn');if(sb2) sb2.textContent='⏸ Pause';
+    _sprint.interval=setInterval(_sprintTick,1000);
+  }
+}
+
+function _sprintTick(){
+  _sprint.secsLeft--;
+
+  // Update time display
+  var te=document.getElementById('sprint-time');if(te) te.textContent=_tbsFmt(_sprint.secsLeft);
+
+  // Tab title
+  var curQ=_sprint.queue[_sprint.currentIdx];
+  var phaseEmoji={focus:'🍅',break:'☕',longbreak:'🌿'}[_sprint.phase]||'🍅';
+  if(curQ) document.title=phaseEmoji+' '+_tbsFmt(_sprint.secsLeft)+' · '+curQ.name;
+
+  if(_sprint.secsLeft<=0) _sprintPhaseComplete();
+}
+
+function _sprintPhaseComplete(){
+  clearInterval(_sprint.interval);_sprint.interval=null;
+  _sprint.running=false;
+  if(_sprint.phase==='focus') _pomoStopSession();
+
+  if(_sprint.phase==='focus'){
+    _sprint.completedFocusSessions++;
+    // Mark one pomo done for this topic
+    var q=_sprint.queue[_sprint.currentIdx];
+    if(q) q.done++;
+    _pomoNotify('🍅 Sprint done! '+(q?q.name+' ('+q.done+'/'+q.total+')':''));
+
+    // Check if topic is finished
+    var topicDone=q&&q.done>=q.total;
+    if(topicDone){
+      _sprint.currentIdx++;
+      if(_sprint.currentIdx>=_sprint.queue.length){
+        // All done!
+        _sprintReset();
+        _sprint.queue.forEach(function(t){t.done=t.total;});
+        _pomoNotify('🎉 All sprints complete!');
+        _pomoRestoreTitle();
+        renderSprintUI();
+        return;
+      }
+      _pomoNotify('📚 Next topic: '+_sprint.queue[_sprint.currentIdx].name);
+    }
+
+    // Decide break type
+    if(_sprint.completedFocusSessions%_sprint.sessionsBeforeLong===0){
+      _sprint.phase='longbreak';
+      _sprint.secsLeft=_pomo.longBreakMin*60;
+    } else {
+      _sprint.phase='break';
+      _sprint.secsLeft=_pomo.breakMin*60;
+    }
+  } else {
+    // Break done → next focus
+    _sprint.phase='focus';
+    _sprint.secsLeft=_pomo.durMin*60;
+    _pomoNotify('✅ Break over! Back to focus.');
+  }
+
+  var plEl=document.getElementById('sprint-phase-lbl');
+  var phaseLabels={focus:'🍅 Focus',break:'☕ Break',longbreak:'🌿 Long Break'};
+  if(plEl) plEl.textContent=phaseLabels[_sprint.phase]||'Focus';
+  var curLbl=document.getElementById('sprint-cur-name');
+  var curQ2=_sprint.queue[_sprint.currentIdx];
+  if(curLbl&&curQ2) curLbl.textContent=curQ2.name+' — 🍅 '+(curQ2.done+1)+'/'+curQ2.total;
+
+  renderSprintUI();
+  // Auto-start next phase after 1.5s
+  setTimeout(function(){if(!_sprint.running)_sprintToggle();},1500);
+}
+
+function _sprintReset(){
+  clearInterval(_sprint.interval);_sprint.interval=null;
+  _sprint.running=false;
+  _sprint.currentIdx=0;
+  _sprint.currentPomo=0;
+  _sprint.phase='focus';
+  _sprint.secsLeft=0;
+  _sprint.completedFocusSessions=0;
+  _sprint.queue.forEach(function(q){q.done=0;});
+  _pomoRestoreTitle();
+  if(_sprint.phase==='focus') _pomoStopSession();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INLINE TIME BLOCK SPLITTER (inside Day Modal)
+// Modes: 'weighted' = split total time by weights | 'per-task' = each task has its own fixed time
+// ══════════════════════════════════════════════════════════════════════════════
+var _modalTbs={
+  open:false,
+  mode:'weighted',        // 'weighted' | 'per-task'
+  topics:[],              // [{name, taskId, taskIdx, secs, done}]
+  totalSecs:0,
+  currentIdx:0,
+  secsLeft:0,
+  running:false,
+  interval:null,
+  finished:false,
+  selectedTaskIds:{},     // taskId → {weight: N} (weighted mode) or {mins: N} (per-task mode)
+  savedTotalMins:60       // remember total-time input across re-renders
+};
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+function _mtbsParseTime(str){
+  // Returns seconds from strings like "30m", "1.5h", "45", "1h30m"
+  if(!str) return 0;
+  var s=str.trim().toLowerCase();
+  var h=0,m=0;
+  var hm=s.match(/(\d+\.?\d*)\s*h/);if(hm) h=parseFloat(hm[1]);
+  var mm=s.match(/(\d+\.?\d*)\s*m/);if(mm) m=parseFloat(mm[1]);
+  if(h||m) return Math.round((h*60+m)*60);
+  var n=parseFloat(s);return n>0?Math.round(n*60):0;
+}
+
+function _mtbsGetTaskIdx(taskId){
+  var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  return tasks.findIndex(function(t){return t.id===taskId});
+}
+
+// ── start / stop task-level timer for current block ──────────────────────────
+function _mtbsStartTaskTimer(){
+  var topic=_modalTbs.topics[_modalTbs.currentIdx];
+  if(!topic||!topic.taskId||!activeDay) return;
+  var ti=_mtbsGetTaskIdx(topic.taskId);
+  if(ti<0) return;
+  var task=state.days[activeDay].tasks[ti];
+  if(!task) return;
+  if(!task.sessions) task.sessions=[];
+  // Don't double-open
+  var last=task.sessions[task.sessions.length-1];
+  if(last&&last.end===null) return;
+  task.sessions.push({start:Date.now(),end:null,tbs:true});
+  lsSet(pKey('state'),state);
+  renderTasks();
+  _startTimerTick();
+}
+
+function _mtbsStopTaskTimer(){
+  var topic=_modalTbs.topics[_modalTbs.currentIdx];
+  if(!topic||!topic.taskId||!activeDay) return;
+  var ti=_mtbsGetTaskIdx(topic.taskId);
+  if(ti<0) return;
+  var task=state.days[activeDay].tasks[ti];
+  if(!task||!task.sessions||!task.sessions.length) return;
+  var last=task.sessions[task.sessions.length-1];
+  if(last&&last.end===null){last.end=Date.now();lsSet(pKey('state'),state);renderTasks();}
+}
+
+// ── open / close ──────────────────────────────────────────────────────────────
+function toggleModalTBS(){
+  _modalTbs.open=!_modalTbs.open;
+  var hd=document.getElementById('modal-tbs-hd');
+  var body=document.getElementById('modal-tbs-area');
+  if(!hd||!body) return;
+  body.classList.toggle('hidden',!_modalTbs.open);
+  hd.classList.toggle('collapsed',!_modalTbs.open);
+  if(_modalTbs.open) renderModalTBS();
+  _syncTasksVisibility();
+}
+
+function renderModalTBS(){
+  if(!_modalTbs.open) return;
+  if(_modalTbs.running||_modalTbs.finished) renderModalTBSRunning();
+  else renderModalTBSSetup();
+}
+
+// ── SETUP SCREEN ──────────────────────────────────────────────────────────────
+function renderModalTBSSetup(){
+  var area=document.getElementById('modal-tbs-area');
+  if(!area) return;
+  area.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='modal-tbs-wrap';
+
+  // ── Mode toggle ──
+  var modeRow=document.createElement('div');modeRow.className='modal-tbs-mode-row';
+
+  var modeWLabel=document.createElement('button');
+  modeWLabel.className='modal-tbs-mode-btn'+(_modalTbs.mode==='weighted'?' active':'');
+  modeWLabel.innerHTML='🎯 Total time + priority';
+  modeWLabel.title='Set a total session time and distribute it by priority order (1 = most time)';
+  modeWLabel.onclick=function(){_modalTbs.mode='weighted';renderModalTBSSetup();};
+
+  var modePLabel=document.createElement('button');
+  modePLabel.className='modal-tbs-mode-btn'+(_modalTbs.mode==='per-task'?' active':'');
+  modePLabel.innerHTML='⏱ Time per task';
+  modePLabel.title='Set a specific time for each task individually';
+  modePLabel.onclick=function(){_modalTbs.mode='per-task';renderModalTBSSetup();};
+
+  modeRow.appendChild(modeWLabel);modeRow.appendChild(modePLabel);
+  wrap.appendChild(modeRow);
+
+  // ── Mode description ──
+  var modeDesc=document.createElement('div');modeDesc.className='modal-tbs-mode-desc';
+  modeDesc.textContent=_modalTbs.mode==='weighted'
+    ? 'Set a total session time. Assign a priority to each task (1 = highest priority, gets the most time; 2 = second, and so on). Equal priorities split their share evenly.'
+    : 'Set the exact duration for each task. Tasks with a time tag are pre-filled. The session total is the sum of all task times.';
+  wrap.appendChild(modeDesc);
+
+  // ── Task list ──
+  var pickerLbl=document.createElement('div');pickerLbl.className='modal-tbs-picker-lbl';
+  pickerLbl.textContent='Select tasks for this session:';
+  wrap.appendChild(pickerLbl);
+
+  var tasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  if(!tasks.length){
+    var empty=document.createElement('div');empty.style.cssText='font-size:.78rem;color:var(--border);font-style:italic;padding:4px 0';
+    empty.textContent='No tasks for this day yet — add some tasks first.';
+    wrap.appendChild(empty);
+  } else {
+    var taskList=document.createElement('div');taskList.className='modal-tbs-task-list';
+    tasks.forEach(function(task,ti){
+      var selData=_modalTbs.selectedTaskIds[task.id];
+      var sel=!!selData;
+      var item=document.createElement('div');
+      item.className='modal-tbs-task-item'+(sel?' selected':'');
+
+      var cb=document.createElement('input');cb.type='checkbox';cb.className='modal-tbs-task-cb';cb.checked=sel;
+
+      var txt=document.createElement('span');txt.className='modal-tbs-task-txt';txt.textContent=task.text;
+
+      item.appendChild(cb);item.appendChild(txt);
+
+      // Right-side control: weight input (weighted mode) or time input (per-task mode)
+      if(_modalTbs.mode==='weighted'){
+        var wInp=document.createElement('input');
+        wInp.type='number';wInp.className='modal-tbs-weight-inp';
+        wInp.min='1';wInp.step='1';wInp.title='Priority (1 = highest priority, gets most time)';
+        wInp.placeholder='P#';
+        // Pre-fill: saved priority, else 1
+        var savedW=selData?selData.weight:null;
+        wInp.value=savedW!==null?savedW:1;
+        if(!sel) wInp.style.opacity='.35';
+        wInp.addEventListener('mousedown',function(e){e.stopPropagation();});
+        wInp.addEventListener('click',function(e){e.stopPropagation();});
+        wInp.oninput=function(){
+          if(_modalTbs.selectedTaskIds[task.id]) _modalTbs.selectedTaskIds[task.id].weight=Math.max(1,parseInt(wInp.value)||1);
+        };
+        item.appendChild(wInp);
+        var wLbl=document.createElement('span');wLbl.className='modal-tbs-task-time';wLbl.textContent='P#';
+        item.appendChild(wLbl);
+      } else {
+        // Per-task: show minutes input
+        var mInp=document.createElement('input');
+        mInp.type='number';mInp.className='modal-tbs-weight-inp';
+        mInp.min='1';mInp.step='5';mInp.title='Duration (minutes)';mInp.placeholder='min';
+        var autoMins=Math.round(_mtbsParseTime(task.time)/60)||null;
+        var savedMins=selData?selData.mins:null;
+        mInp.value=savedMins!==null?savedMins:(autoMins||15);
+        if(!sel) mInp.style.opacity='.35';
+        mInp.addEventListener('mousedown',function(e){e.stopPropagation();});
+        mInp.addEventListener('click',function(e){e.stopPropagation();});
+        mInp.oninput=function(){
+          if(_modalTbs.selectedTaskIds[task.id]) _modalTbs.selectedTaskIds[task.id].mins=parseInt(mInp.value)||15;
+        };
+        item.appendChild(mInp);
+        var mLbl=document.createElement('span');mLbl.className='modal-tbs-task-time';mLbl.textContent='min';
+        item.appendChild(mLbl);
+      }
+
+      // Toggle selection
+      (function(task,ti,item,cb){
+        function toggleSel(){
+          if(_modalTbs.selectedTaskIds[task.id]){
+            delete _modalTbs.selectedTaskIds[task.id];
+          } else {
+            if(_modalTbs.mode==='weighted'){
+              _modalTbs.selectedTaskIds[task.id]={weight:1,taskIdx:ti};
+            } else {
+              var autoM2=Math.round(_mtbsParseTime(task.time)/60)||15;
+              _modalTbs.selectedTaskIds[task.id]={mins:autoM2,taskIdx:ti};
+            }
+          }
+          renderModalTBSSetup();
+        }
+        cb.addEventListener('change',function(e){e.stopPropagation();toggleSel();});
+        item.addEventListener('click',function(e){
+          if(e.target===cb||e.target.tagName==='INPUT') return;
+          toggleSel();
+        });
+      })(task,ti,item,cb);
+
+      taskList.appendChild(item);
+    });
+    wrap.appendChild(taskList);
+  }
+
+  var selCount=Object.keys(_modalTbs.selectedTaskIds).length;
+
+  // ── Weighted mode: total time input ──
+  if(_modalTbs.mode==='weighted'){
+    var durRow=document.createElement('div');durRow.className='modal-tbs-dur-row';
+    var durLbl=document.createElement('span');durLbl.className='tbs-lbl';durLbl.textContent='Total session time';
+    var durInp=document.createElement('input');durInp.type='number';durInp.id='modal-tbs-mins';
+    durInp.className='tbs-inp sm';durInp.value=_modalTbs.savedTotalMins;durInp.min='5';durInp.max='600';
+    var durUnit=document.createElement('span');durUnit.style.cssText='font-size:.78rem;color:var(--muted)';durUnit.textContent='min';
+    durInp.oninput=function(){_modalTbs.savedTotalMins=parseInt(durInp.value)||60;};
+    durRow.appendChild(durLbl);durRow.appendChild(durInp);durRow.appendChild(durUnit);
+    wrap.appendChild(durRow);
+
+    // Preview split — priority-based allocation
+    if(selCount){
+      var tasks2=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+      var selEntries=tasks2.filter(function(t){return !!_modalTbs.selectedTaskIds[t.id]});
+      var maxPrio=selEntries.reduce(function(a,t){return Math.max(a,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},1);
+      // weight = maxPrio + 1 - priority  →  priority 1 gets maxPrio (highest), last priority gets 1 (lowest)
+      var totalW=selEntries.reduce(function(a,t){var p=parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1;return a+(maxPrio+1-p)},0)||1;
+      var totalMins=_modalTbs.savedTotalMins;
+      var preview=document.createElement('div');preview.className='modal-tbs-preview';
+      selEntries.forEach(function(t){
+        var p=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+        var w=maxPrio+1-p;
+        var m=Math.round((w/totalW)*totalMins);
+        var row=document.createElement('div');row.className='modal-tbs-preview-row';
+        row.innerHTML='<span class="modal-tbs-preview-name">P'+p+' · '+esc(t.text)+'</span><span class="modal-tbs-preview-time">'+m+'m</span>';
+        preview.appendChild(row);
+      });
+      wrap.appendChild(preview);
+    }
+  } else {
+    // Per-task: show computed total
+    if(selCount){
+      var tasks3=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+      var totalPerTask=tasks3.reduce(function(a,t){
+        if(!_modalTbs.selectedTaskIds[t.id]) return a;
+        return a+(_modalTbs.selectedTaskIds[t.id].mins||15);
+      },0);
+      var totalInfo=document.createElement('div');totalInfo.className='modal-tbs-dur-row';
+      totalInfo.style.cssText='font-size:.75rem;color:var(--muted);padding:2px 0';
+      totalInfo.innerHTML='Total session: <strong style="color:var(--ink)">'+totalPerTask+' min</strong>';
+      wrap.appendChild(totalInfo);
+    }
+  }
+
+  // Info
+  var selInfo=document.createElement('div');
+  selInfo.style.cssText='font-size:.7rem;color:var(--muted)';
+  selInfo.textContent=selCount?selCount+' task'+(selCount!==1?'s':'')+' selected':'Select tasks above to build your session';
+  wrap.appendChild(selInfo);
+
+  // Start button
+  var startBtn=document.createElement('button');startBtn.className='modal-tbs-start-btn';
+  startBtn.textContent='▶ Start Session';
+  startBtn.disabled=selCount===0;
+  startBtn.onclick=startModalTBS;
+  wrap.appendChild(startBtn);
+
+  area.appendChild(wrap);
+}
+
+// ── BUILD + LAUNCH ────────────────────────────────────────────────────────────
+function startModalTBS(){
+  var allTasks=(activeDay&&state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  var selected=allTasks.filter(function(t){return !!_modalTbs.selectedTaskIds[t.id]});
+  if(!selected.length){toast('⚠️ Select at least one task.');return;}
+
+  if(_modalTbs.mode==='weighted'){
+    var mins=_modalTbs.savedTotalMins||60;
+    var secsTotal=mins*60;
+    var maxPrio=selected.reduce(function(a,t){return Math.max(a,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1)},1);
+    var totalW=selected.reduce(function(a,t){var p=parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1;return a+(maxPrio+1-p)},0)||1;
+    _modalTbs.topics=selected.map(function(t){
+      var p=Math.max(1,parseInt(_modalTbs.selectedTaskIds[t.id].weight)||1);
+      var w=maxPrio+1-p;
+      return {name:t.text,taskId:t.id,secs:Math.round((w/totalW)*secsTotal),done:false};
+    });
+    _modalTbs.totalSecs=secsTotal;
+  } else {
+    // per-task mode
+    _modalTbs.topics=selected.map(function(t){
+      var m=_modalTbs.selectedTaskIds[t.id].mins||15;
+      return {name:t.text,taskId:t.id,secs:m*60,done:false};
+    });
+    _modalTbs.totalSecs=_modalTbs.topics.reduce(function(a,t){return a+t.secs},0);
+  }
+
+  _modalTbs.currentIdx=0;
+  _modalTbs.secsLeft=_modalTbs.topics[0].secs;
+  _modalTbs.running=false;
+  _modalTbs.finished=false;
+
+  renderModalTBSRunning();
+  _modalTbsToggle(); // auto-start → also starts task timer
+}
+
+// ── RUNNING SCREEN ────────────────────────────────────────────────────────────
+function renderModalTBSRunning(){
+  var area=document.getElementById('modal-tbs-area');
+  if(!area) return;
+  area.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='modal-tbs-wrap';
+
+  // Progress bar
+  var pbWrap=document.createElement('div');pbWrap.className='modal-tbs-pb-wrap';
+  var pbFill=document.createElement('div');pbFill.className='modal-tbs-pb-fill';
+  pbFill.id='modal-tbs-pb';pbFill.style.width=_modalTbsOverallPct()+'%';
+  pbWrap.appendChild(pbFill);wrap.appendChild(pbWrap);
+
+  var curTopic=_modalTbs.topics[_modalTbs.currentIdx];
+  var curLbl=document.createElement('div');curLbl.className='modal-tbs-cur-lbl';
+  curLbl.textContent=_modalTbs.finished?'Session complete':'Now working on';wrap.appendChild(curLbl);
+  var curName=document.createElement('div');curName.className='modal-tbs-cur-name';curName.id='modal-tbs-cur-name';
+  curName.textContent=_modalTbs.finished?'🎉 All done!':(curTopic?curTopic.name:'—');
+  wrap.appendChild(curName);
+
+  var bigTime=document.createElement('div');bigTime.className='modal-tbs-big';bigTime.id='modal-tbs-big';
+  bigTime.textContent=_modalTbs.finished?'✓':_tbsFmt(_modalTbs.secsLeft);
+  wrap.appendChild(bigTime);
+
+  // Block list
+  var blockList=document.createElement('div');blockList.className='modal-tbs-block-list';
+  _modalTbs.topics.forEach(function(t,i){
+    var active=_modalTbs.currentIdx===i&&!_modalTbs.finished;
+    var item=document.createElement('div');
+    item.className='modal-tbs-block-item'+(t.done?' done':(active?' active':''));
+    item.id='modal-tbs-block-'+i;
+    item.innerHTML=
+      '<div class="modal-tbs-block-dot"></div>'+
+      '<div class="modal-tbs-block-name">'+esc(t.name)+'</div>'+
+      '<div class="modal-tbs-block-dur">'+Math.round(t.secs/60)+'m</div>'+
+      '<div class="modal-tbs-block-cd" id="modal-tbs-cd-'+i+'">'+(t.done?'✓':(active?_tbsFmt(_modalTbs.secsLeft):'—'))+'</div>';
+    blockList.appendChild(item);
+  });
+  wrap.appendChild(blockList);
+
+  if(!_modalTbs.finished){
+    var ctrlRow=document.createElement('div');ctrlRow.className='modal-tbs-ctrl-row';
+    var playBtn=document.createElement('button');playBtn.className='modal-tbs-ctrl primary';playBtn.id='modal-tbs-play-btn';
+    playBtn.textContent=_modalTbs.running?'⏸ Pause':'▶ Resume';
+    playBtn.onclick=_modalTbsToggle;
+    var skipBtn=document.createElement('button');skipBtn.className='modal-tbs-ctrl';skipBtn.textContent='⏭ Skip';
+    skipBtn.onclick=_modalTbsSkip;
+    var resetBtn=document.createElement('button');resetBtn.className='modal-tbs-ctrl danger';resetBtn.textContent='↺ Reset';
+    resetBtn.onclick=function(){_mtbsStopTaskTimer();_modalTbsStop();renderModalTBSSetup();};
+    ctrlRow.appendChild(playBtn);ctrlRow.appendChild(skipBtn);ctrlRow.appendChild(resetBtn);
+    wrap.appendChild(ctrlRow);
+  } else {
+    var banner=document.createElement('div');banner.className='modal-tbs-done-banner';
+    banner.textContent='🎉 Session complete! Great work.';wrap.appendChild(banner);
+    var newBtn=document.createElement('button');newBtn.className='modal-tbs-ctrl';
+    newBtn.style.cssText='display:block;width:100%';newBtn.textContent='↺ New session';
+    newBtn.onclick=function(){_modalTbsStop();_modalTbs.selectedTaskIds={};renderModalTBSSetup();};
+    wrap.appendChild(newBtn);
+  }
+  area.appendChild(wrap);
+}
+
+function _modalTbsOverallPct(){
+  if(!_modalTbs.totalSecs) return 0;
+  var elapsed=_modalTbs.topics.reduce(function(a,t,i){
+    if(t.done) return a+t.secs;
+    if(i===_modalTbs.currentIdx) return a+(t.secs-_modalTbs.secsLeft);
+    return a;
+  },0);
+  return Math.min(100,Math.round((elapsed/_modalTbs.totalSecs)*100));
+}
+
+function _modalTbsToggle(){
+  if(_modalTbs.running){
+    _mtbsStopTaskTimer();
+    clearInterval(_modalTbs.interval);_modalTbs.interval=null;
+    _modalTbs.running=false;
+    var pb=document.getElementById('modal-tbs-play-btn');if(pb) pb.textContent='▶ Resume';
+  } else {
+    _modalTbs.running=true;
+    _mtbsStartTaskTimer(); // ← activates the task's own session timer
+    var pb2=document.getElementById('modal-tbs-play-btn');if(pb2) pb2.textContent='⏸ Pause';
+    _modalTbs.interval=setInterval(_modalTbsTick,1000);
+  }
+}
+
+function _modalTbsTick(){
+  _modalTbs.secsLeft--;
+  var bt=document.getElementById('modal-tbs-big');if(bt) bt.textContent=_tbsFmt(_modalTbs.secsLeft);
+  var cd=document.getElementById('modal-tbs-cd-'+_modalTbs.currentIdx);if(cd) cd.textContent=_tbsFmt(_modalTbs.secsLeft);
+  var pb=document.getElementById('modal-tbs-pb');if(pb) pb.style.width=_modalTbsOverallPct()+'%';
+  // Update tab title
+  var cur=_modalTbs.topics[_modalTbs.currentIdx];
+  if(cur) document.title='⏱ '+_tbsFmt(_modalTbs.secsLeft)+' · '+cur.name;
+  if(_modalTbs.secsLeft<=0) _modalTbsNextBlock();
+}
+
+function _modalTbsNextBlock(){
+  // Stop timer on finished block
+  _mtbsStopTaskTimer();
+
+  if(_modalTbs.topics[_modalTbs.currentIdx]) _modalTbs.topics[_modalTbs.currentIdx].done=true;
+  var doneEl=document.getElementById('modal-tbs-block-'+_modalTbs.currentIdx);
+  if(doneEl){doneEl.classList.remove('active');doneEl.classList.add('done');}
+  var cd=document.getElementById('modal-tbs-cd-'+_modalTbs.currentIdx);if(cd) cd.textContent='✓';
+
+  _modalTbs.currentIdx++;
+  if(_modalTbs.currentIdx>=_modalTbs.topics.length){
+    _modalTbsStop();
+    _modalTbs.finished=true;
+    _pomoNotify('🎉 Day session complete!');
+    _pomoRestoreTitle();
+    renderModalTBSRunning();
+    return;
+  }
+  _modalTbs.secsLeft=_modalTbs.topics[_modalTbs.currentIdx].secs;
+  var nextEl=document.getElementById('modal-tbs-block-'+_modalTbs.currentIdx);
+  if(nextEl) nextEl.classList.add('active');
+  var curName=document.getElementById('modal-tbs-cur-name');
+  if(curName) curName.textContent=_modalTbs.topics[_modalTbs.currentIdx].name;
+  _pomoNotify('⏭ Now: '+_modalTbs.topics[_modalTbs.currentIdx].name);
+  // Start task timer for next block
+  _mtbsStartTaskTimer();
+}
+
+function _modalTbsSkip(){
+  _mtbsStopTaskTimer();
+  _modalTbsStop();
+  _modalTbsNextBlock();
+  if(!_modalTbs.finished) _modalTbsToggle();
+}
+
+function _modalTbsStop(){
+  clearInterval(_modalTbs.interval);_modalTbs.interval=null;
+  _modalTbs.running=false;
+}
+
 // ══════════════════════════════════════════════════════════════════════════════
 var _origLsSet=lsSet;
 lsSet=function(k,v){
@@ -3469,6 +5219,65 @@ lsSet=function(k,v){
 };
 
 </script>
+
+<!-- ══ TIME BLOCK SPLITTER ══ -->
+<div class="tbs-overlay" id="tbs-overlay" onclick="if(event.target===this)closeTBS()">
+  <div class="tbs-modal">
+    <div class="tbs-head">
+      <span class="tbs-title">⏱ Time Block Splitter</span>
+      <button class="tbs-close" onclick="closeTBS()">✕</button>
+    </div>
+    <div class="tbs-body" id="tbs-body"></div>
+  </div>
+</div>
+
+<!-- ══ POMODORO OVERLAY ══ -->
+<div class="pomo-overlay" id="pomo-overlay">
+  <div class="pomo-header">
+    <span class="pomo-title" id="pomo-header-title">🍅 Pomodoro</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="pomo-pip-btn" id="pomo-pip-btn" onclick="togglePomoPiP()" title="Picture-in-Picture — keep timer visible in any app">⧉ PiP</button>
+      <button class="pomo-close-btn" onclick="closePomo()">✕</button>
+    </div>
+  </div>
+
+  <!-- Mode tabs -->
+  <div class="pomo-mode-tabs">
+    <button class="pomo-mode-tab on" id="pomo-tab-classic" onclick="setPomoMode('classic')">🍅 Classic</button>
+    <button class="pomo-mode-tab" id="pomo-tab-sprint" onclick="setPomoMode('sprint')">📚 Sprint</button>
+  </div>
+
+  <!-- Classic mode panel -->
+  <div id="pomo-classic-panel">
+    <div class="pomo-task-name" id="pomo-task-name">—</div>
+    <div class="pomo-time" id="pomo-time">25:00</div>
+    <div class="pomo-phase" id="pomo-phase">Focus</div>
+    <div class="pomo-adj-row">
+      <button class="pomo-adj-btn" onclick="pomoDurAdj(-1)">−1 min</button>
+      <span class="pomo-dur-lbl" id="pomo-dur-lbl">25 min</span>
+      <button class="pomo-adj-btn" onclick="pomoDurAdj(+1)">+1 min</button>
+    </div>
+    <div class="pomo-adj-row" style="margin-top:-4px;margin-bottom:12px">
+      <button class="pomo-adj-btn" onclick="pomoSessionsAdj(-1)">−</button>
+      <span class="pomo-dur-lbl" id="pomo-sessions-lbl">4 sessions</span>
+      <button class="pomo-adj-btn" onclick="pomoSessionsAdj(+1)">+</button>
+    </div>
+    <div class="pomo-controls">
+      <button class="pomo-ctrl" id="pomo-start-btn" onclick="pomoToggle()">▶ Start</button>
+      <button class="pomo-ctrl stop-btn" onclick="pomoReset()">↺ Reset</button>
+    </div>
+    <div class="pomo-sessions" id="pomo-sessions">Session 1 of 4</div>
+    <div id="pomo-timer-status" style="font-size:.6rem;opacity:.35;text-align:center;margin-top:6px;letter-spacing:.04em"></div>
+  </div>
+
+  <!-- Sprint Planner panel -->
+  <div id="pomo-sprint-panel" style="display:none">
+    <div id="sprint-ui"></div>
+  </div>
+</div>
+<!-- Hidden canvas + video used for Picture-in-Picture rendering -->
+<canvas id="pomo-pip-canvas" width="400" height="240" style="display:none"></canvas>
+<video  id="pomo-pip-video"  muted playsinline style="display:none"></video>
 
 <!-- ══ BADGES MODAL ══ -->
 <div class="big-overlay" id="badges-overlay" onclick="if(event.target===this)closeBadgesModal()">
@@ -3486,6 +5295,7 @@ lsSet=function(k,v){
   <div class="big-modal" style="max-width:1100px;width:95vw">
     <div class="big-head">
       <span class="big-title">🗓 Weekly Planner</span>
+      <button class="bbtn bbtn-planner-rst" style="font-family:inherit;font-size:.75rem;padding:4px 11px;border-radius:999px;border:1.5px solid #e8c0bb;background:transparent;color:#c0392b;cursor:pointer;margin-right:6px" onclick="resetWeekPlanner()" title="Clear all tasks from this week's planner">↺ Reset Week</button>
       <button class="big-close" onclick="closePlannerModal()">✕</button>
     </div>
     <div class="big-body" id="planner-body" style="gap:10px;padding:16px 14px"></div>
