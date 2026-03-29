@@ -696,6 +696,103 @@ html.dark .badge-card.earned{background:#2a2010;border-color:#d4a017}
 .pomo-ctrl.stop-btn{border-color:#e06060;color:#e06060}
 .pomo-ctrl.stop-btn:hover{background:#e06060;color:#fff}
 .pomo-sessions{font-size:.65rem;opacity:.45;text-align:center;margin-top:10px}
+.pomo-pip-btn{font-family:inherit;font-size:.65rem;padding:2px 8px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:inherit;cursor:pointer;transition:border-color .13s,background .13s;line-height:1.5;white-space:nowrap}
+.pomo-pip-btn:hover{background:rgba(255,255,255,.25)}
+.pomo-pip-btn.active{background:#4d8ef0;border-color:#4d8ef0;color:#fff}
+
+/* ── TIME BLOCK SPLITTER ── */
+.tbs-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:600;display:none;align-items:center;justify-content:center}
+.tbs-overlay.open{display:flex}
+.tbs-modal{background:var(--card);border:1.5px solid var(--border);border-radius:14px;width:min(560px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;box-shadow:0 12px 50px rgba(0,0,0,.3)}
+.tbs-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--border);flex-shrink:0}
+.tbs-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700}
+.tbs-close{background:transparent;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:2px 6px;transition:color .13s}
+.tbs-close:hover{color:var(--accent)}
+.tbs-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px;flex:1}
+/* Setup phase */
+.tbs-setup-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tbs-lbl{font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.tbs-inp{font-family:inherit;font-size:.85rem;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;transition:border-color .13s}
+.tbs-inp:focus{border-color:var(--accent)}
+.tbs-inp.sm{width:70px}
+.tbs-inp.md{width:110px}
+.tbs-inp.full{flex:1;min-width:0}
+.tbs-topics{display:flex;flex-direction:column;gap:6px}
+.tbs-topic-row{display:flex;align-items:center;gap:7px}
+.tbs-topic-name{flex:1;font-family:inherit;font-size:.82rem;padding:5px 9px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;transition:border-color .13s}
+.tbs-topic-name:focus{border-color:var(--accent)}
+.tbs-topic-weight{width:60px;font-family:inherit;font-size:.82rem;padding:5px 7px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;text-align:center}
+.tbs-topic-weight:focus{border-color:var(--accent)}
+.tbs-topic-del{background:transparent;border:none;color:var(--border);cursor:pointer;font-size:.85rem;flex-shrink:0;transition:color .12s;padding:2px 5px}
+.tbs-topic-del:hover{color:var(--accent)}
+.tbs-add-btn{font-family:inherit;font-size:.75rem;padding:5px 12px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s;align-self:flex-start}
+.tbs-add-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tbs-meta-row{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--muted);background:var(--sub);padding:7px 11px;border-radius:var(--r);flex-wrap:wrap}
+.tbs-meta-val{font-weight:700;color:var(--ink)}
+.tbs-start-btn{font-family:inherit;font-size:.88rem;font-weight:600;padding:10px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r);cursor:pointer;transition:background .13s;width:100%}
+.tbs-start-btn:hover{background:var(--accent)}
+.tbs-start-btn:disabled{opacity:.4;cursor:default}
+/* Running phase */
+.tbs-running{display:flex;flex-direction:column;gap:12px}
+.tbs-progress-bar-wrap{height:6px;background:var(--border);border-radius:999px;overflow:hidden}
+.tbs-progress-bar-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .5s linear}
+.tbs-block-list{display:flex;flex-direction:column;gap:5px}
+.tbs-block-item{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1.5px solid var(--border);border-radius:var(--r);transition:border-color .2s,background .2s}
+.tbs-block-item.active{border-color:var(--accent);background:var(--sub)}
+.tbs-block-item.done{opacity:.45}
+.tbs-block-dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0}
+.tbs-block-item.active .tbs-block-dot{background:var(--accent);animation:blink 1.2s infinite}
+.tbs-block-item.done .tbs-block-dot{background:var(--green)}
+.tbs-block-name{flex:1;font-size:.82rem;font-weight:500}
+.tbs-block-dur{font-size:.75rem;color:var(--muted);white-space:nowrap}
+.tbs-block-cd{font-size:.75rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbs-big-time{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;text-align:center;letter-spacing:.02em;line-height:1}
+.tbs-current-lbl{font-size:.7rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.1em;margin-bottom:-4px}
+.tbs-current-name{font-size:1rem;font-weight:600;text-align:center;color:var(--accent)}
+.tbs-ctrl-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tbs-ctrl{font-family:inherit;font-size:.8rem;padding:6px 16px;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--ink);cursor:pointer;transition:border-color .13s,color .13s,background .13s}
+.tbs-ctrl:hover{border-color:var(--accent);color:var(--accent)}
+.tbs-ctrl.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tbs-ctrl.primary:hover{background:var(--accent);border-color:var(--accent)}
+.tbs-ctrl.danger{color:#c0392b;border-color:#e8c0bb}
+.tbs-ctrl.danger:hover{background:#fdf0ef}
+.tbs-done-banner{text-align:center;padding:14px;font-size:.95rem;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:var(--r);border:1.5px solid var(--green)}
+
+/* ── POMO MODE TABS ── */
+.pomo-mode-tabs{display:flex;gap:4px;margin-bottom:10px}
+.pomo-mode-tab{flex:1;font-family:inherit;font-size:.65rem;font-weight:600;padding:4px 6px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s,background .13s;text-align:center;white-space:nowrap;letter-spacing:.03em}
+.pomo-mode-tab:hover{border-color:var(--accent);color:var(--accent)}
+.pomo-mode-tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ── STUDY SPRINT PLANNER (inside pomo overlay) ── */
+.sprint-planner{display:flex;flex-direction:column;gap:8px}
+.sprint-queue{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto}
+.sprint-item{display:flex;align-items:center;gap:7px;padding:6px 9px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg)}
+.sprint-item.active{border-color:#e06060;background:rgba(224,96,96,.08)}
+.sprint-item.done{opacity:.4}
+.sprint-item-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.sprint-item.active .sprint-item-dot{background:#e06060;animation:blink 1.2s infinite}
+.sprint-item.done .sprint-item-dot{background:var(--green)}
+.sprint-item-name{flex:1;font-size:.75rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sprint-item-pomo{display:flex;gap:3px;align-items:center}
+.sprint-dot{font-size:.65rem;opacity:.35}
+.sprint-dot.filled{opacity:1}
+.sprint-btn-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sprint-inp{flex:1;min-width:80px;font-family:inherit;font-size:.75rem;padding:4px 8px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none}
+.sprint-inp:focus{border-color:var(--accent)}
+.sprint-count{width:38px;font-family:inherit;font-size:.75rem;padding:4px 5px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--ink);outline:none;text-align:center}
+.sprint-add-btn{font-family:inherit;font-size:.68rem;padding:4px 9px;border:1.5px solid var(--accent);border-radius:999px;background:transparent;color:var(--accent);cursor:pointer;white-space:nowrap;transition:border-color .13s,color .13s,background .13s}
+.sprint-add-btn:hover{background:var(--accent);color:#fff}
+.sprint-del-btn{background:transparent;border:none;color:var(--border);cursor:pointer;font-size:.78rem;transition:color .12s;flex-shrink:0}
+.sprint-del-btn:hover{color:var(--accent)}
+.sprint-clear-btn{font-family:inherit;font-size:.65rem;padding:3px 8px;border:1.5px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .13s,color .13s}
+.sprint-clear-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pomo-adj-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.pomo-adj-btn{font-family:inherit;font-size:.72rem;padding:3px 10px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;cursor:pointer;transition:border-color .13s,background .13s;line-height:1.4}
+.pomo-adj-btn:hover{background:rgba(255,255,255,.22)}
+.pomo-dur-lbl{font-size:.68rem;opacity:.5;letter-spacing:.06em}
+.bbtn-planner-rst{background:transparent;color:#c0392b;border-color:#e8c0bb}
+.bbtn-planner-rst:hover{background:#fdf0ef}
 /* ── BADGES ── */
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .badge-card{border:1.5px solid var(--border);border-radius:var(--r);padding:12px 8px;text-align:center;background:var(--bg);transition:border-color .2s,background .2s;position:relative}
@@ -864,6 +961,7 @@ footer{text-align:center;margin-top:28px;font-size:.72rem;color:var(--border)}
     <span class="status-txt"><span class="dot"></span><span id="status-txt">Ready</span></span>
     <div class="bar-btns">
       <button class="bbtn bbtn-planner" onclick="openPlannerModal()">🗓 Weekly Planner</button>
+      <button class="bbtn" style="color:var(--muted);border-color:var(--border)" onmouseover="this.style.borderColor='#e06060';this.style.color='#e06060'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="openTBS()">⏱ Time Planner</button>
       <button class="bbtn bbtn-badges"  onclick="openBadgesModal()">🏅 Badges</button>
       <button class="bbtn bbtn-sync"    onclick="openSyncModal()">🗂 Folder Sync</button>
       <button class="bbtn bbtn-week"    onclick="openWeekModal()">📅 Review</button>
@@ -1745,6 +1843,7 @@ function renderTasks(){
           '<button class="btn-sub">'+(task.open?'▲':'⊕')+'</button>'+
           '<button class="btn-edit-task" title="Edit task options">✎</button>'+
           '<button class="btn-rollctl'+(task.noRoll?' no-roll':'')+'" title="'+(task.noRoll?'Will NOT roll over':'Will roll over')+'">'+(task.noRoll?'🚫↩':'↩')+'</button>'+
+          '<button class="pomo-btn" title="🍅 Start Pomodoro">🍅</button>'+
           '<button class="btn-del">✕</button>'+
         '</div>';
       // Prevent drag from firing on interactive children
@@ -1755,6 +1854,8 @@ function renderTasks(){
       trow.querySelector('.btn-sub').onclick=function(){toggleSubOpen(ti)};
       trow.querySelector('.btn-rollctl').onclick=function(){toggleRollCtl(ti)};
       trow.querySelector('.btn-del').onclick=function(){delTask(ti)};
+      trow.querySelector('.pomo-btn').onclick=function(e){e.stopPropagation();openPomo(task.text,'task',ti);};
+
       // Edit button — toggles inline edit panel
       trow.querySelector('.btn-edit-task').onclick=function(e){
         e.stopPropagation();
@@ -1807,10 +1908,12 @@ function renderTasks(){
               '<input type="checkbox" class="scb" style="position:relative;z-index:1"'+(sub.checked?' checked':'')+'>'+
               '<input type="text" class="stxt'+(sub.checked?' done':'')+'" style="position:relative;z-index:1" value="'+esc(sub.text)+'">'+
               '<button class="btn-sexpand" title="Tasks inside this subtask" style="position:relative;z-index:1">'+(sub.open?'▲':'▼')+'</button>'+
+              '<button class="pomo-btn" title="🍅 Pomodoro" style="position:relative;z-index:1">🍅</button>'+
               '<button class="sdel" style="position:relative;z-index:1">✕</button>';
             srow.querySelector('.scb').onchange=function(){toggleSub(ti,si)};
             srow.querySelector('.stxt').onblur=function(e){editSub(ti,si,e.target.value)};
             srow.querySelector('.btn-sexpand').onclick=function(){toggleSubExpand(ti,si)};
+            srow.querySelector('.pomo-btn').onclick=function(e){e.stopPropagation();openPomo(sub.text,'sub',ti,si)};
             srow.querySelector('.sdel').onclick=function(){delSub(ti,si)};
             sli.appendChild(srow);
             // Inner tasks (when expanded)
@@ -1833,10 +1936,12 @@ function renderTasks(){
                     '<span class="sub-inner-drag">⠿</span>'+
                     '<input type="checkbox" class="sub-inner-cb"'+(nt.checked?' checked':'')+'>'+
                     '<input type="text" class="sub-inner-txt'+(nt.checked?' done':'')+'" value="'+esc(nt.text)+'">'+
+                    '<button class="pomo-btn sub-inner-pomo" title="🍅 Pomodoro">🍅</button>'+
                     '<button class="sub-inner-del">✕</button>';
                   ntEl.querySelector('.sub-inner-cb').onchange=function(){toggleInnerTask(ti,si,ni)};
                   ntEl.querySelector('.sub-inner-txt').onblur=function(e){editInnerTask(ti,si,ni,e.target.value)};
                   ntEl.querySelector('.sub-inner-del').onclick=function(){delInnerTask(ti,si,ni)};
+                  ntEl.querySelector('.sub-inner-pomo').onclick=function(e){e.stopPropagation();openPomo(nt.text,'inner',ti,si,ni)};
                   ntEl.addEventListener('dragstart',function(e){
                     e.stopPropagation();
                     e.dataTransfer.effectAllowed='move';
@@ -3614,6 +3719,928 @@ function buildChallengerTimerBlock(ch){
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// RESET WEEK PLANNER
+// ══════════════════════════════════════════════════════════════════════════════
+function resetWeekPlanner(){
+  if(!state.startDate){toast('⚠️ No start date set.');return;}
+  var start=new Date(state.startDate+'T00:00:00');
+  var today=new Date();today.setHours(0,0,0,0);
+  var curDay=Math.floor((today-start)/86400000)+1;
+  var weekStart=curDay-((curDay-1)%7)+plannerWeekOffset*7;
+  var weekEnd=Math.min(weekStart+6,state.duration);
+  if(!confirm('Clear all tasks added via the Weekly Planner for Days '+weekStart+'–'+weekEnd+'? Tasks added from the Day modal are kept.')) return;
+  var cleared=0;
+  for(var d=weekStart;d<=weekEnd;d++){
+    if(!state.days[d]) continue;
+    var before=state.days[d].tasks.length;
+    // Remove tasks whose id starts with 'pl_' (added via planner) and have no sessions
+    state.days[d].tasks=state.days[d].tasks.filter(function(t){
+      return !(t.id&&t.id.indexOf('pl_')===0);
+    });
+    cleared+=before-state.days[d].tasks.length;
+  }
+  lsSet(pKey('state'),state);
+  renderPlanner();renderGrid();
+  toast('↺ Cleared '+cleared+' planner task'+(cleared!==1?'s':'')+' from this week');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POMODORO TIMER ENGINE  (integrated with task session timer)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pomo={
+  running:false,
+  taskName:'',
+  // target task reference
+  targetType:null,   // 'task' | 'sub' | 'inner' | null
+  targetTi:null,
+  targetSi:null,
+  targetNi:null,
+  // timing
+  durMin:25,
+  breakMin:5,
+  longBreakMin:15,
+  secondsLeft:25*60,
+  phase:'focus',     // 'focus' | 'break' | 'longbreak'
+  session:1,
+  totalSessions:4,
+  interval:null
+};
+
+// ── resolve the live task object from the current state ──
+function _pomoGetTarget(){
+  if(!_pomo.targetType||!activeDay) return null;
+  var tasks=(state.days[activeDay]&&state.days[activeDay].tasks)||[];
+  var ti=_pomo.targetTi;
+  if(ti==null||!tasks[ti]) return null;
+  if(_pomo.targetType==='task') return tasks[ti];
+  var subs=tasks[ti].subs||[];
+  var si=_pomo.targetSi;
+  if(si==null||!subs[si]) return null;
+  if(_pomo.targetType==='sub') return subs[si];
+  var inner=subs[si].tasks||[];
+  var ni=_pomo.targetNi;
+  if(ni==null||!inner[ni]) return null;
+  return inner[ni];
+}
+
+// ── open a timer session on the target task ──
+function _pomoStartSession(){
+  var t=_pomoGetTarget();
+  if(!t) return;
+  if(!t.sessions) t.sessions=[];
+  // Don't double-open if one is already active (e.g. re-opened overlay)
+  var last=t.sessions[t.sessions.length-1];
+  if(last&&last.end===null) return;
+  t.sessions.push({start:Date.now(),end:null,pomo:true});
+  lsSet(pKey('state'),state);
+  // Refresh task UI to show running timer tag
+  renderTasks();
+  _startTimerTick();
+}
+
+// ── close the active timer session on the target task ──
+function _pomoStopSession(){
+  var t=_pomoGetTarget();
+  if(!t||!t.sessions||!t.sessions.length) return;
+  var last=t.sessions[t.sessions.length-1];
+  if(last&&last.end===null){
+    last.end=Date.now();
+    lsSet(pKey('state'),state);
+    renderTasks();
+  }
+}
+
+// ── update the "logged" status line in the overlay ──
+function _pomoUpdateStatus(){
+  var el=document.getElementById('pomo-timer-status');
+  if(!el) return;
+  var t=_pomoGetTarget();
+  if(!t||!t.sessions||!t.sessions.length){el.textContent='';return;}
+  var total=_taskTotalMs(t);
+  el.textContent='⏱ '+_fmtMs(total)+' logged to task';
+}
+
+function openPomo(taskName, type, ti, si, ni){
+  var sameTarget=(
+    _pomo.targetType===type &&
+    _pomo.targetTi===ti &&
+    _pomo.targetSi===si &&
+    _pomo.targetNi===ni
+  );
+
+  // If switching to a different task while running, stop the old session first
+  if(_pomo.running && !sameTarget){
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+  }
+
+  _pomo.taskName  = taskName||'Task';
+  _pomo.targetType= type||null;
+  _pomo.targetTi  = (ti!=null)?ti:null;
+  _pomo.targetSi  = (si!=null)?si:null;
+  _pomo.targetNi  = (ni!=null)?ni:null;
+
+  // Reset to start of cycle only if not already mid-session for same target
+  if(!_pomo.running){
+    _pomo.phase='focus';
+    _pomo.session=1;
+    _pomo.secondsLeft=_pomo.durMin*60;
+  }
+
+  _pomoUpdateUI();
+  document.getElementById('pomo-overlay').classList.add('show');
+}
+
+function closePomo(){
+  // Closing the overlay does NOT stop the timer — it keeps running in background
+  document.getElementById('pomo-overlay').classList.remove('show');
+  // Restore title only if timer is idle
+  if(!_pomo.running) _pomoRestoreTitle();
+}
+
+function pomoToggle(){
+  if(_pomo.running){
+    // Pause — close the active task session
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+    document.getElementById('pomo-start-btn').textContent='▶ Resume';
+  } else {
+    // Start / Resume — open a task session (focus phase only)
+    _pomo.running=true;
+    document.getElementById('pomo-start-btn').textContent='⏸ Pause';
+    if(_pomo.phase==='focus') _pomoStartSession();
+    _pomo.interval=setInterval(function(){
+      _pomo.secondsLeft--;
+      _pomoUpdateTime();
+      _pomoUpdateStatus();
+      if(_pomo.secondsLeft<=0) _pomoPhaseComplete();
+    },1000);
+  }
+}
+
+function pomoReset(){
+  if(_pomo.running){
+    _pomoStopSession();
+    clearInterval(_pomo.interval);_pomo.interval=null;
+    _pomo.running=false;
+  }
+  _pomo.phase='focus';
+  _pomo.session=1;
+  _pomo.secondsLeft=_pomo.durMin*60;
+  _pomoUpdateUI();
+  _pomoRestoreTitle();
+}
+
+function pomoDurAdj(delta){
+  var newDur=Math.max(1,Math.min(90,_pomo.durMin+delta));
+  if(newDur===_pomo.durMin) return;
+  _pomo.durMin=newDur;
+  if(!_pomo.running && _pomo.phase==='focus') _pomo.secondsLeft=newDur*60;
+  if(_pomo.running  && _pomo.phase==='focus') _pomo.secondsLeft=Math.max(1,_pomo.secondsLeft+(delta*60));
+  _pomoUpdateUI();
+}
+
+function pomoSessionsAdj(delta){
+  var newVal=Math.max(1,Math.min(12,_pomo.totalSessions+delta));
+  if(newVal===_pomo.totalSessions) return;
+  _pomo.totalSessions=newVal;
+  // If current session number exceeds new total, clamp it
+  if(_pomo.session>_pomo.totalSessions) _pomo.session=_pomo.totalSessions;
+  _pomoUpdateUI();
+}
+
+function _pomoPhaseComplete(){
+  // Close any open task session when a focus phase ends
+  if(_pomo.phase==='focus') _pomoStopSession();
+  clearInterval(_pomo.interval);_pomo.interval=null;
+  _pomo.running=false;
+
+  if(_pomo.phase==='focus'){
+    _pomoNotify('🍅 Focus session done! Time for a break.');
+    if(_pomo.session>=_pomo.totalSessions){
+      _pomo.phase='longbreak';
+      _pomo.secondsLeft=_pomo.longBreakMin*60;
+    } else {
+      _pomo.phase='break';
+      _pomo.secondsLeft=_pomo.breakMin*60;
+    }
+  } else {
+    _pomoNotify('✅ Break over! Back to work.');
+    if(_pomo.phase==='longbreak'){
+      _pomo.session=1;
+    } else {
+      _pomo.session++;
+    }
+    _pomo.phase='focus';
+    _pomo.secondsLeft=_pomo.durMin*60;
+  }
+  _pomoUpdateUI();
+  // Auto-start next phase after 1.5s
+  setTimeout(function(){if(!_pomo.running) pomoToggle();},1500);
+}
+
+function _pomoNotify(msg){
+  toast(msg);
+  if(typeof Notification!=='undefined'&&Notification.permission==='granted'){
+    new Notification('Pomodoro',{body:msg,icon:''});
+  }
+}
+
+function _pomoUpdateTime(){
+  var s=_pomo.secondsLeft;
+  var m=Math.floor(s/60);
+  var sec=s%60;
+  var timeStr=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+  var el=document.getElementById('pomo-time');
+  if(el) el.textContent=timeStr;
+  // ── Browser tab title ──
+  var phaseEmoji={focus:'🍅',break:'☕',longbreak:'🌿'};
+  var emoji=phaseEmoji[_pomo.phase]||'🍅';
+  if(_pomo.running){
+    document.title=emoji+' '+timeStr+' · '+_pomo.taskName;
+  } else if(_pomo.secondsLeft<_pomo.durMin*60||_pomo.phase!=='focus'){
+    document.title=emoji+' '+timeStr+' (paused)';
+  } else {
+    document.title='🍅 Pomodoro · Day Challenge Tracker';
+  }
+  // ── PiP canvas frame ──
+  _pomoDrawPiP(timeStr);
+}
+
+function _pomoUpdateUI(){
+  var phaseLabels={focus:'🍅 Focus',break:'☕ Short Break',longbreak:'🌿 Long Break'};
+  var nameEl=document.getElementById('pomo-task-name');
+  var phaseEl=document.getElementById('pomo-phase');
+  var sessEl=document.getElementById('pomo-sessions');
+  var durEl=document.getElementById('pomo-dur-lbl');
+  var sessCntEl=document.getElementById('pomo-sessions-lbl');
+  var startBtn=document.getElementById('pomo-start-btn');
+  if(nameEl)   nameEl.textContent=_pomo.taskName;
+  if(phaseEl)  phaseEl.textContent=phaseLabels[_pomo.phase]||_pomo.phase;
+  if(sessEl)   sessEl.textContent='Session '+_pomo.session+' of '+_pomo.totalSessions;
+  if(durEl)    durEl.textContent=_pomo.durMin+' min';
+  if(sessCntEl)sessCntEl.textContent=_pomo.totalSessions+' session'+(_pomo.totalSessions!==1?'s':'');
+  if(startBtn) startBtn.textContent=_pomo.running?'⏸ Pause':(_pomo.secondsLeft<_pomo.durMin*60&&_pomo.phase==='focus'?'▶ Resume':'▶ Start');
+  _pomoUpdateTime();
+  _pomoUpdateStatus();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BROWSER TAB — restore title when pomo is idle / closed
+// ══════════════════════════════════════════════════════════════════════════════
+var _defaultTitle='Day Challenge Tracker';
+function _pomoRestoreTitle(){
+  document.title=_defaultTitle;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PICTURE-IN-PICTURE  (Canvas → MediaStream → <video> → PiP)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pipActive=false;
+var _pipStream=null;
+var _pipRAF=null;
+
+function _pomoDrawPiP(timeStr){
+  // Always draw — even when PiP is not active so the stream stays fresh
+  var canvas=document.getElementById('pomo-pip-canvas');
+  if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  var isDark=document.documentElement.classList.contains('dark');
+
+  // Background
+  var bg=isDark?'#0f1623':'#1a1612';
+  var fg=isDark?'#e8edf5':'#f5f0e8';
+  var accent={focus:'#e06060',break:'#3aaa72',longbreak:'#4d8ef0'}[_pomo.phase]||'#e06060';
+  var phaseLabels={focus:'🍅 FOCUS',break:'☕ BREAK',longbreak:'🌿 LONG BREAK'};
+
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,W,H);
+
+  // Accent top bar
+  ctx.fillStyle=accent;
+  ctx.fillRect(0,0,W,5);
+
+  // Phase label
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.5;
+  ctx.font='bold 13px "DM Sans", sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(phaseLabels[_pomo.phase]||'FOCUS', W/2, 36);
+  ctx.globalAlpha=1;
+
+  // Big timer
+  ctx.fillStyle=fg;
+  ctx.font='bold 72px "Playfair Display", Georgia, serif';
+  ctx.textAlign='center';
+  ctx.fillText(timeStr, W/2, 130);
+
+  // Task name (truncated)
+  var name=_pomo.taskName||'';
+  if(name.length>32) name=name.slice(0,31)+'…';
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.65;
+  ctx.font='15px "DM Sans", sans-serif';
+  ctx.fillText(name, W/2, 165);
+  ctx.globalAlpha=1;
+
+  // Session dots
+  var dotR=6, dotGap=18, dotsW=(_pomo.totalSessions-1)*dotGap+dotR*2;
+  var sx=W/2-dotsW/2+dotR;
+  for(var i=0;i<_pomo.totalSessions;i++){
+    ctx.beginPath();
+    ctx.arc(sx+i*dotGap, 196, dotR, 0, Math.PI*2);
+    if(i<_pomo.session){
+      ctx.fillStyle=accent;
+    } else {
+      ctx.fillStyle=isDark?'#2a3a55':'#3a3028';
+    }
+    ctx.fill();
+  }
+
+  // Status line
+  var statusTxt=_pomo.running?'▶ Running':'⏸ Paused';
+  ctx.fillStyle=fg;
+  ctx.globalAlpha=0.35;
+  ctx.font='12px "DM Sans", sans-serif';
+  ctx.fillText(statusTxt, W/2, 228);
+  ctx.globalAlpha=1;
+}
+
+async function togglePomoPiP(){
+  var btn=document.getElementById('pomo-pip-btn');
+  // If PiP is already active, exit it
+  if(_pipActive){
+    if(document.pictureInPictureElement){
+      await document.exitPictureInPicture().catch(function(){});
+    }
+    _pipActive=false;
+    if(btn){btn.classList.remove('active');btn.textContent='⧉ PiP';}
+    return;
+  }
+
+  // Check support
+  if(!document.pictureInPictureEnabled){
+    toast('⚠️ Picture-in-Picture is not supported in this browser.');
+    return;
+  }
+
+  try{
+    var canvas=document.getElementById('pomo-pip-canvas');
+    var video=document.getElementById('pomo-pip-video');
+
+    // Draw initial frame before streaming
+    var s=_pomo.secondsLeft;
+    _pomoDrawPiP(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
+
+    // Capture canvas as a MediaStream (1 fps is enough — we redraw on each tick)
+    _pipStream=canvas.captureStream(1);
+    video.srcObject=_pipStream;
+    await video.play();
+
+    // Enter PiP
+    await video.requestPictureInPicture();
+    _pipActive=true;
+    if(btn){btn.classList.add('active');btn.textContent='⧉ Exit PiP';}
+
+    // When user closes PiP via browser chrome, update button
+    video.addEventListener('leavepictureinpicture',function(){
+      _pipActive=false;
+      var b=document.getElementById('pomo-pip-btn');
+      if(b){b.classList.remove('active');b.textContent='⧉ PiP';}
+    },{once:false});
+
+  } catch(err){
+    toast('⚠️ PiP failed: '+(err.message||err));
+    _pipActive=false;
+    if(btn){btn.classList.remove('active');btn.textContent='⧉ PiP';}
+  }
+}
+
+// Request notification permission on first interaction
+(function(){
+  if(typeof Notification!=='undefined'&&Notification.permission==='default'){
+    document.addEventListener('click',function reqPerm(){
+      Notification.requestPermission();
+      document.removeEventListener('click',reqPerm);
+    },{once:true});
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TIME BLOCK SPLITTER
+// ══════════════════════════════════════════════════════════════════════════════
+var _tbs={
+  topics:[],           // [{name, weight, secs, done}]
+  totalSecs:0,
+  currentIdx:0,
+  secsLeft:0,
+  running:false,
+  interval:null,
+  finished:false
+};
+
+function openTBS(){
+  renderTBSSetup();
+  document.getElementById('tbs-overlay').classList.add('open');
+}
+function closeTBS(){
+  document.getElementById('tbs-overlay').classList.remove('open');
+}
+
+/* ── helpers ── */
+function _tbsFmt(s){
+  var m=Math.floor(s/60);var sec=s%60;
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function _tbsTotalMins(){
+  var el=document.getElementById('tbs-total-mins');
+  return el?Math.max(1,parseInt(el.value)||60):60;
+}
+function _tbsGetRows(){
+  var rows=document.querySelectorAll('.tbs-topic-row');
+  var out=[];
+  rows.forEach(function(r){
+    var n=r.querySelector('.tbs-topic-name').value.trim();
+    var w=parseFloat(r.querySelector('.tbs-topic-weight').value)||1;
+    if(n) out.push({name:n,weight:Math.max(0.1,w)});
+  });
+  return out;
+}
+function _tbsUpdateMeta(){
+  var mins=_tbsTotalMins();
+  var rows=_tbsGetRows();
+  var totalW=rows.reduce(function(a,r){return a+r.weight},0)||1;
+  var secsTotal=mins*60;
+  var parts=rows.map(function(r){
+    return {name:r.name,secs:Math.round((r.weight/totalW)*secsTotal)};
+  });
+  var metaEl=document.getElementById('tbs-meta');
+  if(!metaEl) return;
+  if(!rows.length){metaEl.innerHTML='<span>Add topics below</span>';return;}
+  metaEl.innerHTML=
+    '<span>Total: <span class="tbs-meta-val">'+mins+' min</span></span> · '+
+    parts.map(function(p){return esc(p.name)+': <span class="tbs-meta-val">'+Math.round(p.secs/60)+'m</span>'}).join(' · ');
+}
+
+function renderTBSSetup(){
+  var body=document.getElementById('tbs-body');body.innerHTML='';
+
+  // If session is in progress, show running UI
+  if(_tbs.running||_tbs.finished){renderTBSRunning();return;}
+
+  // ── Total duration row ──
+  var durRow=document.createElement('div');durRow.className='tbs-setup-row';
+  durRow.innerHTML='<span class="tbs-lbl">Total time</span>';
+  var durInp=document.createElement('input');
+  durInp.type='number';durInp.id='tbs-total-mins';durInp.className='tbs-inp sm';
+  durInp.value='120';durInp.min='5';durInp.max='600';
+  durInp.oninput=_tbsUpdateMeta;
+  var durUnit=document.createElement('span');durUnit.style.cssText='font-size:.8rem;color:var(--muted)';durUnit.textContent='minutes';
+  durRow.appendChild(durInp);durRow.appendChild(durUnit);
+  body.appendChild(durRow);
+
+  // ── Topics section ──
+  var topicsLbl=document.createElement('div');
+  topicsLbl.style.cssText='font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase';
+  topicsLbl.textContent='Topics  ·  weight column sets relative time split';
+  body.appendChild(topicsLbl);
+
+  var topicsWrap=document.createElement('div');topicsWrap.className='tbs-topics';topicsWrap.id='tbs-topics';
+
+  // Default 3 rows
+  var defaults=['Topic A','Topic B','Topic C'];
+  defaults.forEach(function(d){_tbsAddTopicRow(topicsWrap,d,1);});
+  body.appendChild(topicsWrap);
+
+  var addBtn=document.createElement('button');addBtn.className='tbs-add-btn';addBtn.textContent='＋ Add topic';
+  addBtn.onclick=function(){_tbsAddTopicRow(topicsWrap,'',1);_tbsUpdateMeta();};
+  body.appendChild(addBtn);
+
+  // ── Meta preview ──
+  var meta=document.createElement('div');meta.className='tbs-meta-row';meta.id='tbs-meta';
+  meta.innerHTML='<span>Add topics above</span>';
+  body.appendChild(meta);
+
+  // ── Sound toggle ──
+  var soundRow=document.createElement('div');soundRow.className='tbs-setup-row';
+  soundRow.innerHTML='<span class="tbs-lbl">Alert sound</span>';
+  var soundSel=document.createElement('select');soundSel.id='tbs-sound';soundSel.className='tbs-inp';
+  soundSel.style.width='auto';
+  [['beep','Beep'],['bell','Bell'],['chime','Chime'],['none','Silent']].forEach(function(o){
+    var opt=document.createElement('option');opt.value=o[0];opt.textContent=o[1];soundSel.appendChild(opt);
+  });
+  soundRow.appendChild(soundSel);
+  body.appendChild(soundRow);
+
+  // ── Start button ──
+  var startBtn=document.createElement('button');startBtn.className='tbs-start-btn';startBtn.textContent='▶ Start Session';
+  startBtn.onclick=startTBS;
+  body.appendChild(startBtn);
+
+  _tbsUpdateMeta();
+}
+
+function _tbsAddTopicRow(container,name,weight){
+  var row=document.createElement('div');row.className='tbs-topic-row';
+  var ni=document.createElement('input');ni.type='text';ni.className='tbs-topic-name';ni.placeholder='Topic name…';ni.value=name;
+  ni.oninput=_tbsUpdateMeta;
+  var wi=document.createElement('input');wi.type='number';wi.className='tbs-topic-weight';wi.min='.1';wi.step='.5';wi.value=weight;wi.title='Relative weight';
+  wi.oninput=_tbsUpdateMeta;
+  var del=document.createElement('button');del.className='tbs-topic-del';del.textContent='✕';del.title='Remove';
+  del.onclick=function(){row.remove();_tbsUpdateMeta();};
+  row.appendChild(ni);row.appendChild(wi);row.appendChild(del);
+  container.appendChild(row);
+}
+
+function startTBS(){
+  var mins=_tbsTotalMins();
+  var rows=_tbsGetRows();
+  if(!rows.length){toast('⚠️ Add at least one topic.');return;}
+  var totalW=rows.reduce(function(a,r){return a+r.weight},0);
+  var secsTotal=mins*60;
+  _tbs.topics=rows.map(function(r){
+    return {name:r.name,weight:r.weight,secs:Math.round((r.weight/totalW)*secsTotal),done:false};
+  });
+  _tbs.totalSecs=secsTotal;
+  _tbs.currentIdx=0;
+  _tbs.secsLeft=_tbs.topics[0].secs;
+  _tbs.running=false;
+  _tbs.finished=false;
+  renderTBSRunning();
+  _tbsToggle(); // auto-start
+}
+
+function renderTBSRunning(){
+  var body=document.getElementById('tbs-body');body.innerHTML='';
+  var wrap=document.createElement('div');wrap.className='tbs-running';
+
+  // Overall progress bar
+  var pbWrap=document.createElement('div');pbWrap.className='tbs-progress-bar-wrap';
+  var pbFill=document.createElement('div');pbFill.className='tbs-progress-bar-fill';pbFill.id='tbs-pb';
+  pbFill.style.width=_tbsOverallPct()+'%';
+  pbWrap.appendChild(pbFill);wrap.appendChild(pbWrap);
+
+  // Current block display
+  var curLbl=document.createElement('div');curLbl.className='tbs-current-lbl';curLbl.textContent='Now studying';wrap.appendChild(curLbl);
+  var curName=document.createElement('div');curName.className='tbs-current-name';curName.id='tbs-cur-name';
+  curName.textContent=_tbs.finished?'Session complete!':(_tbs.topics[_tbs.currentIdx]?_tbs.topics[_tbs.currentIdx].name:'—');
+  wrap.appendChild(curName);
+
+  // Big countdown
+  var bigTime=document.createElement('div');bigTime.className='tbs-big-time';bigTime.id='tbs-big-time';
+  bigTime.textContent=_tbs.finished?'✓':_tbsFmt(_tbs.secsLeft);
+  wrap.appendChild(bigTime);
+
+  // Block list
+  var blockList=document.createElement('div');blockList.className='tbs-block-list';blockList.id='tbs-block-list';
+  _tbs.topics.forEach(function(t,i){
+    var item=document.createElement('div');
+    item.className='tbs-block-item'+(t.done?' done':(_tbs.currentIdx===i&&!_tbs.finished?' active':''));
+    item.id='tbs-block-'+i;
+    item.innerHTML=
+      '<div class="tbs-block-dot"></div>'+
+      '<div class="tbs-block-name">'+esc(t.name)+'</div>'+
+      '<div class="tbs-block-dur">'+Math.round(t.secs/60)+'m</div>'+
+      '<div class="tbs-block-cd" id="tbs-cd-'+i+'">'+(t.done?'✓':(_tbs.currentIdx===i?_tbsFmt(_tbs.secsLeft):'—'))+'</div>';
+    blockList.appendChild(item);
+  });
+  wrap.appendChild(blockList);
+
+  // Controls
+  if(!_tbs.finished){
+    var ctrlRow=document.createElement('div');ctrlRow.className='tbs-ctrl-row';
+    var startBtn=document.createElement('button');startBtn.className='tbs-ctrl primary';startBtn.id='tbs-play-btn';
+    startBtn.textContent=_tbs.running?'⏸ Pause':'▶ Start';
+    startBtn.onclick=_tbsToggle;
+
+    var skipBtn=document.createElement('button');skipBtn.className='tbs-ctrl';skipBtn.textContent='⏭ Skip';
+    skipBtn.onclick=_tbsSkip;
+
+    var resetBtn=document.createElement('button');resetBtn.className='tbs-ctrl danger';resetBtn.textContent='↺ Reset';
+    resetBtn.onclick=function(){_tbsStop();renderTBSSetup();};
+
+    ctrlRow.appendChild(startBtn);ctrlRow.appendChild(skipBtn);ctrlRow.appendChild(resetBtn);
+    wrap.appendChild(ctrlRow);
+  } else {
+    var banner=document.createElement('div');banner.className='tbs-done-banner';
+    banner.textContent='🎉 Session complete! Great work.';wrap.appendChild(banner);
+    var resetBtn2=document.createElement('button');resetBtn2.className='tbs-ctrl';resetBtn2.style.margin='0 auto';resetBtn2.style.display='block';
+    resetBtn2.textContent='↺ New session';resetBtn2.onclick=function(){_tbsStop();renderTBSSetup();};
+    wrap.appendChild(resetBtn2);
+  }
+  body.appendChild(wrap);
+}
+
+function _tbsOverallPct(){
+  if(!_tbs.totalSecs) return 0;
+  var elapsed=_tbs.topics.reduce(function(a,t,i){
+    if(t.done) return a+t.secs;
+    if(i===_tbs.currentIdx) return a+(t.secs-_tbs.secsLeft);
+    return a;
+  },0);
+  return Math.min(100,Math.round((elapsed/_tbs.totalSecs)*100));
+}
+
+function _tbsToggle(){
+  if(_tbs.running){
+    clearInterval(_tbs.interval);_tbs.interval=null;
+    _tbs.running=false;
+    var pb=document.getElementById('tbs-play-btn');if(pb) pb.textContent='▶ Resume';
+  } else {
+    _tbs.running=true;
+    var pb2=document.getElementById('tbs-play-btn');if(pb2) pb2.textContent='⏸ Pause';
+    _tbs.interval=setInterval(_tbsTick,1000);
+  }
+}
+
+function _tbsTick(){
+  _tbs.secsLeft--;
+  // Update tab title
+  var cur=_tbs.topics[_tbs.currentIdx];
+  if(cur) document.title='⏱ '+_tbsFmt(_tbs.secsLeft)+' · '+cur.name;
+
+  // Update UI elements
+  var bt=document.getElementById('tbs-big-time');if(bt) bt.textContent=_tbsFmt(_tbs.secsLeft);
+  var cd=document.getElementById('tbs-cd-'+_tbs.currentIdx);if(cd) cd.textContent=_tbsFmt(_tbs.secsLeft);
+  var pb=document.getElementById('tbs-pb');if(pb) pb.style.width=_tbsOverallPct()+'%';
+
+  if(_tbs.secsLeft<=0) _tbsNextBlock();
+}
+
+function _tbsNextBlock(){
+  // Mark current done
+  if(_tbs.topics[_tbs.currentIdx]) _tbs.topics[_tbs.currentIdx].done=true;
+  var doneEl=document.getElementById('tbs-block-'+_tbs.currentIdx);
+  if(doneEl){doneEl.classList.remove('active');doneEl.classList.add('done');}
+  var cd=document.getElementById('tbs-cd-'+_tbs.currentIdx);if(cd) cd.textContent='✓';
+
+  _tbs.currentIdx++;
+  if(_tbs.currentIdx>=_tbs.topics.length){
+    // Session complete
+    _tbsStop();
+    _tbs.finished=true;
+    _pomoNotify('🎉 Time Block session complete!');
+    _pomoRestoreTitle();
+    renderTBSRunning();
+    return;
+  }
+  // Start next block
+  _tbs.secsLeft=_tbs.topics[_tbs.currentIdx].secs;
+  _pomoNotify('⏭ Moving to: '+_tbs.topics[_tbs.currentIdx].name);
+
+  // Update active block styling
+  var nextEl=document.getElementById('tbs-block-'+_tbs.currentIdx);
+  if(nextEl) nextEl.classList.add('active');
+  var curName=document.getElementById('tbs-cur-name');
+  if(curName) curName.textContent=_tbs.topics[_tbs.currentIdx].name;
+}
+
+function _tbsSkip(){
+  if(!_tbs.running&&_tbs.secsLeft===_tbs.topics[_tbs.currentIdx]?.secs) return;
+  _tbs.secsLeft=0;_tbsTick();
+}
+
+function _tbsStop(){
+  clearInterval(_tbs.interval);_tbs.interval=null;
+  _tbs.running=false;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POMODORO MODE SWITCHING (Classic ↔ Sprint)
+// ══════════════════════════════════════════════════════════════════════════════
+var _pomoMode='classic'; // 'classic' | 'sprint'
+
+function setPomoMode(mode){
+  _pomoMode=mode;
+  document.getElementById('pomo-classic-panel').style.display=mode==='classic'?'':'none';
+  document.getElementById('pomo-sprint-panel').style.display=mode==='sprint'?'':'none';
+  document.getElementById('pomo-tab-classic').classList.toggle('on',mode==='classic');
+  document.getElementById('pomo-tab-sprint').classList.toggle('on',mode==='sprint');
+  var htEl=document.getElementById('pomo-header-title');
+  if(htEl) htEl.textContent=mode==='sprint'?'📚 Sprint Planner':'🍅 Pomodoro';
+  if(mode==='sprint') renderSprintUI();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STUDY SPRINT PLANNER
+// ══════════════════════════════════════════════════════════════════════════════
+var _sprint={
+  queue:[],       // [{name, total, done}]  total=number of pomos, done=completed pomos
+  currentIdx:0,
+  currentPomo:0,  // which pomo within the current topic (0-based)
+  running:false,
+  phase:'focus',  // 'focus'|'break'|'longbreak'
+  secsLeft:0,
+  interval:null,
+  sessionsBeforeLong:4,
+  completedFocusSessions:0  // across all topics
+};
+
+function renderSprintUI(){
+  var wrap=document.getElementById('sprint-ui');if(!wrap) return;
+  wrap.innerHTML='';
+  var sp=document.createElement('div');sp.className='sprint-planner';
+
+  // Header / state
+  if(_sprint.running||_sprint.queue.some(function(q){return q.done>0})){
+    // ── Running view ──
+    var curTopic=_sprint.queue[_sprint.currentIdx];
+    if(curTopic){
+      // Phase + timer
+      var phaseLabels={focus:'🍅 Focus',break:'☕ Break',longbreak:'🌿 Long Break'};
+      var phase=document.createElement('div');phase.style.cssText='font-size:.6rem;opacity:.5;text-align:center;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px';
+      phase.id='sprint-phase-lbl';phase.textContent=phaseLabels[_sprint.phase]||'Focus';
+      sp.appendChild(phase);
+
+      var timeEl=document.createElement('div');
+      timeEl.style.cssText='font-family:\'Playfair Display\',serif;font-size:2.2rem;font-weight:700;text-align:center;letter-spacing:.02em;margin-bottom:6px';
+      timeEl.id='sprint-time';timeEl.textContent=_tbsFmt(_sprint.secsLeft);
+      sp.appendChild(timeEl);
+
+      var curLbl=document.createElement('div');curLbl.style.cssText='font-size:.7rem;color:var(--accent);text-align:center;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+      curLbl.id='sprint-cur-name';
+      curLbl.textContent=curTopic.name+' — 🍅 '+(curTopic.done+1)+'/'+curTopic.total;
+      sp.appendChild(curLbl);
+
+      // Controls
+      var cr=document.createElement('div');cr.style.cssText='display:flex;gap:6px;justify-content:center;margin-bottom:10px';
+      var startBtn=document.createElement('button');startBtn.className='pomo-ctrl';startBtn.id='sprint-start-btn';
+      startBtn.textContent=_sprint.running?'⏸ Pause':'▶ Start';
+      startBtn.onclick=_sprintToggle;
+      var resetBtn=document.createElement('button');resetBtn.className='pomo-ctrl stop-btn';resetBtn.textContent='↺ Reset';
+      resetBtn.onclick=_sprintReset;
+      cr.appendChild(startBtn);cr.appendChild(resetBtn);
+      sp.appendChild(cr);
+    }
+  }
+
+  // Queue list
+  var queueDiv=document.createElement('div');queueDiv.className='sprint-queue';queueDiv.id='sprint-queue';
+  if(!_sprint.queue.length){
+    var empty=document.createElement('div');empty.style.cssText='font-size:.75rem;color:var(--border);font-style:italic;text-align:center;padding:8px 0';
+    empty.textContent='Add topics with their number of 🍅 sessions below.';
+    queueDiv.appendChild(empty);
+  } else {
+    _sprint.queue.forEach(function(q,i){
+      var item=document.createElement('div');
+      var isCur=i===_sprint.currentIdx&&(_sprint.running||q.done>0);
+      var isDone=q.done>=q.total;
+      item.className='sprint-item'+(isDone?' done':(isCur?' active':''));
+      item.id='sprint-item-'+i;
+      var dot=document.createElement('div');dot.className='sprint-item-dot';
+      var name=document.createElement('div');name.className='sprint-item-name';name.textContent=q.name;
+      var poms=document.createElement('div');poms.className='sprint-item-pomo';
+      for(var p=0;p<q.total;p++){
+        var d=document.createElement('span');d.className='sprint-dot'+(p<q.done?' filled':'');d.textContent='🍅';
+        poms.appendChild(d);
+      }
+      var del=document.createElement('button');del.className='sprint-del-btn';del.textContent='✕';
+      (function(idx){del.onclick=function(){_sprint.queue.splice(idx,1);renderSprintUI();};})(i);
+      item.appendChild(dot);item.appendChild(name);item.appendChild(poms);item.appendChild(del);
+      queueDiv.appendChild(item);
+    });
+  }
+  sp.appendChild(queueDiv);
+
+  // Add row
+  var addRow=document.createElement('div');addRow.className='sprint-btn-row';
+  var ni=document.createElement('input');ni.type='text';ni.className='sprint-inp';ni.placeholder='Topic name…';ni.id='sprint-new-name';
+  var ci=document.createElement('input');ci.type='number';ci.className='sprint-count';ci.min=1;ci.max=20;ci.value=2;ci.id='sprint-new-count';ci.title='Pomodoros';
+  var addBtn=document.createElement('button');addBtn.className='sprint-add-btn';addBtn.textContent='＋ Add';
+  addBtn.onclick=function(){
+    var n=document.getElementById('sprint-new-name').value.trim();
+    var c=Math.max(1,parseInt(document.getElementById('sprint-new-count').value)||1);
+    if(!n){toast('⚠️ Enter a topic name.');return;}
+    _sprint.queue.push({name:n,total:c,done:0});
+    document.getElementById('sprint-new-name').value='';
+    renderSprintUI();
+  };
+  ni.onkeydown=function(e){if(e.key==='Enter')addBtn.click();};
+  var clrBtn=document.createElement('button');clrBtn.className='sprint-clear-btn';clrBtn.textContent='Clear all';
+  clrBtn.onclick=function(){if(confirm('Clear sprint queue?')){_sprintReset();_sprint.queue=[];renderSprintUI();}};
+  addRow.appendChild(ni);addRow.appendChild(ci);addRow.appendChild(addBtn);addRow.appendChild(clrBtn);
+  sp.appendChild(addRow);
+
+  // Info line
+  if(_sprint.queue.length){
+    var total=_sprint.queue.reduce(function(a,q){return a+q.total},0);
+    var done=_sprint.queue.reduce(function(a,q){return a+q.done},0);
+    var info=document.createElement('div');info.style.cssText='font-size:.62rem;opacity:.4;text-align:center';
+    info.textContent=done+'/'+total+' 🍅 completed · '+(total-done)+' remaining (≈'+Math.round((total-done)*(_pomo.durMin+_pomo.breakMin))+'m)';
+    sp.appendChild(info);
+  }
+
+  wrap.appendChild(sp);
+}
+
+function _sprintToggle(){
+  if(_sprint.running){
+    clearInterval(_sprint.interval);_sprint.interval=null;
+    _sprint.running=false;
+    // Close task session if focus
+    if(_sprint.phase==='focus') _pomoStopSession();
+    var sb=document.getElementById('sprint-start-btn');if(sb) sb.textContent='▶ Resume';
+  } else {
+    // Init if fresh start
+    if(_sprint.secsLeft===0){
+      var q=_sprint.queue[_sprint.currentIdx];
+      if(!q){toast('⚠️ Add topics to the sprint queue.');return;}
+      _sprint.phase='focus';
+      _sprint.secsLeft=_pomo.durMin*60;
+    }
+    _sprint.running=true;
+    if(_sprint.phase==='focus') _pomoStartSession();
+    var sb2=document.getElementById('sprint-start-btn');if(sb2) sb2.textContent='⏸ Pause';
+    _sprint.interval=setInterval(_sprintTick,1000);
+  }
+}
+
+function _sprintTick(){
+  _sprint.secsLeft--;
+
+  // Update time display
+  var te=document.getElementById('sprint-time');if(te) te.textContent=_tbsFmt(_sprint.secsLeft);
+
+  // Tab title
+  var curQ=_sprint.queue[_sprint.currentIdx];
+  var phaseEmoji={focus:'🍅',break:'☕',longbreak:'🌿'}[_sprint.phase]||'🍅';
+  if(curQ) document.title=phaseEmoji+' '+_tbsFmt(_sprint.secsLeft)+' · '+curQ.name;
+
+  if(_sprint.secsLeft<=0) _sprintPhaseComplete();
+}
+
+function _sprintPhaseComplete(){
+  clearInterval(_sprint.interval);_sprint.interval=null;
+  _sprint.running=false;
+  if(_sprint.phase==='focus') _pomoStopSession();
+
+  if(_sprint.phase==='focus'){
+    _sprint.completedFocusSessions++;
+    // Mark one pomo done for this topic
+    var q=_sprint.queue[_sprint.currentIdx];
+    if(q) q.done++;
+    _pomoNotify('🍅 Sprint done! '+(q?q.name+' ('+q.done+'/'+q.total+')':''));
+
+    // Check if topic is finished
+    var topicDone=q&&q.done>=q.total;
+    if(topicDone){
+      _sprint.currentIdx++;
+      if(_sprint.currentIdx>=_sprint.queue.length){
+        // All done!
+        _sprintReset();
+        _sprint.queue.forEach(function(t){t.done=t.total;});
+        _pomoNotify('🎉 All sprints complete!');
+        _pomoRestoreTitle();
+        renderSprintUI();
+        return;
+      }
+      _pomoNotify('📚 Next topic: '+_sprint.queue[_sprint.currentIdx].name);
+    }
+
+    // Decide break type
+    if(_sprint.completedFocusSessions%_sprint.sessionsBeforeLong===0){
+      _sprint.phase='longbreak';
+      _sprint.secsLeft=_pomo.longBreakMin*60;
+    } else {
+      _sprint.phase='break';
+      _sprint.secsLeft=_pomo.breakMin*60;
+    }
+  } else {
+    // Break done → next focus
+    _sprint.phase='focus';
+    _sprint.secsLeft=_pomo.durMin*60;
+    _pomoNotify('✅ Break over! Back to focus.');
+  }
+
+  var plEl=document.getElementById('sprint-phase-lbl');
+  var phaseLabels={focus:'🍅 Focus',break:'☕ Break',longbreak:'🌿 Long Break'};
+  if(plEl) plEl.textContent=phaseLabels[_sprint.phase]||'Focus';
+  var curLbl=document.getElementById('sprint-cur-name');
+  var curQ2=_sprint.queue[_sprint.currentIdx];
+  if(curLbl&&curQ2) curLbl.textContent=curQ2.name+' — 🍅 '+(curQ2.done+1)+'/'+curQ2.total;
+
+  renderSprintUI();
+  // Auto-start next phase after 1.5s
+  setTimeout(function(){if(!_sprint.running)_sprintToggle();},1500);
+}
+
+function _sprintReset(){
+  clearInterval(_sprint.interval);_sprint.interval=null;
+  _sprint.running=false;
+  _sprint.currentIdx=0;
+  _sprint.currentPomo=0;
+  _sprint.phase='focus';
+  _sprint.secsLeft=0;
+  _sprint.completedFocusSessions=0;
+  _sprint.queue.forEach(function(q){q.done=0;});
+  _pomoRestoreTitle();
+  if(_sprint.phase==='focus') _pomoStopSession();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // PATCH lsSet TO TRIGGER BADGE CHECK + AUTO-SYNC
 // ══════════════════════════════════════════════════════════════════════════════
 var _origLsSet=lsSet;
@@ -3628,6 +4655,65 @@ lsSet=function(k,v){
 };
 
 </script>
+
+<!-- ══ TIME BLOCK SPLITTER ══ -->
+<div class="tbs-overlay" id="tbs-overlay" onclick="if(event.target===this)closeTBS()">
+  <div class="tbs-modal">
+    <div class="tbs-head">
+      <span class="tbs-title">⏱ Time Block Splitter</span>
+      <button class="tbs-close" onclick="closeTBS()">✕</button>
+    </div>
+    <div class="tbs-body" id="tbs-body"></div>
+  </div>
+</div>
+
+<!-- ══ POMODORO OVERLAY ══ -->
+<div class="pomo-overlay" id="pomo-overlay">
+  <div class="pomo-header">
+    <span class="pomo-title" id="pomo-header-title">🍅 Pomodoro</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="pomo-pip-btn" id="pomo-pip-btn" onclick="togglePomoPiP()" title="Picture-in-Picture — keep timer visible in any app">⧉ PiP</button>
+      <button class="pomo-close-btn" onclick="closePomo()">✕</button>
+    </div>
+  </div>
+
+  <!-- Mode tabs -->
+  <div class="pomo-mode-tabs">
+    <button class="pomo-mode-tab on" id="pomo-tab-classic" onclick="setPomoMode('classic')">🍅 Classic</button>
+    <button class="pomo-mode-tab" id="pomo-tab-sprint" onclick="setPomoMode('sprint')">📚 Sprint</button>
+  </div>
+
+  <!-- Classic mode panel -->
+  <div id="pomo-classic-panel">
+    <div class="pomo-task-name" id="pomo-task-name">—</div>
+    <div class="pomo-time" id="pomo-time">25:00</div>
+    <div class="pomo-phase" id="pomo-phase">Focus</div>
+    <div class="pomo-adj-row">
+      <button class="pomo-adj-btn" onclick="pomoDurAdj(-1)">−1 min</button>
+      <span class="pomo-dur-lbl" id="pomo-dur-lbl">25 min</span>
+      <button class="pomo-adj-btn" onclick="pomoDurAdj(+1)">+1 min</button>
+    </div>
+    <div class="pomo-adj-row" style="margin-top:-4px;margin-bottom:12px">
+      <button class="pomo-adj-btn" onclick="pomoSessionsAdj(-1)">−</button>
+      <span class="pomo-dur-lbl" id="pomo-sessions-lbl">4 sessions</span>
+      <button class="pomo-adj-btn" onclick="pomoSessionsAdj(+1)">+</button>
+    </div>
+    <div class="pomo-controls">
+      <button class="pomo-ctrl" id="pomo-start-btn" onclick="pomoToggle()">▶ Start</button>
+      <button class="pomo-ctrl stop-btn" onclick="pomoReset()">↺ Reset</button>
+    </div>
+    <div class="pomo-sessions" id="pomo-sessions">Session 1 of 4</div>
+    <div id="pomo-timer-status" style="font-size:.6rem;opacity:.35;text-align:center;margin-top:6px;letter-spacing:.04em"></div>
+  </div>
+
+  <!-- Sprint Planner panel -->
+  <div id="pomo-sprint-panel" style="display:none">
+    <div id="sprint-ui"></div>
+  </div>
+</div>
+<!-- Hidden canvas + video used for Picture-in-Picture rendering -->
+<canvas id="pomo-pip-canvas" width="400" height="240" style="display:none"></canvas>
+<video  id="pomo-pip-video"  muted playsinline style="display:none"></video>
 
 <!-- ══ BADGES MODAL ══ -->
 <div class="big-overlay" id="badges-overlay" onclick="if(event.target===this)closeBadgesModal()">
@@ -3645,6 +4731,7 @@ lsSet=function(k,v){
   <div class="big-modal" style="max-width:1100px;width:95vw">
     <div class="big-head">
       <span class="big-title">🗓 Weekly Planner</span>
+      <button class="bbtn bbtn-planner-rst" style="font-family:inherit;font-size:.75rem;padding:4px 11px;border-radius:999px;border:1.5px solid #e8c0bb;background:transparent;color:#c0392b;cursor:pointer;margin-right:6px" onclick="resetWeekPlanner()" title="Clear all tasks from this week's planner">↺ Reset Week</button>
       <button class="big-close" onclick="closePlannerModal()">✕</button>
     </div>
     <div class="big-body" id="planner-body" style="gap:10px;padding:16px 14px"></div>
